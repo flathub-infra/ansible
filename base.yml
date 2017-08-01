@@ -1,0 +1,5 @@
+---
+- name: set up base config
+  hosts: apps.flathub.org
+  roles:
+  - base

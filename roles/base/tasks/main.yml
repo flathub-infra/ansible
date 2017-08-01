@@ -1,0 +1,91 @@
+- name: ensure hostname
+  hostname: name={{ inventory_hostname }}
+  tags:
+   - base
+
+- name: create admin users
+  user: name={{ item.username }}
+        comment="{{ item.realname }}"
+        groups=wheel
+  with_items: "{{ admin_users }}"
+  tags:
+   - base
+
+- name: add admin ssh keys
+  authorized_key: user={{ item.username }}
+                  key={{ lookup('file', 'ssh/{{ item.username }}.pub') }}
+  with_items: "{{ admin_users }}"
+  tags:
+   - base
+
+- name: install epel-release
+  yum: name=epel-release
+       state=present
+  tags:
+   - base
+
+- name: install dnf
+  yum: name=dnf
+       state=present
+  tags:
+   - base
+
+- name: install base packages
+  dnf: name={{item}}
+       state=present
+  with_items:
+   - bind-utils
+   - etckeeper
+   - fail2ban-firewalld
+   - fail2ban-server
+   - fail2ban-systemd
+   - htop
+   - iftop
+   - iotop
+   - lsof
+   - mosh
+   - mtr
+   - nc
+   - net-tools
+   - psmisc
+   - socat
+  tags:
+   - base
+
+- name: configure etckeeper
+  copy: src=etckeeper.conf
+        dest=/etc/etckeeper/etckeeper.conf
+  tags:
+   - base
+
+- name: disable rsyslog
+  service: name=rsyslog
+           state=stopped
+           enabled=no
+  tags:
+   - base
+
+- name: configure postfix
+  template: src=postfix-main.cf
+            dest=/etc/postfix/main.cf
+  notify:
+   - reload postfix
+  tags:
+   - base
+
+- name: install aliases file
+  copy: src=aliases
+        dest=/etc/aliases
+  notify:
+   - newaliases
+  tags:
+   - base
+
+- name: install fail2ban jail.local
+  copy: src=fail2ban-jail.local
+        dest=/etc/fail2ban/jail.local
+  notify:
+   - reload fail2ban
+  tags:
+   - base
+

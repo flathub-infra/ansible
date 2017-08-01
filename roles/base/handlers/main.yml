@@ -1,0 +1,9 @@
+- name: reload postfix
+  service: name=postfix state=reloaded
+
+- name: newaliases
+  command: newaliases
+  
+- name: reload fail2ban
+  service: name=fail2ban state=reloaded
+

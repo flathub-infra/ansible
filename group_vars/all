@@ -1,0 +1,7 @@
+---
+admin_users:
+ - username: ramcq
+   realname: Robert McQueen
+ - username: alex
+   realname: Alex Larsson
+ansible_become: yes
