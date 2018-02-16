@@ -1,60 +1,127 @@
 - name: ensure hostname
-  hostname: name={{ inventory_hostname }}
+  hostname: name='{{ inventory_hostname }}'
   tags:
    - base
 
 - name: create admin users
-  user: name={{ item.username }}
-        comment="{{ item.realname }}"
-        groups=wheel
-  with_items: "{{ admin_users }}"
+  user: name='{{ item.username }}'
+        comment='{{ item.realname }}'
+        groups='{{ admin_group }}'
+  with_items: '{{ admin_users }}'
   tags:
    - base
 
 - name: add admin ssh keys
-  authorized_key: user={{ item.username }}
-                  key={{ lookup('file', 'ssh/{{ item.username }}.pub') }}
-  with_items: "{{ admin_users }}"
+  authorized_key: user='{{ item.username }}'
+                  key='{{ lookup('file', 'ssh/{{ item.username }}.pub') }}'
+  with_items: '{{ admin_users }}'
   tags:
    - base
+
+- name: allow passwordless sudo
+  lineinfile:
+    name: /etc/sudoers
+    state: present
+    regexp: '^%{{ admin_group }}(\s+)ALL='
+    line: '%{{ admin_group }} ALL=(ALL) NOPASSWD: ALL'
+    validate: '/usr/sbin/visudo -cf %s'
 
 - name: install epel-release
   yum: name=epel-release
        state=present
+  when: ansible_distribution == 'CentOS'
   tags:
    - base
 
-- name: install dnf
-  yum: name=dnf
-       state=present
+- name: add Debian backports
+  apt_repository:
+    repo: 'deb http://deb.debian.org/debian {{ ansible_distribution_release }}-backports main'
+    state: present
+  when: ansible_distribution == 'Debian'
+  tags:
+   - base
+
+- name: pin flatpak to Debian backports
+  copy:
+    src: apt-preferences-flatpak-backport
+    dest: /etc/apt/preferences.d/flatpak-backport
+  when: ansible_distribution == 'Debian'
+  tags:
+   - base
+
+- name: add Ubuntu PPAs
+  apt_repository:
+    repo: '{{ item }}'
+    state: present
+  with_items:
+   - 'ppa:alexlarsson/flatpak'
+   - 'ppa:git-core/ppa'
+  when: ansible_distribution == 'Ubuntu'
   tags:
    - base
 
 - name: install base packages
-  dnf: name={{item}}
-       state=present
+  package: name={{ item }}
+           state=present
   with_items:
-   - bind-utils
    - etckeeper
-   - fail2ban-firewalld
-   - fail2ban-server
-   - fail2ban-systemd
    - htop
    - iftop
    - iotop
    - lsof
    - mosh
    - mtr
-   - nc
    - net-tools
    - psmisc
    - socat
+   - postfix
+  tags:
+   - base
+
+- name: install base packages (rpm)
+  package: name={{ item }}
+           state=present
+  with_items:
+   - bind-utils
+   - fail2ban-firewalld
+   - fail2ban-server
+   - fail2ban-systemd
+   - nc
+  when: ansible_pkg_mgr != 'apt'
+  tags:
+   - base
+
+- name: install base packages (deb)
+  package: name={{ item }}
+           state=present
+  with_items:
+   - host
+   - fail2ban
+   - netcat
+   - ntp
+  when: ansible_pkg_mgr == 'apt'
   tags:
    - base
 
 - name: configure etckeeper
-  copy: src=etckeeper.conf
-        dest=/etc/etckeeper/etckeeper.conf
+  template: src=etckeeper.conf
+            dest=/etc/etckeeper/etckeeper.conf
+  tags:
+   - base
+
+- name: enable chrony
+  service: name=chrony
+           state=started
+           enabled=yes
+  when: ansible_pkg_mgr != 'apt'
+  tags:
+   - base
+
+- name: enable ntp
+  service: name=ntp
+           state=started
+           enabled=yes
+  when: ansible_pkg_mgr == 'apt'
   tags:
    - base
 
@@ -68,6 +135,7 @@
 - name: configure postfix
   template: src=postfix-main.cf
             dest=/etc/postfix/main.cf
+  when: postfix_relayhost is defined
   notify:
    - reload postfix
   tags:
