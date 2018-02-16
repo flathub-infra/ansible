@@ -1,5 +1,5 @@
 ---
 - name: ping stuff
-  hosts: apps.flathub.org
+  hosts: all
   tasks:
   - ping:

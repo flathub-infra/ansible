@@ -1,2 +1,9 @@
 [mythic]
 apps.flathub.org
+
+[gnome]
+armv7-worker.gnome.org
+
+[packet]
+cncf-x86-1.flathub.org
+cncf-arm-1.flathub.org
