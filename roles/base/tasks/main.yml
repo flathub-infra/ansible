@@ -1,20 +1,24 @@
 - name: ensure hostname
-  hostname: name='{{ inventory_hostname }}'
+  hostname:
+    name: "{{ inventory_hostname }}"
   tags:
    - base
 
 - name: create admin users
-  user: name='{{ item.username }}'
-        comment='{{ item.realname }}'
-        groups='{{ admin_group }}'
-  with_items: '{{ admin_users }}'
+  user:
+    name: "{{ item.username }}"
+    comment: "{{ item.realname }}"
+    groups: "{{ admin_group }}"
+  with_items: "{{ admin_users }}"
   tags:
    - base
 
+# TODO: Get Alex to use a 4k RSA key
 - name: add admin ssh keys
-  authorized_key: user='{{ item.username }}'
-                  key='{{ lookup('file', 'ssh/{{ item.username }}.pub') }}'
-  with_items: '{{ admin_users }}'
+  authorized_key:
+    user: "{{ item.username }}"
+    key: "{{ lookup('file', 'ssh/{{ item.username }}.pub') }}"
+  with_items: "{{ admin_users }}"
   tags:
    - base
 
@@ -26,18 +30,20 @@
     line: '%{{ admin_group }} ALL=(ALL) NOPASSWD: ALL'
     validate: '/usr/sbin/visudo -cf %s'
 
+# TODO: Split all deb and rpm intallations into their own roles
 - name: install epel-release
-  yum: name=epel-release
-       state=present
-  when: ansible_distribution == 'CentOS'
+  yum:
+    name: epel-release
+    state: present
+  when: ansible_distribution == "CentOS"
   tags:
    - base
 
 - name: add Debian backports
   apt_repository:
-    repo: 'deb http://deb.debian.org/debian {{ ansible_distribution_release }}-backports main'
+    repo: "deb http://deb.debian.org/debian {{ ansible_distribution_release }}-backports main"
     state: present
-  when: ansible_distribution == 'Debian'
+  when: ansible_distribution == "Debian"
   tags:
    - base
 
@@ -45,24 +51,24 @@
   copy:
     src: apt-preferences-flatpak-backport
     dest: /etc/apt/preferences.d/flatpak-backport
-  when: ansible_distribution == 'Debian'
+  when: ansible_distribution == "Debian"
   tags:
    - base
 
 - name: add Ubuntu PPAs
   apt_repository:
-    repo: '{{ item }}'
-    state: present
+    repo: "{{ item }}"
   with_items:
-   - 'ppa:alexlarsson/flatpak'
-   - 'ppa:git-core/ppa'
-  when: ansible_distribution == 'Ubuntu'
+   - "ppa:alexlarsson/flatpak"
+   - "ppa:git-core/ppa"
+  when: ansible_distribution == "Ubuntu"
   tags:
    - base
 
+# TODO: Move these to vars.yml
 - name: install base packages
-  package: name={{ item }}
-           state=present
+  package:
+    name: "{{ item }}"
   with_items:
    - etckeeper
    - htop
@@ -79,62 +85,67 @@
    - base
 
 - name: install base packages (rpm)
-  package: name={{ item }}
-           state=present
+  package:
+    name: "{{ item }}"
   with_items:
    - bind-utils
    - fail2ban-firewalld
    - fail2ban-server
    - fail2ban-systemd
    - nc
-  when: ansible_pkg_mgr != 'apt'
+  when: ansible_pkg_mgr != "apt"
   tags:
    - base
 
 - name: install base packages (deb)
-  package: name={{ item }}
-           state=present
+  package:
+    name: "{{ item }}"
   with_items:
    - host
    - fail2ban
    - netcat
    - ntp
-  when: ansible_pkg_mgr == 'apt'
+  when: ansible_pkg_mgr == "apt"
   tags:
    - base
 
 - name: configure etckeeper
-  template: src=etckeeper.conf
-            dest=/etc/etckeeper/etckeeper.conf
+  template:
+    src: etckeeper.conf
+    dest: /etc/etckeeper/etckeeper.conf
   tags:
    - base
 
 - name: enable chrony
-  service: name=chrony
-           state=started
-           enabled=yes
-  when: ansible_pkg_mgr != 'apt'
+  service:
+    name: chrony
+    state: started
+    enabled: yes
+  when: ansible_pkg_mgr != "apt"
   tags:
    - base
 
 - name: enable ntp
-  service: name=ntp
-           state=started
-           enabled=yes
-  when: ansible_pkg_mgr == 'apt'
+  service:
+    name: ntp
+    state: started
+    enabled: yes
+  when: ansible_pkg_mgr == "apt"
   tags:
    - base
 
 - name: disable rsyslog
-  service: name=rsyslog
-           state=stopped
-           enabled=no
+  service:
+    name: rsyslog
+    state: stopped
+    enabled: no
   tags:
    - base
 
 - name: configure postfix
-  template: src=postfix-main.cf
-            dest=/etc/postfix/main.cf
+  template:
+    src: postfix-main.cf
+    dest: /etc/postfix/main.cf
   when: postfix_relayhost is defined
   notify:
    - reload postfix
@@ -142,18 +153,19 @@
    - base
 
 - name: install aliases file
-  copy: src=aliases
-        dest=/etc/aliases
+  copy:
+    src: aliases
+    dest: /etc/aliases
   notify:
-   - newaliases
+   - trigger newaliases
   tags:
    - base
 
 - name: install fail2ban jail.local
-  copy: src=fail2ban-jail.local
-        dest=/etc/fail2ban/jail.local
+  copy:
+    src: fail2ban-jail.local
+    dest: /etc/fail2ban/jail.local
   notify:
    - reload fail2ban
   tags:
    - base
-
