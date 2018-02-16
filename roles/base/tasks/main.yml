@@ -169,3 +169,9 @@
    - reload fail2ban
   tags:
    - base
+
+# TODO: Add some iptable/fw rules maybe?
+# TODO: Remove host DSA keys, if any(weak)
+# TODO: Regenerate dhparams (maybe overkill though)
+# TODO: Maybe enable unattended upgrades and kernel clenaups on upgrade
+# TODO: Maybe change ssh port?
