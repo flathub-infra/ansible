@@ -1,0 +1,8 @@
+---
+buildbot_worker_user: 'buildbot'
+buildbot_worker_home: '/srv/buildbot'
+buildbot_worker_dir: '{{ buildbot_worker_home }}/worker'
+buildbot_worker_sandbox: '{{ buildbot_worker_home }}/sandbox'
+buildbot_worker_name: '{{ ansible_hostname }}'
+buildbot_worker_master: 'hub.flathub.org'
+buildbot_worker_admin: 'Flathub Admins <admins@flathub.org>'

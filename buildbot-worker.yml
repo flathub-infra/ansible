@@ -1,0 +1,6 @@
+---
+- name: set up buildbot workers
+  hosts: buildbot-worker
+  roles:
+  - base
+  - buildbot-worker

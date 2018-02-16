@@ -1,0 +1,78 @@
+- name: install buildbot packages (deb)
+  package: name={{ item }}
+           state=latest
+  with_items:
+   - build-essential
+   - virtualenv
+   - appstream-util
+   - elfutils
+   - python-pip
+   - flatpak-builder
+   - ostree
+   - git
+  when: ansible_pkg_mgr == 'apt'
+  tags:
+   - buildbot-worker
+
+- name: create buildbot user
+  user: name='{{ buildbot_worker_user }}'
+        home='{{ buildbot_worker_home }}'
+        system=yes
+  tags:
+   - buildbot-worker
+
+- name: install pip and buildbot-worker in virtualenv
+  pip: name='{{ item }}'
+       state=latest
+       virtualenv='{{ buildbot_worker_sandbox }}'
+  with_items:
+   - pip
+   - setuputils
+   - buildbot-worker
+  become_user: '{{ buildbot_worker_user }}'
+  tags:
+   - buildbot-worker
+
+- name: create buildbot-worker
+  command: >
+    '{{ buildbot_worker_sandbox }}/bin/buildbot-worker' create-worker
+    '{{ buildbot_worker_dir }}'
+    '{{ buildbot_worker_master }}'
+    '{{ buildbot_worker_name }}'
+    '{{ buildbot_worker_password }}'
+  args:
+    creates: '{{ buildbot_worker_dir }}/buildbot.tac'
+  become: yes
+  become_user: '{{ buildbot_worker_user }}'
+  tags:
+   - buildbot-worker
+
+- name: set admin info
+  copy:
+    content: '{{ buildbot_worker_admin }}'
+    dest: '{{ buildbot_worker_dir }}/info/admin'
+  tags:
+   - buildbot-worker
+
+- name: set host info
+  copy:
+    content: '{{ buildbot_worker_description }}'
+    dest: '{{ buildbot_worker_dir }}/info/host'
+  tags:
+   - buildbot-worker
+
+- name: add systemd unit
+  template:
+    src: buildbot-worker.service
+    dest: /etc/systemd/system/
+  tags:
+   - buildbot-worker
+
+- name: enable and start worker
+  systemd:
+    name: buildbot-worker
+    daemon_reload: yes
+    enabled: yes
+    state: started
+  tags:
+   - buildbot-worker
