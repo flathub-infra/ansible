@@ -66,8 +66,8 @@
 
 - name: add systemd unit
   template:
-    src: buildbot-worker.service
-    dest: /etc/systemd/system/
+    src: buildbot-worker.service.j2
+    dest: /etc/systemd/system/buildbot-worker.service
   tags:
    - buildbot-worker
 

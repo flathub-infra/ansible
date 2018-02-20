@@ -111,7 +111,7 @@
 
 - name: configure etckeeper
   template:
-    src: etckeeper.conf
+    src: etckeeper.conf.j2
     dest: /etc/etckeeper/etckeeper.conf
   tags:
    - base
@@ -144,7 +144,7 @@
 
 - name: configure postfix
   template:
-    src: postfix-main.cf
+    src: postfix-main.cf.j2
     dest: /etc/postfix/main.cf
   when: postfix_relayhost is defined
   notify:
