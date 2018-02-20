@@ -8,6 +8,10 @@ armv7-worker.gnome.org
 cncf-x86-1.flathub.org
 cncf-arm-1.flathub.org
 
+[scaleway]
+scaleway-x86-1.flathub.org
+
 [buildbot-worker]
 cncf-x86-1.flathub.org
 cncf-arm-1.flathub.org
+scaleway-x86-1.flathub.org
