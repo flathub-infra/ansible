@@ -93,7 +93,7 @@
    - fail2ban-server
    - fail2ban-systemd
    - nc
-  when: ansible_pkg_mgr != "apt"
+  when: ansible_os_family == "RedHat"
   tags:
    - base
 
@@ -105,7 +105,7 @@
    - fail2ban
    - netcat
    - ntp
-  when: ansible_pkg_mgr == "apt"
+  when: ansible_os_family == "Debian"
   tags:
    - base
 
@@ -121,7 +121,7 @@
     name: chrony
     state: started
     enabled: yes
-  when: ansible_pkg_mgr != "apt"
+  when: ansible_os_family == "RedHat"
   tags:
    - base
 
@@ -130,7 +130,7 @@
     name: ntp
     state: started
     enabled: yes
-  when: ansible_pkg_mgr == "apt"
+  when: ansible_os_family == "Debian"
   tags:
    - base
 

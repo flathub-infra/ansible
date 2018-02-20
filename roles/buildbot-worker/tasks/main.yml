@@ -11,7 +11,7 @@
    - python-pip
    - ostree
    - virtualenv
-  when: ansible_pkg_mgr == "apt"
+  when: ansible_os_family == "Debian"
   tags:
    - buildbot-worker
 

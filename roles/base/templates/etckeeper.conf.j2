@@ -37,7 +37,7 @@ HIGHLEVEL_PACKAGE_MANAGER={{ ansible_pkg_mgr }}
 
 # The low-level package manager that's being used.
 # (dpkg, rpm, pacman, pacmatic, pacman-g2, etc)
-LOWLEVEL_PACKAGE_MANAGER={{ (ansible_pkg_mgr == 'apt') | ternary('dpkg','rpm') }}
+LOWLEVEL_PACKAGE_MANAGER={{ (ansible_os_family == 'Debian') | ternary('dpkg','rpm') }}
 
 # To push each commit to a remote, put the name of the remote here.
 # (eg, "origin" for git). Space-separated lists of multiple remotes

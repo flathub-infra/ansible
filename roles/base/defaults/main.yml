@@ -1,1 +1,1 @@
-admin_group: "{{ (ansible_pkg_mgr == 'apt') | ternary('sudo', 'wheel') }}"
+admin_group: "{{ (ansible_os_family == 'Debian') | ternary('sudo', 'wheel') }}"
