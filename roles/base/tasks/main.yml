@@ -81,6 +81,7 @@
    - psmisc
    - socat
    - postfix
+   - "{{ base_time_service }}"
   tags:
    - base
 
@@ -104,7 +105,6 @@
    - host
    - fail2ban
    - netcat
-   - ntp
   when: ansible_os_family == "Debian"
   tags:
    - base
@@ -116,21 +116,11 @@
   tags:
    - base
 
-- name: enable chrony
+- name: enable chrony/ntp
   service:
-    name: chrony
+    name: "{{ base_time_service_unit }}"
     state: started
     enabled: yes
-  when: ansible_os_family == "RedHat"
-  tags:
-   - base
-
-- name: enable ntp
-  service:
-    name: ntp
-    state: started
-    enabled: yes
-  when: ansible_os_family == "Debian"
   tags:
    - base
 

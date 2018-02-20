@@ -1,1 +1,3 @@
 admin_group: "{{ (ansible_os_family == 'Debian') | ternary('sudo', 'wheel') }}"
+base_time_service: "{{ (ansible_os_family == 'Debian') | ternary('ntp', 'chrony') }}"
+base_time_service_unit: "{{ (ansible_os_family == 'Debian') | ternary('ntp', 'chronyd') }}"
