@@ -1,35 +1,38 @@
 - name: install buildbot packages (deb)
-  package: name={{ item }}
-           state=latest
+  package:
+    name: "{{ item }}"
+    state: latest
   with_items:
-   - build-essential
-   - virtualenv
    - appstream-util
+   - build-essential
    - elfutils
-   - python-pip
    - flatpak-builder
-   - ostree
    - git
-  when: ansible_pkg_mgr == 'apt'
+   - python-pip
+   - ostree
+   - virtualenv
+  when: ansible_pkg_mgr == "apt"
   tags:
    - buildbot-worker
 
 - name: create buildbot user
-  user: name='{{ buildbot_worker_user }}'
-        home='{{ buildbot_worker_home }}'
-        system=yes
+  user:
+    name: "{{ buildbot_worker_user }}"
+    home: "{{ buildbot_worker_home }}"
+    system: yes
   tags:
    - buildbot-worker
 
 - name: install pip and buildbot-worker in virtualenv
-  pip: name='{{ item }}'
-       state=latest
-       virtualenv='{{ buildbot_worker_sandbox }}'
+  pip:
+    name: "{{ item }}"
+    state: latest
+    virtualenv: "{{ buildbot_worker_sandbox }}"
   with_items:
    - pip
    - setuputils
    - buildbot-worker
-  become_user: '{{ buildbot_worker_user }}'
+  become_user: "{{ buildbot_worker_user }}"
   tags:
    - buildbot-worker
 
@@ -41,23 +44,23 @@
     '{{ buildbot_worker_name }}'
     '{{ buildbot_worker_password }}'
   args:
-    creates: '{{ buildbot_worker_dir }}/buildbot.tac'
+    creates: "{{ buildbot_worker_dir }}/buildbot.tac"
   become: yes
-  become_user: '{{ buildbot_worker_user }}'
+  become_user: "{{ buildbot_worker_user }}"
   tags:
    - buildbot-worker
 
 - name: set admin info
   copy:
     content: '{{ buildbot_worker_admin }}'
-    dest: '{{ buildbot_worker_dir }}/info/admin'
+    dest: "{{ buildbot_worker_dir }}/info/admin"
   tags:
    - buildbot-worker
 
 - name: set host info
   copy:
     content: '{{ buildbot_worker_description }}'
-    dest: '{{ buildbot_worker_dir }}/info/host'
+    dest: "{{ buildbot_worker_dir }}/info/host"
   tags:
    - buildbot-worker
 
