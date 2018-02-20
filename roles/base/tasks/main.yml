@@ -8,8 +8,8 @@
   user:
     name: "{{ item.username }}"
     comment: "{{ item.realname }}"
-    groups: "{{ admin_group }}"
-  with_items: "{{ admin_users }}"
+    groups: "{{ base_admin_group }}"
+  with_items: "{{ base_admin_users }}"
   tags:
    - base
 
@@ -18,7 +18,7 @@
   authorized_key:
     user: "{{ item.username }}"
     key: "{{ lookup('file', 'ssh/{{ item.username }}.pub') }}"
-  with_items: "{{ admin_users }}"
+  with_items: "{{ base_admin_users }}"
   tags:
    - base
 
@@ -26,8 +26,8 @@
   lineinfile:
     name: /etc/sudoers
     state: present
-    regexp: '^%{{ admin_group }}(\s+)ALL='
-    line: '%{{ admin_group }} ALL=(ALL) NOPASSWD: ALL'
+    regexp: '^%{{ base_admin_group }}(\s+)ALL='
+    line: '%{{ base_admin_group }} ALL=(ALL) NOPASSWD: ALL'
     validate: '/usr/sbin/visudo -cf %s'
 
 # TODO: Split all deb and rpm intallations into their own roles
@@ -136,7 +136,7 @@
   template:
     src: postfix-main.cf.j2
     dest: /etc/postfix/main.cf
-  when: postfix_relayhost is defined
+  when: base_postfix_relayhost is defined
   notify:
    - reload postfix
   tags:

@@ -1,2 +1,2 @@
 ---
-postfix_relayhost: smtp-int.gnome.org
+base_postfix_relayhost: smtp-int.gnome.org

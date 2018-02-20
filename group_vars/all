@@ -1,5 +1,5 @@
 ---
-admin_users:
+base_admin_users:
  - username: ramcq
    realname: Robert McQueen
  - username: alex
