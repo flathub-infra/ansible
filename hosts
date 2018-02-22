@@ -1,17 +1,27 @@
 [mythic]
 apps.flathub.org
+hub.flathub.org
+front.flathub.org
+master.flathub.org
+repo.flathub.org
+front-hex.flathub.org
+front-sov.flathub.org
 
 [gnome]
-armv7-worker.gnome.org
+#armv7-worker.gnome.org
 
 [packet]
 cncf-x86-1.flathub.org
 cncf-arm-1.flathub.org
 
 [scaleway]
-scaleway-x86-1.flathub.org
+#scaleway-x86-1.flathub.org
 
 [buildbot-worker]
 cncf-x86-1.flathub.org
 cncf-arm-1.flathub.org
-scaleway-x86-1.flathub.org
+#scaleway-x86-1.flathub.org
+
+[frontend]
+front-hex.flathub.org
+front-sov.flathub.org
