@@ -30,6 +30,13 @@
     line: '%{{ base_admin_group }} ALL=(ALL) NOPASSWD: ALL'
     validate: '/usr/sbin/visudo -cf %s'
 
+- name: disable ssh password authentication
+  lineinfile: dest=/etc/ssh/sshd_config
+              regexp="^PasswordAuthentication"
+              line="PasswordAuthentication no"
+              state=present
+  notify: reload sshd
+
 # TODO: Split all deb and rpm intallations into their own roles
 - name: install epel-release
   yum:

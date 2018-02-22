@@ -1,6 +1,9 @@
 - name: reload postfix
   service: name=postfix state=reloaded
 
+- name: reload sshd
+  service: name=sshd state=reloaded
+
 - name: trigger newaliases
   command: newaliases
 
