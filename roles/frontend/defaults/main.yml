@@ -1,0 +1,8 @@
+frontend_dehydrated_domains:
+ - "{{ frontend_nginx_ssl_name }}"
+frontend_nginx_cache_dir: /var/cache/httpd
+frontend_nginx_cache_size: 260g
+frontend_nginx_redirect_home: https://flathub.org
+frontend_nginx_repo_origin: http://repo.flathub.org/repo
+frontend_nginx_resolver: 8.8.8.8
+frontend_nginx_ssl_name: "{{ inventory_hostname }}"

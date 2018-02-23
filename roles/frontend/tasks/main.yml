@@ -1,0 +1,22 @@
+- name: configure nginx
+  include: nginx.yml
+  tags:
+   - frontend
+   - frontend_nginx
+
+- name: configure dehydrated
+  include: dehydrated.yml
+  tags:
+   - frontend
+   - frontend_dehydrated
+
+- name: deploy nginx conf.d/ssl.conf
+  template:
+    src: nginx-conf.d-ssl.conf.j2
+    dest: /etc/nginx/conf.d/ssl.conf
+  notify:
+   - reload nginx
+  tags:
+   - frontend
+   - frontend_dehydrated
+   - frontend_nginx

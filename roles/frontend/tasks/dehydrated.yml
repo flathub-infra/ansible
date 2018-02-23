@@ -1,0 +1,23 @@
+- name: install dehydrated
+  package:
+    name: dehydrated
+    state: latest
+
+- name: create challenge directory
+  file:
+    path: /var/www/dehydrated
+    state: directory
+    setype: _default
+
+- name: create LE account
+  command: dehydrated --register --accept-terms
+  args:
+    creates: /etc/dehydrated/accounts/*/registration_info.json
+
+- name: configure domains
+  template:
+    src: dehydrated-domains.txt.j2
+    dest: /etc/dehydrated/domains.txt
+
+- name: update/issue certificates
+  command: dehydrated --cron

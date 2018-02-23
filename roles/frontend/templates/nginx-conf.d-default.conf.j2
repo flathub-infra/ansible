@@ -1,0 +1,18 @@
+server {
+    listen       80 default_server;
+    listen       [::]:80 default_server;
+    server_name  {{ frontend_nginx_ssl_name }};
+
+    # Only load dehydrated well-known path
+    include /etc/nginx/default.d/dehydrated.conf;
+    
+    # /repo will be mapped for this host
+    location /repo {
+      return 301 https://$host$request_uri;
+    }
+
+    # Everything else to {{ frontend_nginx_redirect_home }} for the time being
+    location / {
+      return 302 {{ frontend_nginx_redirect_home }}$request_uri;
+    }
+}
