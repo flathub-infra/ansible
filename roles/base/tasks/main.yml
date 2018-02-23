@@ -4,6 +4,10 @@
   tags:
    - base
 
+- name: set timezone to Etc/UTC
+  timezone:
+    name: Etc/UTC
+
 - name: create admin users
   user:
     name: "{{ item.username }}"
