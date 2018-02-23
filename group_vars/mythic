@@ -1,2 +1,3 @@
 ---
 base_postfix_relayhost: smtpout.mythic-beasts.com
+frontend_nginx_resolver: 93.93.128.2 93.93.130.2
