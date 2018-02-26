@@ -68,6 +68,8 @@
   template:
     src: buildbot-worker.service.j2
     dest: /etc/systemd/system/buildbot-worker.service
+  notify:
+   - restart buildbot-worker
   tags:
    - buildbot-worker
 
@@ -76,6 +78,7 @@
     name: buildbot-worker
     daemon_reload: yes
     enabled: yes
-    state: started
+  notify:
+   - restart buildbot-worker
   tags:
    - buildbot-worker
