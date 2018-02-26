@@ -74,6 +74,13 @@
   notify:
    - reload nginx
 
+- name: install nginx default.d/webroot.conf
+  template:
+    src: nginx-default.d-webroot.conf.j2
+    dest: /etc/nginx/default.d/webroot.conf
+  notify:
+   - reload nginx
+
 - name: permit http/https services in firewall
   firewalld:
     service: "{{ item }}"

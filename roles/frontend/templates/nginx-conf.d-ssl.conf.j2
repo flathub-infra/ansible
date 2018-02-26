@@ -10,11 +10,6 @@ server {
     # Load configuration files for the default server block.
     include /etc/nginx/default.d/*.conf;
 
-    # Everything else to {{ frontend_nginx_redirect_home }} for the time being
-    location / {
-      return 302 {{ frontend_nginx_redirect_home }}$request_uri;
-    }
-
     # certs sent to the client in SERVER HELLO are concatenated in ssl_certificate
     ssl_certificate /etc/dehydrated/certs/{{ frontend_nginx_ssl_name }}/fullchain.pem;
     ssl_certificate_key /etc/dehydrated/certs/{{ frontend_nginx_ssl_name }}/privkey.pem;
