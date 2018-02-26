@@ -4,10 +4,6 @@
   tags:
    - base
 
-- name: set timezone to Etc/UTC
-  timezone:
-    name: Etc/UTC
-
 - name: create admin users
   user:
     name: "{{ item.username }}"
@@ -92,6 +88,7 @@
    - psmisc
    - socat
    - postfix
+   - tzdata
    - "{{ base_time_service }}"
   tags:
    - base
@@ -119,6 +116,10 @@
   when: ansible_os_family == "Debian"
   tags:
    - base
+
+- name: set timezone to Etc/UTC
+  timezone:
+    name: Etc/UTC
 
 - name: configure etckeeper
   template:
