@@ -53,6 +53,13 @@
   notify:
    - reload nginx
 
+- name: install nginx default.d/buildbot.conf
+  template:
+    src: nginx-default.d-buildbot.conf.j2
+    dest: /etc/nginx/default.d/buildbot.conf
+  notify:
+   - reload nginx
+
 - name: install nginx default.d/dehydrated.conf
   copy:
     src: nginx-default.d-dehydrated.conf
@@ -76,6 +83,12 @@
   with_items:
    - http
    - https
+
+- name: allow httpd to make network connections
+  seboolean:
+    name: httpd_can_network_connect
+    state: yes
+    persistent: yes
 
 - name: ensure nginx is running with latest config
   meta: flush_handlers

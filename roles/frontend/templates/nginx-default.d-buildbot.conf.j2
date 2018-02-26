@@ -1,0 +1,23 @@
+location /builds/ {
+    proxy_pass {{ frontend_nginx_buildbot_origin }};
+}
+
+location /builds/sse/ {
+    # proxy buffering will prevent sse to work
+    proxy_buffering off;
+    proxy_pass {{ frontend_nginx_buildbot_origin }}sse/;
+}
+
+location /builds/ws {
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_pass {{ frontend_nginx_buildbot_origin }}ws;
+    proxy_read_timeout 6000s;
+}
+
+location /builds/change_hook/github {
+    allow 192.30.252.0/22;
+    deny all;
+    proxy_pass {{ frontend_nginx_buildbot_origin }}change_hook/github;
+}

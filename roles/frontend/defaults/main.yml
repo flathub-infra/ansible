@@ -1,5 +1,6 @@
 frontend_dehydrated_domains:
  - "{{ frontend_nginx_ssl_name }}"
+frontend_nginx_buildbot_origin: http://master.flathub.org:8010/
 frontend_nginx_cache_dir: /var/cache/httpd
 frontend_nginx_cache_size: 260g
 frontend_nginx_redirect_home: https://flathub.org
