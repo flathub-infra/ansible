@@ -129,11 +129,14 @@
   tags:
    - base
 
-- name: enable chrony/ntp
+- name: enable services
   service:
-    name: "{{ base_time_service_unit }}"
+    name: "{{ item }}"
     state: started
     enabled: yes
+  with_items:
+   - "{{ base_time_service_unit }}"
+   - fail2ban
   tags:
    - base
 
