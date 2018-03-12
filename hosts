@@ -8,10 +8,11 @@ front-hex.flathub.org
 front-sov.flathub.org
 
 [gnome]
-#armv7-worker.gnome.org
+gnome-arm-1.flathub.org
 
 [packet]
 cncf-x86-1.flathub.org
+cncf-x86-2.flathub.org
 cncf-arm-1.flathub.org
 
 [scaleway]
@@ -19,7 +20,9 @@ cncf-arm-1.flathub.org
 
 [buildbot-worker]
 cncf-x86-1.flathub.org
+cncf-x86-2.flathub.org
 cncf-arm-1.flathub.org
+gnome-arm-1.flathub.org
 #scaleway-x86-1.flathub.org
 
 [frontend]
