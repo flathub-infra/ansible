@@ -4,6 +4,12 @@
    - frontend
    - frontend_nginx
 
+- name: set up certsync from front
+  include: certsync.yml
+  tags:
+   - frontend
+   - frontend_certsync
+
 - name: configure dehydrated
   include: dehydrated.yml
   tags:

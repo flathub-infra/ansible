@@ -102,6 +102,7 @@
    - fail2ban-server
    - fail2ban-systemd
    - libsemanage-python
+   - policycoreutils-python
    - nc
   when: ansible_os_family == "RedHat"
   tags:
