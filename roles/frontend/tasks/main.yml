@@ -26,3 +26,25 @@
    - frontend
    - frontend_dehydrated
    - frontend_nginx
+
+- name: deploy nginx conf.d/dl-ssl.conf
+  template:
+    src: nginx-conf.d-dl-ssl.conf.j2
+    dest: /etc/nginx/conf.d/dl-ssl.conf
+  notify:
+   - reload nginx
+  tags:
+   - frontend
+   - frontend_dehydrated
+   - frontend_nginx
+
+- name: deploy nginx conf.d/webroot-ssl.conf
+  template:
+    src: nginx-conf.d-webroot-ssl.conf.j2
+    dest: /etc/nginx/conf.d/webroot-ssl.conf
+  notify:
+   - reload nginx
+  tags:
+   - frontend
+   - frontend_dehydrated
+   - frontend_nginx

@@ -6,4 +6,5 @@ frontend_nginx_cache_size: 260g
 frontend_nginx_repo_origin: http://repo.flathub.org/repo
 frontend_nginx_resolver: 8.8.8.8
 frontend_nginx_ssl_name: "{{ inventory_hostname }}"
+frontend_nginx_webroot_domain: flathub.org
 frontend_nginx_webroot_origin: https://front.flathub.org

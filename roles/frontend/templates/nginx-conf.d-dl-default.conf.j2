@@ -1,0 +1,21 @@
+server {
+    listen       80;
+    listen       [::]:80;
+    server_name  dl.{{ frontend_nginx_webroot_domain }};
+
+    location /.well-known/acme-challenge {
+      proxy_pass {{ frontend_nginx_webroot_origin }}/.well-known/acme-challenge;
+      proxy_hide_header Strict-Transport-Security;
+      proxy_hide_header Vary;
+    }
+    
+    # /repo will be mapped for this host
+    location /repo {
+      return 301 https://$host$request_uri;
+    }
+
+    # Everything else to https://flathub.org for the time being
+    location / {
+      return 302 https://{{ frontend_nginx_webroot_domain }}$request_uri;
+    }
+}

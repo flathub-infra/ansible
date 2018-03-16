@@ -1,0 +1,13 @@
+server {
+    listen       80;
+    listen       [::]:80;
+    server_name  {{ frontend_nginx_webroot_domain }} www.{{ frontend_nginx_webroot_domain }};
+
+    location /.well-known/acme-challenge {
+      proxy_pass {{ frontend_nginx_webroot_origin }}/.well-known/acme-challenge;
+      proxy_hide_header Strict-Transport-Security;
+      proxy_hide_header Vary;
+    }
+    
+    return 301 https://$host$request_uri;
+}
