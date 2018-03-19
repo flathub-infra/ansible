@@ -4,6 +4,10 @@ location /repo {
     proxy_pass {{ frontend_nginx_repo_origin }};
 }
 
+location ~ ^/repo/objects/.+\.(sig|sizes2)$ {
+    return 404;
+}
+
 location /repo/summary {
     gzip on;
     gzip_types application/octet-stream;
