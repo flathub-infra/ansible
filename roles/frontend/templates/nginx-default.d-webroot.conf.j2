@@ -1,5 +1,8 @@
 location / {
     proxy_cache frontend_cache;
+    proxy_cache_valid 200 302 10m;
+    proxy_cache_valid 301      1h;
+    proxy_cache_valid any      1m;
     proxy_pass {{ frontend_nginx_webroot_origin }};
     proxy_hide_header Strict-Transport-Security;
     proxy_hide_header Vary;
