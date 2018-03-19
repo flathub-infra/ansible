@@ -35,7 +35,7 @@
    - reload nginx
   tags:
    - frontend
-   - frontend_dehydrated
+   - frontend_certsync
    - frontend_nginx
 
 - name: deploy nginx conf.d/webroot-ssl.conf
@@ -46,5 +46,5 @@
    - reload nginx
   tags:
    - frontend
-   - frontend_dehydrated
+   - frontend_certsync
    - frontend_nginx
