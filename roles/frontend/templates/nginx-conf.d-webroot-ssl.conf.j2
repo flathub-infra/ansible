@@ -5,6 +5,7 @@ server {
     server_name {{ frontend_nginx_webroot_domain }} www.{{ frontend_nginx_webroot_domain }};
 
     # Load configuration files for the default server block.
+    include /etc/nginx/default.d/api.conf;
     include /etc/nginx/default.d/buildbot.conf;
     include /etc/nginx/default.d/repo.conf;
     include /etc/nginx/default.d/webroot.conf;

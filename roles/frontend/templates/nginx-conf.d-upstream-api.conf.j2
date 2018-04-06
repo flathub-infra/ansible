@@ -1,0 +1,6 @@
+upstream api {
+    least_conn;
+{% for server in frontend_nginx_api_servers %}
+    server {{ server }};
+{% endfor %}
+}

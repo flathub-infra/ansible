@@ -60,10 +60,24 @@
   notify:
    - reload nginx
 
+- name: install nginx conf.d/upstream-api.conf
+  template:
+    src: nginx-conf.d-upstream-api.conf.j2
+    dest: /etc/nginx/conf.d/upstream-api.conf
+  notify:
+   - reload nginx
+
 - name: install nginx conf.d/webroot-default.conf
   template:
     src: nginx-conf.d-webroot-default.conf.j2
     dest: /etc/nginx/conf.d/webroot-default.conf
+  notify:
+   - reload nginx
+
+- name: install nginx default.d/api.conf
+  template:
+    src: nginx-default.d-api.conf.j2
+    dest: /etc/nginx/default.d/api.conf
   notify:
    - reload nginx
 
