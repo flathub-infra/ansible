@@ -6,3 +6,8 @@ location /api {
     proxy_pass http://api;
     proxy_set_header Host $host;
 }
+
+location /api/health {
+    proxy_pass http://api/health;
+    proxy_set_header Host $host;
+}
