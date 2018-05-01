@@ -1,0 +1,52 @@
+# tasks just for "native" (admin exclusively by flathub.org) hosts
+
+- name: ensure hostname
+  hostname:
+    name: "{{ inventory_hostname }}"
+
+- name: disable ssh password authentication
+  lineinfile: dest=/etc/ssh/sshd_config
+              regexp="^PasswordAuthentication"
+              line="PasswordAuthentication no"
+              state=present
+  notify: reload sshd
+
+- name: set timezone to Etc/UTC
+  timezone:
+    name: Etc/UTC
+
+- name: configure etckeeper
+  template:
+    src: etckeeper.conf.j2
+    dest: /etc/etckeeper/etckeeper.conf
+
+- name: enable services
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  with_items:
+   - "{{ base_time_service_unit }}"
+   - fail2ban
+
+- name: configure postfix
+  template:
+    src: postfix-main.cf.j2
+    dest: /etc/postfix/main.cf
+  when: base_postfix_relayhost is defined
+  notify:
+   - reload postfix
+
+- name: install aliases file
+  copy:
+    src: aliases
+    dest: /etc/aliases
+  notify:
+   - trigger newaliases
+
+- name: install fail2ban jail.local
+  copy:
+    src: fail2ban-jail.local
+    dest: /etc/fail2ban/jail.local
+  notify:
+   - reload fail2ban

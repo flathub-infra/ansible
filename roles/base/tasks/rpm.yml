@@ -1,0 +1,16 @@
+# TODO: Split all deb and rpm intallations into their own roles
+- name: install epel-release
+  yum:
+    name: epel-release
+    state: present
+  when: ansible_distribution == "CentOS"
+
+- name: upgrade all packages
+  yum:
+    name: '*'
+    state: latest
+
+- name: install base packages
+  package:
+    name: "{{ item }}"
+  with_items: "{{ base_packages + base_packages_rpm }}"

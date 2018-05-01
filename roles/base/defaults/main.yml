@@ -1,3 +1,30 @@
 base_admin_group: "{{ (ansible_os_family == 'Debian') | ternary('sudo', 'wheel') }}"
 base_time_service: "{{ (ansible_os_family == 'Debian') | ternary('ntp', 'chrony') }}"
 base_time_service_unit: "{{ (ansible_os_family == 'Debian') | ternary('ntp', 'chronyd') }}"
+base_native: True
+base_packages:
+ - etckeeper
+ - htop
+ - iftop
+ - iotop
+ - lsof
+ - mosh
+ - mtr
+ - net-tools
+ - psmisc
+ - socat
+ - postfix
+ - tzdata
+ - "{{ base_time_service }}"
+base_packages_deb:
+ - host
+ - fail2ban
+ - netcat
+base_packages_rpm:
+ - bind-utils
+ - fail2ban-firewalld
+ - fail2ban-server
+ - fail2ban-systemd
+ - libsemanage-python
+ - policycoreutils-python
+ - nc

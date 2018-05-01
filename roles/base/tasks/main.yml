@@ -1,9 +1,3 @@
-- name: ensure hostname
-  hostname:
-    name: "{{ inventory_hostname }}"
-  tags:
-   - base
-
 - name: create admin users
   user:
     name: "{{ item.username }}"
@@ -30,147 +24,20 @@
     line: '%{{ base_admin_group }} ALL=(ALL) NOPASSWD: ALL'
     validate: '/usr/sbin/visudo -cf %s'
 
-- name: disable ssh password authentication
-  lineinfile: dest=/etc/ssh/sshd_config
-              regexp="^PasswordAuthentication"
-              line="PasswordAuthentication no"
-              state=present
-  notify: reload sshd
-
-# TODO: Split all deb and rpm intallations into their own roles
-- name: install epel-release
-  yum:
-    name: epel-release
-    state: present
-  when: ansible_distribution == "CentOS"
-  tags:
-   - base
-
-- name: add Debian backports
-  apt_repository:
-    repo: "deb http://deb.debian.org/debian {{ ansible_distribution_release }}-backports main"
-    state: present
-  when: ansible_distribution == "Debian"
-  tags:
-   - base
-
-- name: pin flatpak to Debian backports
-  copy:
-    src: apt-preferences-flatpak-backport
-    dest: /etc/apt/preferences.d/flatpak-backport
-  when: ansible_distribution == "Debian"
-  tags:
-   - base
-
-- name: add Ubuntu PPAs
-  apt_repository:
-    repo: "{{ item }}"
-  with_items:
-   - "ppa:alexlarsson/flatpak"
-   - "ppa:git-core/ppa"
-  when: ansible_distribution == "Ubuntu"
-  tags:
-   - base
-
-# TODO: Move these to vars.yml
-- name: install base packages
-  package:
-    name: "{{ item }}"
-  with_items:
-   - etckeeper
-   - htop
-   - iftop
-   - iotop
-   - lsof
-   - mosh
-   - mtr
-   - net-tools
-   - psmisc
-   - socat
-   - postfix
-   - tzdata
-   - "{{ base_time_service }}"
-  tags:
-   - base
-
-- name: install base packages (rpm)
-  package:
-    name: "{{ item }}"
-  with_items:
-   - bind-utils
-   - fail2ban-firewalld
-   - fail2ban-server
-   - fail2ban-systemd
-   - libsemanage-python
-   - policycoreutils-python
-   - nc
-  when: ansible_os_family == "RedHat"
-  tags:
-   - base
-
-- name: install base packages (deb)
-  package:
-    name: "{{ item }}"
-  with_items:
-   - host
-   - fail2ban
-   - netcat
+- name: configure deb system
+  include: deb.yml
   when: ansible_os_family == "Debian"
   tags:
    - base
 
-- name: set timezone to Etc/UTC
-  timezone:
-    name: Etc/UTC
-
-- name: configure etckeeper
-  template:
-    src: etckeeper.conf.j2
-    dest: /etc/etckeeper/etckeeper.conf
+- name: configure rpm system
+  include: rpm.yml
+  when: ansible_os_family == "RedHat"
   tags:
    - base
 
-- name: enable services
-  service:
-    name: "{{ item }}"
-    state: started
-    enabled: yes
-  with_items:
-   - "{{ base_time_service_unit }}"
-   - fail2ban
+- name: configure native flathub.org hosts
+  include: native.yml
+  when: base_native == True
   tags:
    - base
-
-- name: configure postfix
-  template:
-    src: postfix-main.cf.j2
-    dest: /etc/postfix/main.cf
-  when: base_postfix_relayhost is defined
-  notify:
-   - reload postfix
-  tags:
-   - base
-
-- name: install aliases file
-  copy:
-    src: aliases
-    dest: /etc/aliases
-  notify:
-   - trigger newaliases
-  tags:
-   - base
-
-- name: install fail2ban jail.local
-  copy:
-    src: fail2ban-jail.local
-    dest: /etc/fail2ban/jail.local
-  notify:
-   - reload fail2ban
-  tags:
-   - base
-
-# TODO: Add some iptable/fw rules maybe?
-# TODO: Remove host DSA keys, if any(weak)
-# TODO: Regenerate dhparams (maybe overkill though)
-# TODO: Maybe enable unattended upgrades and kernel clenaups on upgrade
-# TODO: Maybe change ssh port?
