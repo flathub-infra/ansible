@@ -141,14 +141,6 @@
   tags:
    - base
 
-- name: disable rsyslog
-  service:
-    name: rsyslog
-    state: stopped
-    enabled: no
-  tags:
-   - base
-
 - name: configure postfix
   template:
     src: postfix-main.cf.j2
