@@ -1,3 +1,0 @@
----
-base_postfix_relayhost: smtp-int.gnome.org
-buildbot_worker_description: ARM-provided Softiron 3000 hosted by RedHat
