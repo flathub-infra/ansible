@@ -21,10 +21,10 @@
 - name: apt update
   apt: update_cache=yes cache_valid_time=3600
 
-- name: apt safe-upgrade
-  apt: upgrade=safe
-
 - name: install base packages
   package:
     name: "{{ item }}"
   with_items: "{{ base_packages + base_packages_deb }}"
+
+- name: apt safe-upgrade
+  apt: upgrade=safe

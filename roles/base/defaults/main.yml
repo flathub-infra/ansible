@@ -17,6 +17,7 @@ base_packages:
  - tzdata
  - "{{ base_time_service }}"
 base_packages_deb:
+ - aptitude
  - host
  - fail2ban
  - netcat
