@@ -1,0 +1,2 @@
+buildbot_worker_description: 'HP Moonshot cartridge provided by Codethink'
+base_native: False
