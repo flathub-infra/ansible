@@ -3,12 +3,16 @@
     repo: "deb http://deb.debian.org/debian {{ ansible_distribution_release }}-backports main"
     state: present
   when: ansible_distribution == "Debian"
+  tags:
+   - base
 
 - name: pin flatpak to Debian backports
   copy:
     src: apt-preferences-flatpak-backport
     dest: /etc/apt/preferences.d/flatpak-backport
   when: ansible_distribution == "Debian"
+  tags:
+   - base
 
 - name: add Ubuntu PPAs
   apt_repository:
@@ -17,14 +21,24 @@
    - "ppa:alexlarsson/flatpak"
    - "ppa:git-core/ppa"
   when: ansible_distribution == "Ubuntu"
+  tags:
+   - base
 
 - name: apt update
   apt: update_cache=yes cache_valid_time=3600
+  tags:
+   - base
+   - update
 
 - name: install base packages
   package:
     name: "{{ item }}"
   with_items: "{{ base_packages + base_packages_deb }}"
+  tags:
+   - base
 
 - name: apt safe-upgrade
   apt: upgrade=safe
+  tags:
+   - base
+   - update

@@ -4,13 +4,20 @@
     name: epel-release
     state: present
   when: ansible_distribution == "CentOS"
+  tags:
+   - base
 
 - name: upgrade all packages
   yum:
     name: '*'
     state: latest
+  tags:
+   - base
+   - update
 
 - name: install base packages
   package:
     name: "{{ item }}"
   with_items: "{{ base_packages + base_packages_rpm }}"
+  tags:
+   - base
