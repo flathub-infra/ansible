@@ -11,23 +11,11 @@
               state=present
   notify: reload sshd
 
-- name: set timezone to Etc/UTC
-  timezone:
-    name: Etc/UTC
-
-- name: configure etckeeper
-  template:
-    src: etckeeper.conf.j2
-    dest: /etc/etckeeper/etckeeper.conf
-
-- name: enable services
+- name: enable fail2ban service
   service:
-    name: "{{ item }}"
+    name: fail2ban
     state: started
     enabled: yes
-  with_items:
-   - "{{ base_time_service_unit }}"
-   - fail2ban
 
 - name: configure postfix
   template:

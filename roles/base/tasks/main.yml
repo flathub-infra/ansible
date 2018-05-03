@@ -24,6 +24,10 @@
     line: '%{{ base_admin_group }} ALL=(ALL) NOPASSWD: ALL'
     validate: '/usr/sbin/visudo -cf %s'
 
+- name: set timezone to UTC
+  timezone:
+    name: UTC
+
 - name: configure deb system
   include: deb.yml
   when: ansible_os_family == "Debian"
@@ -33,6 +37,17 @@
 - name: configure rpm system
   include: rpm.yml
   when: ansible_os_family == "RedHat"
+
+- name: configure etckeeper
+  template:
+    src: etckeeper.conf.j2
+    dest: /etc/etckeeper/etckeeper.conf
+
+- name: enable time service
+  service:
+    name: "{{ base_time_service_unit }}"
+    state: started
+    enabled: yes
   tags:
    - base
 
