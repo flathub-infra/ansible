@@ -32,6 +32,13 @@
   notify:
    - reload nginx
 
+- name: install nginx conf.d/map.conf
+  copy:
+    src: nginx-map.conf
+    dest: /etc/nginx/conf.d/map.conf
+  notify:
+   - reload nginx
+
 - name: install nginx conf.d/cache.conf
   template:
     src: nginx-conf.d-cache.conf.j2
