@@ -60,6 +60,13 @@
   notify:
    - reload nginx
 
+- name: install nginx conf.d/prerender-map.conf
+  copy:
+    src: nginx-conf.d-prerender-map.conf
+    dest: /etc/nginx/conf.d/prerender-map.conf
+  notify:
+   - reload nginx
+
 - name: install nginx conf.d/upstream-api.conf
   template:
     src: nginx-conf.d-upstream-api.conf.j2
