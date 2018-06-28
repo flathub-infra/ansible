@@ -32,6 +32,13 @@
   notify:
    - reload nginx
 
+- name: install nginx conf.d/map.conf
+  copy:
+    src: nginx-conf.d-map.conf
+    dest: /etc/nginx/conf.d/map.conf
+  notify:
+   - reload nginx
+
 - name: install nginx conf.d/cache.conf
   template:
     src: nginx-conf.d-cache.conf.j2
@@ -64,6 +71,13 @@
   template:
     src: nginx-conf.d-upstream-api.conf.j2
     dest: /etc/nginx/conf.d/upstream-api.conf
+  notify:
+   - reload nginx
+
+- name: install nginx conf.d/upstream-prerender.conf
+  template:
+    src: nginx-conf.d-upstream-prerender.conf.j2
+    dest: /etc/nginx/conf.d/upstream-prerender.conf
   notify:
    - reload nginx
 

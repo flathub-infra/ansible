@@ -1,0 +1,6 @@
+upstream prerender {
+    least_conn;
+{% for server in frontend_nginx_prerender_servers %}
+    server {{ server }} fail_timeout=180s;
+{% endfor %}
+}
