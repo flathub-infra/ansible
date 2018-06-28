@@ -34,7 +34,7 @@
 
 - name: install nginx conf.d/map.conf
   copy:
-    src: nginx-map.conf
+    src: nginx-conf.d-map.conf
     dest: /etc/nginx/conf.d/map.conf
   notify:
    - reload nginx
