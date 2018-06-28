@@ -26,12 +26,6 @@
   tags:
    - base
 
-- name: set timezone to UTC
-  timezone:
-    name: UTC
-  tags:
-   - base
-
 - name: configure deb system
   include: deb.yml
   when: ansible_os_family == "Debian"
@@ -39,6 +33,12 @@
 - name: configure rpm system
   include: rpm.yml
   when: ansible_os_family == "RedHat"
+
+- name: set timezone to UTC
+  timezone:
+    name: UTC
+  tags:
+   - base
 
 - name: configure etckeeper
   template:
