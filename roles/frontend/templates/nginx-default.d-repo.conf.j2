@@ -13,4 +13,12 @@ location /repo/summary {
     gzip_types application/octet-stream;
     proxy_cache frontend_cache;
     proxy_pass {{ frontend_nginx_repo_origin }}/summary;
+    proxy_cache_valid any 0;
+}
+
+location /repo/summary.sig {
+    gzip off;
+    proxy_cache frontend_cache;
+    proxy_pass {{ frontend_nginx_repo_origin }}/summary.sig;
+    proxy_cache_valid any 0;
 }
