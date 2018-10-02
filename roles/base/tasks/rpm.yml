@@ -6,6 +6,16 @@
   when: ansible_distribution == "CentOS"
   tags:
    - base
+   - update
+
+- name: add git-maint COPR
+  copy:
+    src: group_git-maint-git-epel-7.repo
+    dest: /etc/yum.repos.d/group_git-maint-git-epel-7.repo
+  when: ansible_distribution == "CentOS"
+  tags:
+   - base
+   - update
 
 - name: upgrade all packages
   yum:
