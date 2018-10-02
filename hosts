@@ -15,9 +15,6 @@ cncf-arm-1.flathub.org
 cncf-arm-2.flathub.org
 cncf-arm-3.flathub.org
 
-[scaleway]
-scaleway-x86-1.flathub.org
-
 [codethink]
 codethink-arm-1.zt.flathub.org
 codethink-arm-2.zt.flathub.org
@@ -34,7 +31,6 @@ cncf-x86-3.flathub.org
 cncf-arm-1.flathub.org
 cncf-arm-2.flathub.org
 cncf-arm-3.flathub.org
-#scaleway-x86-1.flathub.org
 
 [frontend]
 front-hex.flathub.org
