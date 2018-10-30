@@ -1,6 +1,7 @@
 location /repo {
     gzip off;
     proxy_cache frontend_cache;
+    proxy_cache_key {{ frontend_nginx_repo_origin_server }}$uri;
     proxy_pass {{ frontend_nginx_repo_origin }};
 }
 
@@ -11,10 +12,7 @@ location ~ ^/repo/objects/.+\.(sig|sizes2)$ {
 location /repo/summary {
     gzip on;
     gzip_types application/octet-stream;
+    proxy_cache frontend_cache;
+    proxy_cache_key {{ frontend_nginx_repo_origin_server }}$uri;
     proxy_pass {{ frontend_nginx_repo_origin }}/summary;
-}
-
-location /repo/summary.sig {
-    gzip off;
-    proxy_pass {{ frontend_nginx_repo_origin }}/summary.sig;
 }

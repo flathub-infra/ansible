@@ -6,8 +6,10 @@ frontend_nginx_prerender_servers:
  - 45.55.104.129:3000
 frontend_nginx_buildbot_origin: http://master.flathub.org:8010
 frontend_nginx_cache_dir: /var/cache/httpd
+frontend_nginx_cache_purge_from: 127.0.0.1 2a00:1098:0:86:1000:bc:0:0/96 82.8.243.212
 frontend_nginx_cache_size: 260g
-frontend_nginx_repo_origin: http://repo.flathub.org/repo
+frontend_nginx_repo_origin: "{{ frontend_nginx_repo_origin_server }}/repo"
+frontend_nginx_repo_origin_server: http://repo.flathub.org
 frontend_nginx_resolver: 8.8.8.8
 frontend_nginx_ssl_name: "{{ inventory_hostname }}"
 frontend_nginx_webroot_domain: flathub.org
