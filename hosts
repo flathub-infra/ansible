@@ -9,7 +9,6 @@ front-sov.flathub.org
 
 [packet]
 cncf-x86-1.flathub.org
-cncf-x86-2.flathub.org
 cncf-x86-3.flathub.org
 cncf-arm-1.flathub.org
 cncf-arm-2.flathub.org
@@ -26,7 +25,6 @@ pdx-x86-1.zt.flathub.org
 
 [buildbot-worker]
 cncf-x86-1.flathub.org
-cncf-x86-2.flathub.org
 cncf-x86-3.flathub.org
 cncf-arm-1.flathub.org
 cncf-arm-2.flathub.org
