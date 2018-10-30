@@ -1,3 +1,21 @@
+- name: disable nginx* from EPEL
+  yum_repository:
+    name: epel
+    description: Extra Packages for Enterprise Linux 7 - $basearch
+    enabled: yes
+    exclude: nginx*
+    failovermethod: priority
+    gpgcheck: yes
+    gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7
+    metalink: https://mirrors.fedoraproject.org/metalink?repo=epel-7&arch=$basearch
+  when: ansible_distribution == "CentOS"
+
+- name: add bochecha-nginx COPR
+  copy:
+    src: bochecha-nginx-epel-7.repo
+    dest: /etc/yum.repos.d/bochecha-nginx-epel-7.repo
+  when: ansible_distribution == "CentOS"
+
 - name: install nginx
   package:
     name: nginx
