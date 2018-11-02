@@ -4,4 +4,6 @@ base_admin_users:
    realname: Robert McQueen
  - username: alex
    realname: Alex Larsson
+ - username: dan
+   realname: Dan Nicholson
 ansible_become: yes
