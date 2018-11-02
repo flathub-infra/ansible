@@ -6,13 +6,13 @@ master.flathub.org
 repo.flathub.org
 front-hex.flathub.org
 front-sov.flathub.org
+webapps.flathub.org
 
 [packet]
 cncf-x86-1.flathub.org
-cncf-x86-3.flathub.org
+cncf-x86-2.flathub.org
 cncf-arm-1.flathub.org
 cncf-arm-2.flathub.org
-cncf-arm-3.flathub.org
 
 [codethink]
 codethink-arm-1.zt.flathub.org
@@ -25,10 +25,9 @@ pdx-x86-1.zt.flathub.org
 
 [buildbot-worker]
 cncf-x86-1.flathub.org
-cncf-x86-3.flathub.org
+cncf-x86-2.flathub.org
 cncf-arm-1.flathub.org
 cncf-arm-2.flathub.org
-cncf-arm-3.flathub.org
 
 [frontend]
 front-hex.flathub.org
