@@ -6,6 +6,7 @@
   with_items: "{{ base_admin_users }}"
   tags:
    - base
+   - base_admins
 
 # TODO: Get Alex to use a 4k RSA key
 - name: add admin ssh keys
@@ -15,6 +16,7 @@
   with_items: "{{ base_admin_users }}"
   tags:
    - base
+   - base_admins
 
 - name: allow passwordless sudo
   lineinfile:
