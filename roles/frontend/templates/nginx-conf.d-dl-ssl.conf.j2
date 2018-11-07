@@ -44,5 +44,5 @@ server {
     ## verify chain of trust of OCSP response using Root CA and Intermediate certs
     ssl_trusted_certificate /var/lib/certsync/certs/dl.{{ frontend_nginx_webroot_domain }}/chain.pem;
 
-    resolver 93.93.128.2 93.93.130.2;
+    resolver {{ frontend_nginx_resolver }};
 }
