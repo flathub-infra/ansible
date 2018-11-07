@@ -106,6 +106,13 @@
   notify:
    - reload nginx
 
+- name: install nginx conf.d/flatpak-default.conf
+  template:
+    src: nginx-conf.d-flatpak-default.conf.j2
+    dest: /etc/nginx/conf.d/flatpak-default.conf
+  notify:
+   - reload nginx
+
 - name: install nginx default.d/api.conf
   template:
     src: nginx-default.d-api.conf.j2

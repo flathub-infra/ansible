@@ -48,3 +48,14 @@
    - frontend
    - frontend_certsync
    - frontend_nginx
+
+- name: deploy nginx conf.d/flatpak-ssl.conf
+  template:
+    src: nginx-conf.d-flatpak-ssl.conf.j2
+    dest: /etc/nginx/conf.d/flatpak-ssl.conf
+  notify:
+   - reload nginx
+  tags:
+   - frontend
+   - frontend_certsync
+   - frontend_nginx

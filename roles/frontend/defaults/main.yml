@@ -14,3 +14,5 @@ frontend_nginx_resolver: 8.8.8.8
 frontend_nginx_ssl_name: "{{ inventory_hostname }}"
 frontend_nginx_webroot_domain: flathub.org
 frontend_nginx_webroot_origin: https://front.flathub.org
+frontend_nginx_flatpak_domain: flatpak.org
+frontend_nginx_flatpak_origin: https://front.flathub.org
