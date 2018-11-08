@@ -1,0 +1,16 @@
+server {
+    listen 80;
+    listen [::]:80;
+
+    server_name {{ frontend_nginx_flatpak_domain }} www.{{ frontend_nginx_flatpak_domain }};
+
+    location /.well-known/acme-challenge {
+      proxy_pass {{ frontend_nginx_flatpak_origin }}/.well-known/acme-challenge;
+      proxy_hide_header Strict-Transport-Security;
+      proxy_hide_header Vary;
+    }
+
+    location / {
+      return 301 https://$host$request_uri;
+    }
+}

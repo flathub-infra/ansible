@@ -2,25 +2,31 @@ server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
 
-    server_name dl.{{ frontend_nginx_webroot_domain }};
-
-    # Load configuration files for the default server block.
-    include /etc/nginx/default.d/repo.conf;
+    server_name {{ frontend_nginx_flatpak_domain }} www.{{ frontend_nginx_flatpak_domain }};
 
     location /.well-known/acme-challenge {
-      proxy_pass {{ frontend_nginx_webroot_origin }}/.well-known/acme-challenge;
+      proxy_pass {{ frontend_nginx_flatpak_origin }}/.well-known/acme-challenge;
       proxy_hide_header Strict-Transport-Security;
       proxy_hide_header Vary;
     }
 
-    # Everything else to https://{{ frontend_nginx_webroot_domain }} for the time being
     location / {
-      return 302 https://{{ frontend_nginx_webroot_domain }}$request_uri;
+      proxy_cache frontend_cache;
+      proxy_hide_header Strict-Transport-Security;
+      proxy_hide_header Vary;
+      proxy_set_header Host $host;
+      proxy_pass {{ frontend_nginx_flatpak_origin }};
+    }
+
+    # Maintain disabling of gzip for svgz files
+    location ~* \.svgz$ {
+      gzip off;
+      add_header Content-Encoding "gzip";
     }
 
     # certs sent to the client in SERVER HELLO are concatenated in ssl_certificate
-    ssl_certificate /var/lib/certsync/certs/dl.{{ frontend_nginx_webroot_domain }}/fullchain.pem;
-    ssl_certificate_key /var/lib/certsync/certs/dl.{{ frontend_nginx_webroot_domain }}/privkey.pem;
+    ssl_certificate /var/lib/certsync/certs/{{ frontend_nginx_flatpak_domain }}/fullchain.pem;
+    ssl_certificate_key /var/lib/certsync/certs/{{ frontend_nginx_flatpak_domain }}/privkey.pem;
     ssl_session_timeout 1d;
     ssl_session_cache shared:SSL:50m;
     ssl_session_tickets off;
@@ -42,7 +48,7 @@ server {
     ssl_stapling_verify on;
 
     ## verify chain of trust of OCSP response using Root CA and Intermediate certs
-    ssl_trusted_certificate /var/lib/certsync/certs/dl.{{ frontend_nginx_webroot_domain }}/chain.pem;
+    ssl_trusted_certificate /var/lib/certsync/certs/{{ frontend_nginx_flatpak_domain }}/chain.pem;
 
     resolver {{ frontend_nginx_resolver }};
 }
