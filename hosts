@@ -13,6 +13,7 @@ cncf-x86-1.flathub.org
 cncf-x86-2.flathub.org
 cncf-arm-1.flathub.org
 cncf-arm-2.flathub.org
+stats.flathub.org
 
 [codethink]
 codethink-arm-1.zt.flathub.org
@@ -32,3 +33,6 @@ cncf-arm-2.flathub.org
 [frontend]
 front-hex.flathub.org
 front-sov.flathub.org
+
+[stats]
+stats.flathub.org

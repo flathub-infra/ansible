@@ -1,0 +1,16 @@
+policy_module(flathubstats, 1.0)
+
+gen_require(`
+	type http_port_t;
+	type httpd_sys_content_t;
+	type logrotate_t;
+')
+
+# Allow fetching commit objects from https://dl.flathub.org
+corenet_sendrecv_http_client_packets(logrotate_t)
+corenet_tcp_connect_http_port(logrotate_t)
+corenet_tcp_sendrecv_http_port(logrotate_t)
+
+# Allow writing to http content directories
+allow logrotate_t httpd_sys_content_t:dir manage_dir_perms;
+allow logrotate_t httpd_sys_content_t:file manage_file_perms;

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<zone>
+{% for addr in stats_fastly_addresses %}
+  <source address="{{ addr }}"/>
+{% endfor %}
+  <port protocol="tcp" port="514"/>
+</zone>

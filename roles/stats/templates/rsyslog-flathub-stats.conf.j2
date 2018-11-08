@@ -1,0 +1,25 @@
+module(load="imtcp" MaxSessions="500")
+input(type="imtcp" port="514" ruleset="Flathub")
+
+template(name="FlathubMessage" type="list") {
+  property(name="msg")
+  constant(value="\n")
+}
+
+ruleset(name="Flathub") {
+  # Note the leading space before debug because rsyslog maintains the
+  # space in the incoming message to comply with RFC3164. When the
+  # mmrm1stspace module is available, that can be used to strip the
+  # space.
+  if ($msg startswith " debug") then {
+    action(type="omfile" template="FlathubMessage"
+           file="{{ stats_cache_logs_dir }}/debug.log"
+           asyncWriting="on")
+  } else {
+    action(type="omfile" template="FlathubMessage"
+           file="{{ stats_cache_logs_dir }}/access.log"
+           asyncWriting="on")
+  }
+
+  stop
+}

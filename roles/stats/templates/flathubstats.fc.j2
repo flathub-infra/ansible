@@ -1,0 +1,9 @@
+# Streamed syslog files and ref cache file. Both ryslogd and logrotate
+# are allowed to read and write to var_log_t, so that's used.
+{{ stats_cache_dir }}(/.*)? gen_context(system_u:object_r:var_log_t,s0)
+
+# Stats summaries to be served by an http server
+{{ stats_output_dir }}(/.*)? gen_context(system_u:object_r:httpd_sys_content_t,s0)
+
+# Maintain the lost+found type for the persistent stats volume
+{{ stats_volume_mount }}/lost\+found(/.*)? gen_context(system_u:object_r:lost_found_t,s0)
