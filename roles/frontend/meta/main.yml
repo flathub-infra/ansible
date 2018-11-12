@@ -1,2 +1,6 @@
 dependencies:
   - base
+  - role: nginx
+    tags:
+      - frontend
+      - frontend_nginx

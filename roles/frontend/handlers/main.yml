@@ -1,8 +1,2 @@
-- name: reload nginx
-  service:
-    name: nginx
-    enabled: yes
-    state: reloaded
-
 - name: run dehydrated
   command: dehydrated --cron

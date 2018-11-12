@@ -1,26 +1,3 @@
-- name: disable nginx* from EPEL
-  yum_repository:
-    name: epel
-    description: Extra Packages for Enterprise Linux 7 - $basearch
-    enabled: yes
-    exclude: nginx*
-    failovermethod: priority
-    gpgcheck: yes
-    gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7
-    metalink: https://mirrors.fedoraproject.org/metalink?repo=epel-7&arch=$basearch
-  when: ansible_distribution == "CentOS"
-
-- name: add bochecha-nginx COPR
-  copy:
-    src: bochecha-nginx-epel-7.repo
-    dest: /etc/yum.repos.d/bochecha-nginx-epel-7.repo
-  when: ansible_distribution == "CentOS"
-
-- name: install nginx
-  package:
-    name: nginx
-    state: latest
-
 - name: create cache directory
   file:
     path: "{{ frontend_nginx_cache_dir }}"
@@ -33,20 +10,6 @@
   copy:
     src: ffdhe2048.pem
     dest: /etc/nginx/ffdhe2048.pem
-  notify:
-   - reload nginx
-
-- name: install nginx.conf
-  copy:
-    src: nginx.conf
-    dest: /etc/nginx/nginx.conf
-  notify:
-   - reload nginx
-
-- name: install nginx mime.types
-  copy:
-    src: nginx-mime.types
-    dest: /etc/nginx/mime.types
   notify:
    - reload nginx
 
@@ -68,13 +31,6 @@
   template:
     src: nginx-conf.d-dl-default.conf.j2
     dest: /etc/nginx/conf.d/dl-default.conf
-  notify:
-   - reload nginx
-
-- name: install nginx conf.d/gzip.conf
-  copy:
-    src: nginx-conf.d-gzip.conf
-    dest: /etc/nginx/conf.d/gzip.conf
   notify:
    - reload nginx
 
@@ -127,13 +83,6 @@
   notify:
    - reload nginx
 
-- name: install nginx default.d/dehydrated.conf
-  copy:
-    src: nginx-default.d-dehydrated.conf
-    dest: /etc/nginx/default.d/dehydrated.conf
-  notify:
-   - reload nginx
-
 - name: install nginx default.d/repo.conf
   template:
     src: nginx-default.d-repo.conf.j2
@@ -147,19 +96,3 @@
     dest: /etc/nginx/default.d/webroot.conf
   notify:
    - reload nginx
-
-- name: permit http/https services in firewall
-  firewalld:
-    service: "{{ item }}"
-    state: enabled
-    permanent: true
-    immediate: true
-  with_items:
-   - http
-   - https
-
-- name: allow httpd to make network connections
-  seboolean:
-    name: httpd_can_network_connect
-    state: yes
-    persistent: yes
