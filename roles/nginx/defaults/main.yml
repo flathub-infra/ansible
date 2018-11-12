@@ -1,3 +1,6 @@
 ---
 # RFC7919 compliant 2048 bit Diffie-Hellman groups path
 nginx_dhparam_file: /etc/nginx/ffdhe2048.pem
+
+# Allow nginx to make network connections
+nginx_network_connect: no

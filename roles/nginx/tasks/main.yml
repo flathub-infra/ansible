@@ -88,7 +88,7 @@
 - name: allow httpd to make network connections
   seboolean:
     name: httpd_can_network_connect
-    state: yes
+    state: '{{ nginx_network_connect | bool }}'
     persistent: yes
   tags:
     - nginx

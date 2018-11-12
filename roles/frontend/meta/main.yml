@@ -1,6 +1,8 @@
 dependencies:
   - base
   - role: nginx
+    vars:
+      nginx_network_connect: yes
     tags:
       - frontend
       - frontend_nginx
