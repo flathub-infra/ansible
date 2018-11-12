@@ -20,7 +20,7 @@ server {
     ssl_session_tickets off;
 
     # Diffie-Hellman parameter for DHE ciphersuites, recommended 2048 bits
-    ssl_dhparam /etc/nginx/ffdhe2048.pem;
+    ssl_dhparam {{ nginx_dhparam_file }};
 
     # intermediate configuration. tweak to your needs.
     ssl_protocols TLSv1 TLSv1.1 TLSv1.2;

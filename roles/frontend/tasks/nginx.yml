@@ -6,13 +6,6 @@
     group: nginx
     setype: _default
 
-- name: install RFC7919 ffdhe2048 DH groups
-  copy:
-    src: ffdhe2048.pem
-    dest: /etc/nginx/ffdhe2048.pem
-  notify:
-   - reload nginx
-
 - name: install nginx conf.d/cache.conf
   template:
     src: nginx-conf.d-cache.conf.j2

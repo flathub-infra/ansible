@@ -46,6 +46,15 @@
   tags:
     - nginx
 
+- name: install RFC7919 ffdhe2048 DH groups
+  copy:
+    src: ffdhe2048.pem
+    dest: '{{ nginx_dhparam_file }}'
+  notify:
+   - reload nginx
+  tags:
+    - nginx
+
 - name: install nginx conf.d/gzip.conf
   copy:
     src: conf.d/gzip.conf
