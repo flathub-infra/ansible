@@ -73,6 +73,15 @@
   tags:
     - nginx
 
+- name: install nginx default.d/ssl.conf
+  template:
+    src: default.d/ssl.conf.j2
+    dest: /etc/nginx/default.d/ssl.conf
+  notify:
+   - reload nginx
+  tags:
+    - nginx
+
 - name: permit http/https services in firewall
   firewalld:
     service: "{{ item }}"
