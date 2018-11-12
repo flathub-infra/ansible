@@ -163,6 +163,3 @@
     name: httpd_can_network_connect
     state: yes
     persistent: yes
-
-- name: ensure nginx is running with latest config
-  meta: flush_handlers
