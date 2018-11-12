@@ -143,3 +143,14 @@
   tags:
     - stats
     - stats_firewalld
+
+- name: install nginx conf.d/flathub-stats.conf
+  template:
+    src: nginx-conf.d-flathub-stats.conf.j2
+    dest: /etc/nginx/conf.d/flathub-stats.conf
+    mode: 0644
+  notify:
+   - reload nginx
+  tags:
+    - stats
+    - stats_nginx

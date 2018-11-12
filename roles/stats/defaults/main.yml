@@ -1,4 +1,7 @@
 ---
+# External domain name
+stats_domain: '{{ inventory_hostname }}'
+
 # flathub-stats checkout directory
 stats_checkout_dir: /opt/flathub-stats
 
