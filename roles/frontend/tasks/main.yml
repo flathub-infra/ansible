@@ -4,12 +4,6 @@
    - frontend
    - frontend_nginx
 
-- name: ensure nginx is running with latest config
-  meta: flush_handlers
-  tags:
-   - frontend
-   - frontend_nginx
-
 - name: set up certsync from front
   include: certsync.yml
   tags:
@@ -21,6 +15,13 @@
   tags:
    - frontend
    - frontend_dehydrated
+
+- name: ensure nginx is running and run dehydrated
+  meta: flush_handlers
+  tags:
+   - frontend
+   - frontend_dehydrated
+   - frontend_nginx
 
 - name: deploy nginx conf.d/ssl.conf
   template:

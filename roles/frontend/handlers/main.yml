@@ -3,3 +3,6 @@
     name: nginx
     enabled: yes
     state: reloaded
+
+- name: run dehydrated
+  command: dehydrated --cron

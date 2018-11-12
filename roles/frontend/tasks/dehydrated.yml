@@ -18,6 +18,5 @@
   template:
     src: dehydrated-domains.txt.j2
     dest: /etc/dehydrated/domains.txt
-
-- name: update/issue certificates
-  command: dehydrated --cron
+  notify:
+    - run dehydrated
