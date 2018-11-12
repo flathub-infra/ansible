@@ -35,6 +35,4 @@ server {
 
     ## verify chain of trust of OCSP response using Root CA and Intermediate certs
     ssl_trusted_certificate /etc/dehydrated/certs/{{ frontend_nginx_ssl_name }}/chain.pem;
-
-    resolver {{ frontend_nginx_resolver }};
 }
