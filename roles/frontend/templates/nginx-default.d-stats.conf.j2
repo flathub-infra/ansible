@@ -1,0 +1,5 @@
+location /stats {
+    proxy_cache frontend_cache;
+    proxy_cache_key {{ frontend_nginx_stats_origin }}$uri;
+    proxy_pass {{ frontend_nginx_stats_origin }};
+}

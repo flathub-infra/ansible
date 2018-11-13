@@ -83,6 +83,13 @@
   notify:
    - reload nginx
 
+- name: install nginx default.d/stats.conf
+  template:
+    src: nginx-default.d-stats.conf.j2
+    dest: /etc/nginx/default.d/stats.conf
+  notify:
+   - reload nginx
+
 - name: install nginx default.d/webroot.conf
   template:
     src: nginx-default.d-webroot.conf.j2
