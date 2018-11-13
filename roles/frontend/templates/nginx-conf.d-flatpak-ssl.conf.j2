@@ -18,12 +18,6 @@ server {
       proxy_pass {{ frontend_nginx_flatpak_origin }};
     }
 
-    # Maintain disabling of gzip for svgz files
-    location ~* \.svgz$ {
-      gzip off;
-      add_header Content-Encoding "gzip";
-    }
-
     # certs sent to the client in SERVER HELLO are concatenated in ssl_certificate
     ssl_certificate /var/lib/certsync/certs/{{ frontend_nginx_flatpak_domain }}/fullchain.pem;
     ssl_certificate_key /var/lib/certsync/certs/{{ frontend_nginx_flatpak_domain }}/privkey.pem;
