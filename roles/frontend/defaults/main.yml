@@ -13,6 +13,6 @@ frontend_nginx_repo_origin_server: http://repo.flathub.org
 frontend_nginx_resolver: 8.8.8.8
 frontend_nginx_ssl_name: "{{ inventory_hostname }}"
 frontend_nginx_webroot_domain: flathub.org
-frontend_nginx_webroot_origin: https://front.flathub.org
+frontend_nginx_webroot_origin: front.flathub.org
 frontend_nginx_flatpak_domain: flatpak.org
-frontend_nginx_flatpak_origin: https://flatpak.webapps.flathub.org
+frontend_nginx_flatpak_origin: flatpak.webapps.flathub.org

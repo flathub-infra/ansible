@@ -4,18 +4,12 @@ server {
 
     server_name {{ frontend_nginx_flatpak_domain }} www.{{ frontend_nginx_flatpak_domain }};
 
-    location /.well-known/acme-challenge {
-      proxy_pass {{ frontend_nginx_flatpak_origin }}/.well-known/acme-challenge;
-      proxy_hide_header Strict-Transport-Security;
-      proxy_hide_header Vary;
-    }
-
     location / {
       proxy_cache frontend_cache;
       proxy_hide_header Strict-Transport-Security;
       proxy_hide_header Vary;
       proxy_set_header Host $host;
-      proxy_pass {{ frontend_nginx_flatpak_origin }};
+      proxy_pass https://{{ frontend_nginx_flatpak_origin }};
     }
 
     # certs sent to the client in SERVER HELLO are concatenated in ssl_certificate

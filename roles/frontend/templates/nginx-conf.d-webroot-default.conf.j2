@@ -4,7 +4,7 @@ server {
     server_name  {{ frontend_nginx_webroot_domain }} www.{{ frontend_nginx_webroot_domain }};
 
     location /.well-known/acme-challenge {
-      proxy_pass {{ frontend_nginx_webroot_origin }}/.well-known/acme-challenge;
+      proxy_pass http://{{ frontend_nginx_webroot_origin }}/.well-known/acme-challenge;
       proxy_hide_header Strict-Transport-Security;
       proxy_hide_header Vary;
     }
