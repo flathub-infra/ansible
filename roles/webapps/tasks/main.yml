@@ -1,0 +1,8 @@
+---
+- name: create webapps root directory
+  file:
+    path: '{{ webapps_root_dir }}'
+    state: directory
+    setype: _default
+  tags:
+    - webapps

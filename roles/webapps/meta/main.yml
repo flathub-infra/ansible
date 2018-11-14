@@ -1,0 +1,12 @@
+dependencies:
+  - base
+  - role: nginx
+    tags:
+      - webapps
+      - webapps_nginx
+  - role: dehydrated
+    vars:
+      dehydrated_domains: '{{ webapps_dehydrated_domains }}'
+    tags:
+      - webapps
+      - webapps_dehydrated

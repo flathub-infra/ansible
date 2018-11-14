@@ -1,0 +1,7 @@
+---
+# Root for all webapps. /srv/www used since the default context is
+# already httpd_sys_content_t.
+webapps_root_dir: /srv/www
+
+# LE certificate domains
+webapps_dehydrated_domains: []

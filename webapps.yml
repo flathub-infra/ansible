@@ -1,0 +1,5 @@
+---
+- name: set up web application backends
+  hosts: webapps
+  roles:
+  - webapps
