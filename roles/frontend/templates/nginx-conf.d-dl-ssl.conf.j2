@@ -7,12 +7,6 @@ server {
     # Load configuration files for the default server block.
     include /etc/nginx/default.d/repo.conf;
 
-    location /.well-known/acme-challenge {
-      proxy_pass {{ frontend_nginx_webroot_origin }}/.well-known/acme-challenge;
-      proxy_hide_header Strict-Transport-Security;
-      proxy_hide_header Vary;
-    }
-
     # Everything else to https://{{ frontend_nginx_webroot_domain }} for the time being
     location / {
       return 302 https://{{ frontend_nginx_webroot_domain }}$request_uri;

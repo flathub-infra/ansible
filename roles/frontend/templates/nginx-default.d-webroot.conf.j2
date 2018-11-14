@@ -18,6 +18,6 @@ location / {
         proxy_pass http://prerender;
     }
     if ($prerender = 0) {
-        proxy_pass {{ frontend_nginx_webroot_origin }};
+        proxy_pass https://{{ frontend_nginx_webroot_origin }};
     }
 }

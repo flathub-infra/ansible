@@ -10,12 +10,6 @@ server {
     include /etc/nginx/default.d/repo.conf;
     include /etc/nginx/default.d/webroot.conf;
 
-    location /.well-known/acme-challenge {
-      proxy_pass {{ frontend_nginx_webroot_origin }}/.well-known/acme-challenge;
-      proxy_hide_header Strict-Transport-Security;
-      proxy_hide_header Vary;
-    }
-
     # certs sent to the client in SERVER HELLO are concatenated in ssl_certificate
     ssl_certificate /var/lib/certsync/certs/{{ frontend_nginx_webroot_domain }}/fullchain.pem;
     ssl_certificate_key /var/lib/certsync/certs/{{ frontend_nginx_webroot_domain }}/privkey.pem;
