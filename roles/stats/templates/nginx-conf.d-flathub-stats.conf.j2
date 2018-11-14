@@ -1,0 +1,14 @@
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    server_name {{ stats_domain }};
+
+    # Accept Let's Encrypt challenges for dehydrated
+    include /etc/nginx/default.d/dehydrated.conf;
+
+    # Otherwise, redirect to https://
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}

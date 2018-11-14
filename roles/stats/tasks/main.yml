@@ -1,0 +1,174 @@
+---
+# Packet has SELinux disabled by default, but we want it
+- name: enable SELinux
+  selinux:
+    policy: targeted
+    state: enforcing
+  tags:
+    - stats
+    - stats_selinux
+
+# External persistent volume for stats
+- name: mount stats persistent volume
+  mount:
+    path: '{{ stats_volume_mount }}'
+    src: 'LABEL={{ stats_volume_label }}'
+    fstype: auto
+    state: mounted
+  tags:
+    - stats
+    - stats_volume
+
+- name: install packages
+  package:
+    name:
+      - firewalld
+      - git
+      - logrotate
+      - rsyslog
+      - selinux-policy-devel
+    state: latest
+  tags:
+    - stats
+    - stats_packages
+
+- name: copy flathubstats.te file
+  copy:
+    src: flathubstats.te
+    dest: /etc/selinux/targeted/modules/flathubstats.te
+    mode: 0644
+  register: flathubstats_te
+  tags:
+    - stats
+    - stats_selinux
+
+- name: copy flathubstats.fc file
+  template:
+    src: flathubstats.fc.j2
+    dest: /etc/selinux/targeted/modules/flathubstats.fc
+    mode: 0644
+  register: flathubstats_fc
+  tags:
+    - stats
+    - stats_selinux
+
+- name: check for flathubstats.pp file
+  stat:
+    path: /etc/selinux/targeted/modules/flathubstats.pp
+  register: flathubstats_pp_check
+  tags:
+    - stats
+    - stats_selinux
+
+- name: compile flathubstats selinux module
+  command: make -f /usr/share/selinux/devel/Makefile -C /etc/selinux/targeted/modules flathubstats.pp
+  register: flathubstats_pp
+  when: (flathubstats_te is changed) or (flathubstats_fc is changed) or (not flathubstats_pp_check.stat.exists)
+  tags:
+    - stats
+    - stats_selinux
+
+- name: install flathubstats selinux module
+  command: semodule -i /etc/selinux/targeted/modules/flathubstats.pp
+  when: flathubstats_pp is changed
+  tags:
+    - stats
+    - stats_selinux
+
+- name: checkout flathub-stats git repo
+  git:
+    repo: 'https://github.com/flathub/flathub-stats.git'
+    dest: '{{ stats_checkout_dir }}'
+  tags:
+    - stats
+    - stats_git_checkout
+
+- name: create stats cache directory
+  file:
+    path: '{{ stats_cache_dir }}'
+    state: directory
+    seuser: _default
+    serole: _default
+    setype: _default
+  tags:
+    - stats
+
+- name: create stats cache logs directory
+  file:
+    path: '{{ stats_cache_logs_dir }}'
+    state: directory
+    seuser: _default
+    serole: _default
+    setype: _default
+  tags:
+    - stats
+
+- name: create stats output directory
+  file:
+    path: '{{ stats_output_dir }}'
+    state: directory
+    seuser: _default
+    serole: _default
+    setype: _default
+  tags:
+    - stats
+
+- name: install flathub-stats rsyslog configuration
+  template:
+    src: rsyslog-flathub-stats.conf.j2
+    dest: /etc/rsyslog.d/flathub-stats.conf
+    mode: 0644
+  notify:
+    - restart rsyslog
+  tags:
+    - stats
+    - stats_rsyslog
+
+- name: install flathub-stats logrotate configuration
+  template:
+    src: logrotate-flathub-stats.j2
+    dest: /etc/logrotate.d/flathub-stats
+    mode: 0644
+  tags:
+    - stats
+    - stats_logrotate
+
+- name: install firewalld zone for fastly log streaming
+  template:
+    src: firewalld-zone-fastly.xml.j2
+    dest: /etc/firewalld/zones/fastly.xml
+    mode: 0644
+  notify:
+    - reload firewalld
+  tags:
+    - stats
+    - stats_firewalld
+
+- name: install nginx conf.d/flathub-stats.conf
+  template:
+    src: nginx-conf.d-flathub-stats.conf.j2
+    dest: /etc/nginx/conf.d/flathub-stats.conf
+    mode: 0644
+  notify:
+   - reload nginx
+  tags:
+    - stats
+    - stats_nginx
+
+- name: ensure nginx is running and dehydrated run to obtain certs
+  meta: flush_handlers
+  tags:
+    - stats
+    - stats_dehydrated
+    - stats_nginx
+
+- name: install nginx conf.d/flathub-stats-ssl.conf
+  template:
+    src: nginx-conf.d-flathub-stats-ssl.conf.j2
+    dest: /etc/nginx/conf.d/flathub-stats-ssl.conf
+    mode: 0644
+  notify:
+   - reload nginx
+  tags:
+    - stats
+    - stats_nginx

@@ -1,0 +1,10 @@
+---
+# RFC7919 compliant 2048 bit Diffie-Hellman groups path
+nginx_dhparam_file: /etc/nginx/ffdhe2048.pem
+
+# Allow nginx to make network connections
+nginx_network_connect: no
+
+# DNS resolver for upstream and OCSP responder servers. By default the
+# host's nameservers are used.
+nginx_resolvers: '{{ ansible_dns.nameservers }}'

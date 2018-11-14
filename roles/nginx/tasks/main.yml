@@ -1,0 +1,103 @@
+---
+- name: disable nginx* from EPEL
+  yum_repository:
+    name: epel
+    description: Extra Packages for Enterprise Linux 7 - $basearch
+    enabled: yes
+    exclude: nginx*
+    failovermethod: priority
+    gpgcheck: yes
+    gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7
+    metalink: https://mirrors.fedoraproject.org/metalink?repo=epel-7&arch=$basearch
+  when: ansible_distribution == "CentOS"
+  tags:
+    - nginx
+
+- name: add bochecha-nginx COPR
+  copy:
+    src: bochecha-nginx-epel-7.repo
+    dest: /etc/yum.repos.d/bochecha-nginx-epel-7.repo
+  when: ansible_distribution == "CentOS"
+  tags:
+    - nginx
+
+- name: install nginx
+  package:
+    name: nginx
+    state: latest
+  tags:
+    - nginx
+
+- name: install nginx.conf
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+  notify:
+   - reload nginx
+  tags:
+    - nginx
+
+- name: install nginx mime.types
+  copy:
+    src: mime.types
+    dest: /etc/nginx/mime.types
+  notify:
+   - reload nginx
+  tags:
+    - nginx
+
+- name: install RFC7919 ffdhe2048 DH groups
+  copy:
+    src: ffdhe2048.pem
+    dest: '{{ nginx_dhparam_file }}'
+  notify:
+   - reload nginx
+  tags:
+    - nginx
+
+- name: install nginx conf.d/gzip.conf
+  copy:
+    src: conf.d/gzip.conf
+    dest: /etc/nginx/conf.d/gzip.conf
+  notify:
+   - reload nginx
+  tags:
+    - nginx
+
+- name: install nginx default.d/dehydrated.conf
+  copy:
+    src: default.d/dehydrated.conf
+    dest: /etc/nginx/default.d/dehydrated.conf
+  notify:
+   - reload nginx
+  tags:
+    - nginx
+
+- name: install nginx default.d/ssl.conf
+  template:
+    src: default.d/ssl.conf.j2
+    dest: /etc/nginx/default.d/ssl.conf
+  notify:
+   - reload nginx
+  tags:
+    - nginx
+
+- name: permit http/https services in firewall
+  firewalld:
+    service: "{{ item }}"
+    state: enabled
+    permanent: true
+    immediate: true
+  with_items:
+   - http
+   - https
+  tags:
+    - nginx
+
+- name: allow httpd to make network connections
+  seboolean:
+    name: httpd_can_network_connect
+    state: '{{ nginx_network_connect | bool }}'
+    persistent: yes
+  tags:
+    - nginx

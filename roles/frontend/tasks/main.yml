@@ -10,11 +10,12 @@
    - frontend
    - frontend_certsync
 
-- name: configure dehydrated
-  include: dehydrated.yml
+- name: ensure nginx is running and run dehydrated
+  meta: flush_handlers
   tags:
    - frontend
    - frontend_dehydrated
+   - frontend_nginx
 
 - name: deploy nginx conf.d/ssl.conf
   template:

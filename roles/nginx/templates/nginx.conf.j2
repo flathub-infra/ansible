@@ -30,6 +30,9 @@ http {
     include             /etc/nginx/mime.types;
     default_type        application/octet-stream;
 
+    # DNS resolvers for upstream and OCSP responder servers
+    resolver {{ nginx_resolvers | ipwrap | join(' ') }};
+
     # Load modular configuration files from the /etc/nginx/conf.d directory.
     # See http://nginx.org/en/docs/ngx_core_module.html#include
     # for more information.

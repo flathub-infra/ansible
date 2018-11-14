@@ -1,2 +1,14 @@
 dependencies:
   - base
+  - role: nginx
+    vars:
+      nginx_network_connect: yes
+    tags:
+      - frontend
+      - frontend_nginx
+  - role: dehydrated
+    vars:
+      dehydrated_domains: '{{ frontend_dehydrated_domains }}'
+    tags:
+      - frontend
+      - frontend_dehydrated

@@ -1,0 +1,24 @@
+{{ stats_cache_logs_dir }}/access.log
+{{ stats_cache_logs_dir }}/debug.log {
+    daily
+    nodateext
+    rotate 14
+    compress
+    missingok
+    sharedscripts
+    postrotate
+        killall -HUP rsyslogd
+        {{ stats_checkout_dir }}/update-stats.py \
+            --dest {{ stats_output_dir }} \
+            --ref-cache {{ stats_cache_dir }}/ref-cache.json \
+            {{ stats_cache_logs_dir }}/access.log.1 \
+            >> /var/log/flathub-stats.log 2>&1
+    endscript
+}
+
+/var/log/flathub-stats.log {
+    missingok
+    notifempty
+    size 1M
+    rotate 5
+}

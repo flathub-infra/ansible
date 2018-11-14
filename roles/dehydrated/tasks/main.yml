@@ -2,22 +2,29 @@
   package:
     name: dehydrated
     state: latest
+  tags:
+    - dehydrated
 
 - name: create challenge directory
   file:
     path: /var/www/dehydrated
     state: directory
     setype: _default
+  tags:
+    - dehydrated
 
 - name: create LE account
   command: dehydrated --register --accept-terms
   args:
     creates: /etc/dehydrated/accounts/*/registration_info.json
+  tags:
+    - dehydrated
 
 - name: configure domains
   template:
     src: dehydrated-domains.txt.j2
     dest: /etc/dehydrated/domains.txt
-
-- name: update/issue certificates
-  command: dehydrated --cron
+  notify:
+    - run dehydrated
+  tags:
+    - dehydrated
