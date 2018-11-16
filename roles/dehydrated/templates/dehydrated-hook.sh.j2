@@ -67,6 +67,19 @@ deploy_cert() {
     if systemctl -q is-active nginx.service; then
         systemctl reload nginx.service
     fi
+
+    # Sync certificates to remote hosts
+    local SYNC_DOMAINS SYNC_HOSTS sync_domain sync_host
+    SYNC_DOMAINS="{{ dehydrated_sync_domains | join(' ') }}"
+    SYNC_HOSTS="{{ dehydrated_sync_hosts | join(' ') }}"
+    for sync_domain in ${SYNC_DOMAINS}; do
+        [ "${DOMAIN}" = "${sync_domain}" ] || continue
+        for sync_host in ${SYNC_HOSTS}; do
+            echo "Syncing ${DOMAIN} to ${sync_host}..."
+            rsync -a "/etc/dehydrated/certs/${DOMAIN}" "certsync@${sync_host}:/var/lib/certsync/certs"
+            ssh "certsync@${sync_host}" sudo systemctl reload nginx
+        done
+    done
 }
 
 deploy_ocsp() {

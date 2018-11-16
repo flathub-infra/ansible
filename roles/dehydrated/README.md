@@ -12,3 +12,9 @@ its handlers run before `dehydrated --cron`.
 
 * `dehydrated_domains` - A list of domains to acquire certificates for.
   Each entry will be a line in `/etc/dehydrated/domains.txt`.
+
+* `dehydrated_sync_domains` - A list of primary domain names whose
+  certificates should be synced to a remote host.
+
+* `dehydrated_sync_hosts` - A list of hostnames to sync certificates to.
+  The certificates will be sent via `rsync` as the `certsync` user.
