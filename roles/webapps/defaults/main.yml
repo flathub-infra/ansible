@@ -4,4 +4,14 @@
 webapps_root_dir: /srv/www
 
 # LE certificate domains
-webapps_dehydrated_domains: []
+webapps_dehydrated_domains:
+  - '{{ webapps_flatpak_domains | join(" ") }}'
+
+# flatpak.org
+webapps_flatpak_repo: 'https://github.com/flatpak/flatpak.github.io.git'
+webapps_flatpak_branch: master
+webapps_flatpak_checkout: '{{ webapps_root_dir }}/flatpak.org'
+webapps_flatpak_domains:
+  - flatpak.org
+  - www.flatpak.org
+  - flatpak.webapps.flathub.org
