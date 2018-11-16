@@ -62,6 +62,11 @@ deploy_cert() {
     # Simple example: Copy file to nginx config
     # cp "${KEYFILE}" "${FULLCHAINFILE}" /etc/nginx/ssl/; chown -R nginx: /etc/nginx/ssl
     # systemctl reload nginx
+
+    # Reload nginx when active
+    if systemctl -q is-active nginx.service; then
+        systemctl reload nginx.service
+    fi
 }
 
 deploy_ocsp() {

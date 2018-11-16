@@ -36,3 +36,13 @@
     - run dehydrated
   tags:
     - dehydrated
+
+- name: install hook script
+  template:
+    src: dehydrated-hook.sh.j2
+    dest: /etc/dehydrated/hook.sh
+    mode: 0750
+  notify:
+    - run dehydrated
+  tags:
+    - dehydrated
