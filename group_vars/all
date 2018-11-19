@@ -6,4 +6,7 @@ base_admin_users:
    realname: Alex Larsson
  - username: dan
    realname: Dan Nicholson
+ - username: bpiotrowski
+   realname: Bartłomiej Piotrowski
+
 ansible_become: yes
