@@ -27,7 +27,6 @@
 
 - name: install base packages
   package:
-    name: "{{ item }}"
-  with_items: "{{ base_packages + base_packages_rpm }}"
+    name: "{{ base_packages + base_packages_rpm }}"
   tags:
    - base

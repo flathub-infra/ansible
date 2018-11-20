@@ -32,8 +32,7 @@
 
 - name: install base packages
   package:
-    name: "{{ item }}"
-  with_items: "{{ base_packages + base_packages_deb }}"
+    name: "{{ base_packages + base_packages_deb }}"
   tags:
    - base
 
