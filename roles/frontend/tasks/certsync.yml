@@ -4,10 +4,11 @@
     system: yes
     home: /var/lib/certsync
 
-- name: add ssh key from front
+- name: add ssh keys for syncing
   authorized_key:
     user: certsync
-    key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC83vrrYvIJMFEBYFAiJyeyNRlr31HV0Nkmwg9UXtHzK0Hz6KmBH+jBX65r4Vqb7aeKBiT6lcIcz7LMXrae1xhDybgVE5UJW+ItST4ge90yP2ZQ2TRlhInqr9N//Qapa7Tdy+oShRR6RjOH1TNpk6MezNR5QUFzcqhUBQ5zmaWbvbpenaaar86HKVEoC382QUhPmBYBTyqFLWBFRWaRV3h9vERUZg6cy6rY2IvYpGPJy967ycA6Vt8MqJ8n2uKf6r2lHg14syYvZXI7O0rlQ0b7zJ0vm4JkK1Xjymd/edmsJd3C0KykLaEMNTLPH3BVS0550/+h5vjhA0mMGoex5BYqU6oQMX6kisUYyBDVi6Qb9aw7crmrFTkJAjsdkt9KL14JzWLanlSZe6bpBwwM92kxYnoj/XtR2IQu01prPJYdOmLBWCgpHFtrgo/tnCnbvdwJ8i/oxPZHdxRgIm9LiBk50F18wiGPEGBhTlRmitaGf4clH3IXGjACo90XC4G1MNrKHZ9XzfEoecO5sX5qtM9OpXlU1vzm0LbGmjZ2He75vn3KDW9GZFBOvCu1XG27OMe6IJTj23iXusyIIDC5AAvSMPz8td8bl+jshGNC6ERyXMzE9gOQGz3IwIR6f68AEztOTFwnErTpWmOX+fcm1qgJIm2IqEIqLBQAFEWBm2X6PQ== root@front.flathub.org
+    key: "{{ lookup('file', 'ssh/{{ item }}.pub') }}"
+  with_items: "{{ frontend_certsync_ssh_users }}"
 
 - name: set selinux context on certs dir
   sefcontext:
