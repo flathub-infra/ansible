@@ -1,0 +1,20 @@
+[Unit]
+Description=repo-manager
+After=postgresql.service
+
+[Service]
+User={{ repo_manager_user }}
+Group={{ repo_manager_user }}
+WorkingDirectory={{ repo_manager_home }}
+ExecStart={{ repo_manager_home }}/bin/repo-manager
+
+Environment=DATABASE_URL=postgres://%2Fvar%2Frun%2Fpostgresql/{{ repo_manager_db }}
+Environment=REPO_PATH={{ repo_manager_repodir }}
+Environment=BUILD_REPO_BASE_PATH={{ repo_manager_buildrepodir }}
+Environment=COLLECTION_ID={{ repo_manager_collection_id }}
+Environment=BASE_URL={{ repo_manager_base_url }}
+Environment=GPG_HOMEDIR={{ repo_manager_gpghome }}
+Environment=BIND_TO=0.0.0.0:{{ repo_manager_port }}
+
+[Install]
+WantedBy=multi-user.target

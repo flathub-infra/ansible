@@ -1,0 +1,12 @@
+---
+repo_manager_db: "repomgr"
+repo_manager_user: "repomgr"
+repo_manager_home: "/srv/repomgr"
+repo_manager_gpghome: "{{ repo_manager_home }}/gpg"
+repo_manager_repodir: "{{ repo_manager_home }}/repo"
+repo_manager_buildrepodir: "{{ repo_manager_home }}/build-repo"
+repo_manager_collection_id: "org.flathub.Test"
+repo_manager_base_url: "http://repo-test.flathub.org:8080"
+repo_manager_version: "0.0.1"
+repo_manager_checksum: sha256:5d81fa5f1283680b088486dc3d0deec81a78c051901f0723d4cf646457e892ef
+repo_manager_port: "8080"
