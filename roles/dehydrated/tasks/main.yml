@@ -40,6 +40,14 @@
   tags:
     - dehydrated
 
+- name: add SSH known hosts for certificate syncing
+  include: ssh_known_hosts.yml
+  with_items: '{{ dehydrated_sync_hosts }}'
+  loop_control:
+    loop_var: dehydrated_sync_host
+  tags:
+    - dehydrated
+
 - name: configure domains
   template:
     src: dehydrated-domains.txt.j2
