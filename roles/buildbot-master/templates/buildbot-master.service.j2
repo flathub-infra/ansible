@@ -1,0 +1,13 @@
+[Unit]
+Description=BuildBot master
+After=network.target
+
+[Service]
+User={{ buildbot_master_user }}
+Group={{ buildbot_master_user }}
+WorkingDirectory={{ buildbot_master_dir }}
+ExecStart={{ buildbot_master_sandbox }}/bin/buildbot start --nodaemon
+LimitNOFILE=16384
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,20 @@
+---
+buildbot_master_user: "buildbot-master"
+buildbot_master_home: "/srv/buildbot-master"
+buildbot_master_db: "buildbot"
+# This is run on the worker, so the path is relative to the buildbot-worker dir:
+buildbot_master_sources: "/srv/buildbot/sources"
+buildbot_master_dir: "{{ buildbot_master_home }}/master"
+buildbot_master_sandbox: "{{ buildbot_master_home }}/sandbox"
+buildbot_master_version: flathub1
+buildbot_master_uri: http://repo-test.flathub.org:8010/
+buildbot_master_repo_manager_uri: http://repo-test.flathub.org:8080
+
+# These are in the host_vars...
+buildbot_master_token:
+github_api_token:
+github_auth_client:
+github_auth_secret:
+github_change_secret:
+gitlab_change_secret:
+buildbot_master_worker_password:

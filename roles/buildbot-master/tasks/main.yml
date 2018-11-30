@@ -1,0 +1,131 @@
+---
+- name: install packages
+  package:
+    name:
+      - postgresql-devel
+      - python34-pip
+      - python34-virtualenv
+      - git
+      - gcc # Needed for installing twisted
+    state: latest
+  tags:
+    - buildbot-master
+    - buildbot-master_packages
+
+- name: create buildbot-master user
+  user:
+    name: "{{ buildbot_master_user }}"
+    home: "{{ buildbot_master_home }}"
+    system: yes
+  tags:
+   - buildbot-master
+
+- name: Add postgres user
+  postgresql_user: name="{{ buildbot_master_user }}"
+  become_user: postgres
+  tags:
+   - buildbot-master
+
+- name: Create the database
+  postgresql_db:
+    name: "{{ buildbot_master_db }}"
+    owner: "{{ buildbot_master_user }}"
+  become_user: postgres
+  tags:
+   - buildbot-master
+
+- name: install pip and buildbot-master in virtualenv
+  pip:
+    name: "{{ item }}"
+    state: present
+    virtualenv: "{{ buildbot_master_sandbox }}"
+    virtualenv_command: virtualenv-3
+    virtualenv_python: python3
+  with_items:
+   - pip
+   - mock
+   - requests
+   - txrequests
+   - psycopg2
+   - https://github.com/alexlarsson/buildbot/releases/download/v1.6.0.{{ buildbot_master_version }}/buildbot_pkg-1.6.0+{{ buildbot_master_version }}-py3-none-any.whl
+   - https://github.com/alexlarsson/buildbot/releases/download/v1.6.0.{{ buildbot_master_version }}/buildbot_worker-1.6.0+{{ buildbot_master_version }}-py2.py3-none-any.whl
+   - https://github.com/alexlarsson/buildbot/releases/download/v1.6.0.{{ buildbot_master_version }}/buildbot-1.6.0+{{ buildbot_master_version }}-py2.py3-none-any.whl
+   - https://github.com/alexlarsson/buildbot/releases/download/v1.6.0.{{ buildbot_master_version }}/buildbot_www-1.6.0+{{ buildbot_master_version }}-py2.py3-none-any.whl
+  become_user: "{{ buildbot_master_user }}"
+  tags:
+   - buildbot-master
+
+- name: Check out buildbot-config (use-repo-manager branch)
+  git:
+    repo: https://github.com/alexlarsson/buildbot-config.git
+    version: use-repo-manager
+    dest: "{{ buildbot_master_dir }}"
+  become_user: "{{ buildbot_master_user }}"
+  tags:
+   - buildbot-master
+
+- name: Install flathub.gpg
+  get_url:
+    url: https://dl.flathub.org/repo/flathub.gpg
+    dest: "{{ buildbot_master_dir }}/flathub.gpg"
+    owner: "{{ buildbot_master_user }}"
+    group: "{{ buildbot_master_user }}"
+
+- name: Update buildbot config.json
+  template:
+    src: config.json.j2
+    dest: "{{ buildbot_master_dir }}/config.json"
+    owner: "{{ buildbot_master_user }}"
+    group: "{{ buildbot_master_user }}"
+  notify:
+   - restart buildbot-master
+  tags:
+   - buildbot-master
+
+- name: Update buildbot builders.json
+  template:
+    src: builders.json.j2
+    dest: "{{ buildbot_master_dir }}/builders.json"
+    owner: "{{ buildbot_master_user }}"
+    group: "{{ buildbot_master_user }}"
+  notify:
+   - restart buildbot-master
+  tags:
+   - buildbot-master
+
+- name: create buildbot-master
+  command: '{{ buildbot_master_sandbox }}/bin/buildbot create-master --db=postgresql:///{{ buildbot_master_db }} {{ buildbot_master_dir }}'
+  args:
+    creates: "{{ buildbot_master_dir }}/buildbot.tac"
+  become: yes
+  become_user: "{{ buildbot_master_user }}"
+  tags:
+   - buildbot-master
+
+#- name: Upgrade master
+#  shell: '{{ buildbot_master_sandbox }}/bin/buildbot upgrade-master {{ buildbot_master_dir }} && touch {{ buildbot_master_dir }}/inited-db'
+#  args:
+#    creates: "{{ buildbot_master_dir }}/inited-db"
+#  become: yes
+#  become_user: '{{ buildbot_master_user }}'
+#  notify:
+#    - restart buildbot master
+
+- name: add systemd unit
+  template:
+    src: buildbot-master.service.j2
+    dest: /etc/systemd/system/buildbot-master.service
+  notify:
+   - restart buildbot-master
+  tags:
+   - buildbot-master
+
+- name: enable and start worker
+  systemd:
+    name: buildbot-master
+    daemon_reload: yes
+    enabled: yes
+  notify:
+   - restart buildbot-master
+  tags:
+   - buildbot-master
