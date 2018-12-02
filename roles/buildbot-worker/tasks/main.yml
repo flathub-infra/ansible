@@ -28,6 +28,8 @@
     name: "{{ item }}"
     state: latest
     virtualenv: "{{ buildbot_worker_sandbox }}"
+    virtualenv_command: "{{ buildbot_worker_virtualenv_command }}"
+    virtualenv_python: "{{ buildbot_worker_virtualenv_python }}"
   with_items:
    - pip
    - setuputils
