@@ -15,6 +15,23 @@
   tags:
    - buildbot-worker
 
+- name: install buildbot packages (rpm)
+  yum:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+   - "@development-tools"
+   - python34-pip
+   - python34-virtualenv
+   - libappstream-glib
+   - elfutils
+   - flatpak-builder
+   - git
+   - ostree
+  when: ansible_distribution == "CentOS"
+  tags:
+   - buildbot-worker
+
 - name: create buildbot user
   user:
     name: "{{ buildbot_worker_user }}"
