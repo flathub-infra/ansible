@@ -1,15 +1,4 @@
 ---
-- name: Enable flatpak copr
-  yum_repository:
-    name: amigadave-flatpak-epel7
-    description: Copr repo for flatpak-epel7 owned by amigadave
-    baseurl: https://copr-be.cloud.fedoraproject.org/results/amigadave/flatpak-epel7/epel-7-$basearch/
-    gpgcheck: yes
-    gpgkey: https://copr-be.cloud.fedoraproject.org/results/amigadave/flatpak-epel7/pubkey.gpg
-  tags:
-    - repo-manager
-    - repo-manager_packages
-
 - name: install packages
   package:
     name:
