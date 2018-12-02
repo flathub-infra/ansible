@@ -49,7 +49,6 @@
     virtualenv_python: "{{ buildbot_worker_virtualenv_python }}"
   with_items:
    - pip
-   - setuputils
    - buildbot-worker
   become_user: "{{ buildbot_worker_user }}"
   tags:
