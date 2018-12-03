@@ -28,6 +28,9 @@
    - flatpak-builder
    - git
    - ostree
+   # repoclient needs these:
+   - python34-requests
+   - python34-gobject
   when: ansible_distribution == "CentOS"
   tags:
    - buildbot-worker
