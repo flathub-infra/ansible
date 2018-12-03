@@ -1,3 +1,11 @@
+- name: set selinux context on certs dir
+  sefcontext:
+    target: '/etc/dehydrated/certs(/.*)?'
+    setype: cert_t
+    state: present
+  tags:
+    - dehydrated
+
 - name: install dehydrated
   package:
     name: dehydrated
