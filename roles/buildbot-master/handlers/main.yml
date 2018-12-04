@@ -1,4 +1,10 @@
+---
 - name: restart buildbot-master
   service:
     name: buildbot-master
     state: restarted
+
+- name: reconfig buildbot-master
+  service:
+    name: buildbot-master
+    state: reloaded
