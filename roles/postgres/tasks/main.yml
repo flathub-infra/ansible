@@ -24,7 +24,5 @@
     daemon_reload: yes
     enabled: yes
     state: started
-  notify:
-   - restart postgres
   tags:
    - postgres
