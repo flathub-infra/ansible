@@ -35,23 +35,33 @@
   tags:
    - buildbot-master
 
-- name: install pip and buildbot-master in virtualenv
+- name: install pip and python dependencies in virtualenv
   pip:
-    name: "{{ item }}"
+    name:
+      - pip
+      - mock
+      - requests
+      - txrequests
+      - psycopg2
+    state: latest
+    virtualenv: "{{ buildbot_master_sandbox }}"
+    virtualenv_command: virtualenv-3
+    virtualenv_python: python3
+  become_user: "{{ buildbot_master_user }}"
+  tags:
+   - buildbot-master
+
+- name: install buildbot in virtualenv
+  pip:
+    name:
+      - https://github.com/alexlarsson/buildbot/releases/download/v1.6.0.{{ buildbot_master_version }}/buildbot_pkg-1.6.0+{{ buildbot_master_version }}-py3-none-any.whl
+      - https://github.com/alexlarsson/buildbot/releases/download/v1.6.0.{{ buildbot_master_version }}/buildbot_worker-1.6.0+{{ buildbot_master_version }}-py2.py3-none-any.whl
+      - https://github.com/alexlarsson/buildbot/releases/download/v1.6.0.{{ buildbot_master_version }}/buildbot-1.6.0+{{ buildbot_master_version }}-py2.py3-none-any.whl
+      - https://github.com/alexlarsson/buildbot/releases/download/v1.6.0.{{ buildbot_master_version }}/buildbot_www-1.6.0+{{ buildbot_master_version }}-py2.py3-none-any.whl
     state: present
     virtualenv: "{{ buildbot_master_sandbox }}"
     virtualenv_command: virtualenv-3
     virtualenv_python: python3
-  with_items:
-   - pip
-   - mock
-   - requests
-   - txrequests
-   - psycopg2
-   - https://github.com/alexlarsson/buildbot/releases/download/v1.6.0.{{ buildbot_master_version }}/buildbot_pkg-1.6.0+{{ buildbot_master_version }}-py3-none-any.whl
-   - https://github.com/alexlarsson/buildbot/releases/download/v1.6.0.{{ buildbot_master_version }}/buildbot_worker-1.6.0+{{ buildbot_master_version }}-py2.py3-none-any.whl
-   - https://github.com/alexlarsson/buildbot/releases/download/v1.6.0.{{ buildbot_master_version }}/buildbot-1.6.0+{{ buildbot_master_version }}-py2.py3-none-any.whl
-   - https://github.com/alexlarsson/buildbot/releases/download/v1.6.0.{{ buildbot_master_version }}/buildbot_www-1.6.0+{{ buildbot_master_version }}-py2.py3-none-any.whl
   become_user: "{{ buildbot_master_user }}"
   tags:
    - buildbot-master
