@@ -68,6 +68,7 @@
 - name: Install flathub.gpg
   get_url:
     url: https://dl.flathub.org/repo/flathub.gpg
+    checksum: sha256:8bdc20abc4e19c0796460beb5bfe0e7aa4138716999e19c6f2dbdd78cc41aeaa
     dest: "{{ buildbot_master_dir }}/flathub.gpg"
     owner: "{{ buildbot_master_user }}"
     group: "{{ buildbot_master_user }}"
