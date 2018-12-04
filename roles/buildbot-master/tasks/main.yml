@@ -63,6 +63,8 @@
     virtualenv_command: virtualenv-3
     virtualenv_python: python3
   become_user: "{{ buildbot_master_user }}"
+  notify:
+   - restart buildbot-master
   tags:
    - buildbot-master
 
@@ -72,6 +74,8 @@
     version: use-repo-manager
     dest: "{{ buildbot_master_dir }}"
   become_user: "{{ buildbot_master_user }}"
+  notify:
+   - reconfig buildbot-master
   tags:
    - buildbot-master
 
@@ -90,7 +94,7 @@
     owner: "{{ buildbot_master_user }}"
     group: "{{ buildbot_master_user }}"
   notify:
-   - restart buildbot-master
+   - reconfig buildbot-master
   tags:
    - buildbot-master
 
@@ -101,7 +105,7 @@
     owner: "{{ buildbot_master_user }}"
     group: "{{ buildbot_master_user }}"
   notify:
-   - restart buildbot-master
+   - reconfig buildbot-master
   tags:
    - buildbot-master
 
@@ -139,7 +143,6 @@
     name: buildbot-master
     daemon_reload: yes
     enabled: yes
-  notify:
-   - restart buildbot-master
+    state: started
   tags:
    - buildbot-master
