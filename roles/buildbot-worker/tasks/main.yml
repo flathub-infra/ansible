@@ -11,6 +11,9 @@
    - python-pip
    - ostree
    - virtualenv
+   # repoclient needs these:
+   - python3-requests
+   - python3-gi
   when: ansible_os_family == "Debian"
   tags:
    - buildbot-worker
