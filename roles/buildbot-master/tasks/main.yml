@@ -21,7 +21,8 @@
    - buildbot-master
 
 - name: Add postgres user
-  postgresql_user: name="{{ buildbot_master_user }}"
+  postgresql_user:
+    name: "{{ buildbot_master_user }}"
   become_user: postgres
   tags:
    - buildbot-master
@@ -94,7 +95,9 @@
    - buildbot-master
 
 - name: create buildbot-master
-  command: '{{ buildbot_master_sandbox }}/bin/buildbot create-master --db=postgresql:///{{ buildbot_master_db }} {{ buildbot_master_dir }}'
+  command: >-
+    {{ buildbot_master_sandbox }}/bin/buildbot create-master
+    --db=postgresql:///{{ buildbot_master_db }} {{ buildbot_master_dir }}
   args:
     creates: "{{ buildbot_master_dir }}/buildbot.tac"
   become: yes

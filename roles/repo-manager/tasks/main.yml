@@ -18,7 +18,8 @@
    - repo-manager
 
 - name: Add postgres user
-  postgresql_user: name={{ repo_manager_user }}
+  postgresql_user:
+    name: "{{ repo_manager_user }}"
   become_user: postgres
   tags:
    - repo-manager

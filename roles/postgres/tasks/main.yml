@@ -12,7 +12,11 @@
     - postgres_packages
 
 - name: initdb
-  command: postgresql-setup initdb creates=/var/lib/pgsql/data/pg_hba.conf
+  command: postgresql-setup initdb
+  args:
+    creates: /var/lib/pgsql/data/pg_hba.conf
+  tags:
+    - postgres
 
 - name: enable and start postgres
   systemd:
