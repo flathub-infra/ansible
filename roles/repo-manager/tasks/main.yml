@@ -59,6 +59,8 @@
     dest: "{{ repo_manager_home }}/bin/repo-manager"
     mode: 0775
   become_user: "{{ repo_manager_user }}"
+  notify:
+   - restart repo-manager
   tags:
    - repo-manager
 
