@@ -86,6 +86,8 @@
     dest: "{{ buildbot_master_dir }}/flathub.gpg"
     owner: "{{ buildbot_master_user }}"
     group: "{{ buildbot_master_user }}"
+  tags:
+   - buildbot-master
 
 - name: Update buildbot config.json
   template:
