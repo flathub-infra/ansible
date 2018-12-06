@@ -6,7 +6,7 @@ buildbot_master_db: "buildbot"
 buildbot_master_sources: "/srv/buildbot/sources"
 buildbot_master_dir: "{{ buildbot_master_home }}/master"
 buildbot_master_sandbox: "{{ buildbot_master_home }}/sandbox"
-buildbot_master_version: flathub2
+buildbot_master_version: flathub3
 buildbot_master_uri: http://repo-test.flathub.org:8010/
 buildbot_master_repo_manager_uri: http://repo-test.flathub.org:8080
 
