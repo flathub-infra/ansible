@@ -1,0 +1,8 @@
+---
+- name: set up testrepo
+  hosts: testrepo
+  roles:
+  - postgres
+  - repo-manager
+  - buildbot-master
+  - buildbot-worker

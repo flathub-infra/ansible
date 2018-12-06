@@ -1,0 +1,4 @@
+- name: restart repo-manager
+  service:
+    name: repo-manager
+    state: restarted

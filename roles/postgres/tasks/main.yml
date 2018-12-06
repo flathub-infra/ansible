@@ -1,0 +1,28 @@
+---
+- name: install postgres
+  package:
+    name:
+      - postgresql-server
+      - postgresql-contrib
+      - python-psycopg2
+      - postgresql-devel
+    state: latest
+  tags:
+    - postgres
+    - postgres_packages
+
+- name: initdb
+  command: postgresql-setup initdb
+  args:
+    creates: /var/lib/pgsql/data/pg_hba.conf
+  tags:
+    - postgres
+
+- name: enable and start postgres
+  systemd:
+    name: postgresql
+    daemon_reload: yes
+    enabled: yes
+    state: started
+  tags:
+   - postgres

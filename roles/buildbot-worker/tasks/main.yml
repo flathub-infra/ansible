@@ -1,17 +1,38 @@
 - name: install buildbot packages (deb)
   package:
-    name: "{{ item }}"
+    name:
+      - appstream-util
+      - build-essential
+      - elfutils
+      - flatpak-builder
+      - git
+      - python-pip
+      - ostree
+      - virtualenv
+      # repoclient needs these:
+      - python3-requests
+      - python3-gi
     state: latest
-  with_items:
-   - appstream-util
-   - build-essential
-   - elfutils
-   - flatpak-builder
-   - git
-   - python-pip
-   - ostree
-   - virtualenv
   when: ansible_os_family == "Debian"
+  tags:
+   - buildbot-worker
+
+- name: install buildbot packages (rpm)
+  yum:
+    name:
+       - "@development-tools"
+       - python34-pip
+       - python34-virtualenv
+       - libappstream-glib
+       - elfutils
+       - flatpak-builder
+       - git
+       - ostree
+       # repoclient needs these:
+       - python34-requests
+       - python34-gobject
+    state: latest
+  when: ansible_distribution == "CentOS"
   tags:
    - buildbot-worker
 
@@ -28,9 +49,10 @@
     name: "{{ item }}"
     state: latest
     virtualenv: "{{ buildbot_worker_sandbox }}"
+    virtualenv_command: "{{ buildbot_worker_virtualenv_command }}"
+    virtualenv_python: "{{ buildbot_worker_virtualenv_python }}"
   with_items:
    - pip
-   - setuputils
    - buildbot-worker
   become_user: "{{ buildbot_worker_user }}"
   tags:

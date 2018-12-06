@@ -1,0 +1,21 @@
+{
+    "repo-manager-uri": "{{ buildbot_master_repo_manager_uri }}",
+    "repo-manager-token": "{{ buildbot_master_token }}",
+    "buildbot-port": 8010,
+    "buildbot-uri": "{{ buildbot_master_uri }}",
+    "flathub-repo": "https://flathub.org/repo/",
+    "flathub-sources-path": "{{ buildbot_master_sources }}",
+    "flathub-branch": "stable",
+    "github-api-token": "{{ github_api_token }}",
+    "admin-password": "",
+    "github-auth-client": "{{ github_auth_client }}",
+    "github-auth-secret": "{{ github_auth_secret }}",
+    "github-change-secret": "{{ github_change_secret }}",
+    "gitlab-change-secret": "{{ gitlab_change_secret }}",
+    "keep-test-build-days": 5,
+    "publish-default-delay-hours": 24,
+    "db-uri": "postgresql:///{{ buildbot_master_db }}",
+    "comment-prefix-test": "NOTE: This comment was posted by the test instance of buildbot",
+    "bot-name": "testbot",
+    "disable-status-updates'": true
+}

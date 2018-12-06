@@ -17,6 +17,18 @@
    - base
    - update
 
+- name: Enable flatpak copr
+  yum_repository:
+    name: amigadave-flatpak-epel7
+    description: Copr repo for flatpak-epel7 owned by amigadave
+    baseurl: https://copr-be.cloud.fedoraproject.org/results/amigadave/flatpak-epel7/epel-7-$basearch/
+    gpgcheck: yes
+    gpgkey: https://copr-be.cloud.fedoraproject.org/results/amigadave/flatpak-epel7/pubkey.gpg
+  when: ansible_distribution == "CentOS"
+  tags:
+    - base
+    - update
+
 - name: upgrade all packages
   yum:
     name: '*'
