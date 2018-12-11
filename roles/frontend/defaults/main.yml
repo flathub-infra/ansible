@@ -1,5 +1,8 @@
 frontend_dehydrated_domains:
  - "{{ frontend_nginx_ssl_name }}"
+frontend_certsync_ssh_users:
+ - root@front.flathub.org
+ - root@webapps.flathub.org
 frontend_nginx_api_servers:
  - apps.flathub.org:8080
 frontend_nginx_prerender_servers:

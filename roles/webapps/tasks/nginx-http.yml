@@ -1,0 +1,7 @@
+---
+- name: install nginx conf.d/flatpak.conf
+  template:
+    src: nginx/conf.d/flatpak.conf
+    dest: /etc/nginx/conf.d/flatpak.conf
+  notify:
+    - reload nginx

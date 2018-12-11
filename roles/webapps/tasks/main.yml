@@ -1,0 +1,34 @@
+---
+- name: create webapps root directory
+  file:
+    path: '{{ webapps_root_dir }}'
+    state: directory
+    setype: _default
+  tags:
+    - webapps
+
+- name: configure flatpak.org
+  include: flatpak.yml
+  tags:
+    - webapps
+    - webapps_flatpak
+
+- name: configure nginx http servers
+  include: nginx-http.yml
+  tags:
+    - webapps
+    - webapps_nginx
+    - webapps_dehydrated
+
+- name: ensure nginx is running and run dehydrated
+  meta: flush_handlers
+  tags:
+    - webapps
+    - webapps_dehydrated
+    - webapps_nginx
+
+- name: configure nginx https servers
+  include: nginx-https.yml
+  tags:
+    - webapps
+    - webapps_nginx

@@ -1,0 +1,7 @@
+---
+- name: install nginx conf.d/flatpak-ssl.conf
+  template:
+    src: nginx/conf.d/flatpak-ssl.conf
+    dest: /etc/nginx/conf.d/flatpak-ssl.conf
+  notify:
+    - reload nginx
