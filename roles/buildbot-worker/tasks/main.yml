@@ -9,6 +9,7 @@
       - python-pip
       - ostree
       - virtualenv
+      - subversion
       # repoclient needs these:
       - python3-requests
       - python3-gi
@@ -28,6 +29,7 @@
        - flatpak-builder
        - git
        - ostree
+       - subversion
        # repoclient needs these:
        - python34-requests
        - python34-gobject
