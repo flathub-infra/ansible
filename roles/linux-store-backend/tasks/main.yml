@@ -123,6 +123,8 @@
   register: linux_store_backend_old_image
   changed_when: false
   failed_when: false
+  tags:
+    - linux-store-backend
 
 - name: Update to latest linux-store-backend image
   command: podman image pull -q {{ linux_store_backend_image }}
@@ -131,6 +133,8 @@
   changed_when: "'sha256:' + linux_store_backend_new_image.stdout != linux_store_backend_old_image.stdout"
   notify:
    - restart linux-store-backend
+  tags:
+    - linux-store-backend
 
 - name: enable and start linux-store-backend
   systemd:
