@@ -3,7 +3,7 @@ linux_store_backend_user: "linuxstore"
 linux_store_backend_home: "/opt/linux-store"
 linux_store_backend_db: "linuxstore"
 linux_store_backend_checkout: "{{ linux_store_backend_home }}/linux-store-backend"
-linux_store_backend_git_version: "master"
+linux_store_backend_git_version: "0.6.5"
 linux_store_backend_apptream_extractor_dir: /var/lib/appstream-extractor
 # TODO: We temporary use alex image until the migration fixes land
 #linux_store_backend_image: "jgarciao/linux-store-backend"
