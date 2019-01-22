@@ -72,6 +72,14 @@
   tags:
    - linux-store-backend
 
+- name: Allow container to see files in appstream-extractor directory
+  sefcontext:
+    target: '{{ linux_store_backend_apptream_extractor_dir }}(/.*)?'
+    setype: container_file_t
+    state: present
+  tags:
+   - linux-store-backend
+
 - name: create appstream-extractor directory
   file:
     path: "{{ linux_store_backend_apptream_extractor_dir }}"
