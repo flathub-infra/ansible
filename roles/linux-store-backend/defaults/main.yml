@@ -10,6 +10,5 @@ linux_store_backend_apptream_extractor_dir: /var/lib/appstream-extractor
 #linux_store_backend_image: "jgarciao/linux-store-backend"
 linux_store_backend_image: "alexl/linux-store-backend"
 
-
 # These secrets are in the host_vars...
-linux_store_backend_db_password:
+#linux_store_backend_db_password: ...
