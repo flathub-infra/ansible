@@ -144,6 +144,15 @@
   tags:
     - linux-store-backend
 
+- name: permit port 8080 in firewall for linux-store-backend
+  firewalld:
+    port: 8080/tcp
+    state: enabled
+    permanent: true
+    immediate: true
+  tags:
+    - linux-store-backend
+
 - name: enable and start linux-store-backend
   systemd:
     name: linux-store-backend.service
