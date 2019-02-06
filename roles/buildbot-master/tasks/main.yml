@@ -54,10 +54,10 @@
 - name: install buildbot in virtualenv
   pip:
     name:
-      - https://github.com/alexlarsson/buildbot/releases/download/v1.6.0.{{ buildbot_master_version }}/buildbot_pkg-1.6.0+{{ buildbot_master_version }}-py3-none-any.whl
-      - https://github.com/alexlarsson/buildbot/releases/download/v1.6.0.{{ buildbot_master_version }}/buildbot_worker-1.6.0+{{ buildbot_master_version }}-py2.py3-none-any.whl
-      - https://github.com/alexlarsson/buildbot/releases/download/v1.6.0.{{ buildbot_master_version }}/buildbot-1.6.0+{{ buildbot_master_version }}-py2.py3-none-any.whl
-      - https://github.com/alexlarsson/buildbot/releases/download/v1.6.0.{{ buildbot_master_version }}/buildbot_www-1.6.0+{{ buildbot_master_version }}-py2.py3-none-any.whl
+      - https://github.com/flathub/buildbot/releases/download/v2.0.0.{{ buildbot_master_version }}/buildbot_pkg-2.0.0+{{ buildbot_master_version }}-py2.py3-none-any.whl
+      - https://github.com/flathub/buildbot/releases/download/v2.0.0.{{ buildbot_master_version }}/buildbot_worker-2.0.0+{{ buildbot_master_version }}-py2.py3-none-any.whl
+      - https://github.com/flathub/buildbot/releases/download/v2.0.0.{{ buildbot_master_version }}/buildbot-2.0.0+{{ buildbot_master_version }}-py2.py3-none-any.whl
+      - https://github.com/flathub/buildbot/releases/download/v2.0.0.{{ buildbot_master_version }}/buildbot_www-2.0.0+{{ buildbot_master_version }}-py2.py3-none-any.whl
     state: present
     virtualenv: "{{ buildbot_master_sandbox }}"
     virtualenv_command: virtualenv-3
@@ -70,7 +70,7 @@
 
 - name: Check out buildbot-config (use-repo-manager branch)
   git:
-    repo: https://github.com/alexlarsson/buildbot-config.git
+    repo: https://github.com/flathub/buildbot-config.git
     version: use-repo-manager
     dest: "{{ buildbot_master_dir }}"
   become_user: "{{ buildbot_master_user }}"

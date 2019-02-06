@@ -52,13 +52,24 @@
   tags:
    - repo-manager
 
-- name: Download repo-manager release
+- name: Download flat-manager release
   get_url:
-    url: "https://github.com/alexlarsson/repo-manager/releases/download/{{ repo_manager_version }}/repo-manager"
+    url: "https://github.com/flatpak/flat-manager/releases/download/{{ repo_manager_version }}/flat-manager"
     checksum: "{{ repo_manager_checksum }}"
-    dest: "{{ repo_manager_home }}/bin/repo-manager"
+    dest: "{{ repo_manager_home }}/bin/flat-manager"
     mode: 0775
   become_user: "{{ repo_manager_user }}"
+  notify:
+   - restart repo-manager
+  tags:
+   - repo-manager
+
+- name: Update flat-manager-config.json
+  template:
+    src: flat-manager-config.json.j2
+    dest: "{{ repo_manager_home }}/flat-manager-config.json"
+    owner: "{{ repo_manager_user }}"
+    group: "{{ repo_manager_user }}"
   notify:
    - restart repo-manager
   tags:
@@ -72,8 +83,6 @@
    - restart repo-manager
   tags:
    - repo-manager
-
-# NOTE: Here you have to put a .env file with the secret and the gpg keys in repo_manager_home the first time
 
 - name: enable and start repo-manager
   systemd:
