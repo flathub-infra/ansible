@@ -22,7 +22,7 @@ repo_manager_main_gpg_key: B6D632524F6FD5D87BAE089CEC2C26252B83462C
 repo_manager_suggested_repo_name: "test-flathub"
 
 repo_manager_beta_gpg_key: B6D632524F6FD5D87BAE089CEC2C26252B83462C
-repo_manager_suggested_beta_repo_name: "test-flathub"
+repo_manager_suggested_beta_repo_name: "test-flathub-beta"
 repo_manager_beta_collection_id: "org.flathub.TestBeta"
 
 buildbot_master_token: !vault |
