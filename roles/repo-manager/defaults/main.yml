@@ -6,10 +6,8 @@ repo_manager_gpghome: "{{ repo_manager_home }}/gpg"
 repo_manager_repodir: "{{ repo_manager_home }}/repo"
 repo_manager_beta_repodir: "{{ repo_manager_home }}/repo-beta"
 repo_manager_buildrepodir: "{{ repo_manager_home }}/build-repo"
-repo_manager_collection_id: "org.flathub.Test"
-repo_manager_beta_collection_id: "org.flathub.TestBeta"
-repo_manager_base_url: "http://repo-test.flathub.org:8080"
-repo_manager_version: "0.2.0"
-repo_manager_checksum: sha256:2ce854be19a58842a26972a98c736322c8c66d3dc81b66c1f51d7519c843542a
+repo_manager_runtime_repo_url: "https://dl.flathub.org/repo/flathub.flatpakrepo"
+repo_manager_version: "0.2.1"
+repo_manager_checksum: sha256:59452751f2dcb462a9107d2a54c223286ff78cf50f1f2e49776bd0311b29931d
 repo_manager_host: "0.0.0.0"
 repo_manager_port: "8080"
