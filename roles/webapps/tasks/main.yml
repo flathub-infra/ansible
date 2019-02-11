@@ -13,6 +13,12 @@
     - webapps
     - webapps_flatpak
 
+- name: configure flathub.org
+  include: flathub.yml
+  tags:
+    - webapps
+    - webapps_flathub
+
 - name: configure nginx http servers
   include: nginx-http.yml
   tags:

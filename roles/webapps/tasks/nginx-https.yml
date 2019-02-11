@@ -5,3 +5,9 @@
     dest: /etc/nginx/conf.d/flatpak-ssl.conf
   notify:
     - reload nginx
+- name: install nginx conf.d/flathub-ssl.conf
+  template:
+    src: nginx/conf.d/flathub-ssl.conf
+    dest: /etc/nginx/conf.d/flathub-ssl.conf
+  notify:
+    - reload nginx

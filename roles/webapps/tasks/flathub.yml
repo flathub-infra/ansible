@@ -1,0 +1,6 @@
+---
+- name: checkout flathub.org git repo
+  git:
+    repo: '{{ webapps_flathub_repo }}'
+    version: '{{ webapps_flathub_branch }}'
+    dest: '{{ webapps_flathub_checkout }}'
