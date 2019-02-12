@@ -13,6 +13,7 @@
   user:
     name: "{{ repo_manager_user }}"
     home: "{{ repo_manager_home }}"
+    uid: "{{ repo_manager_uid | default(omit) }}"
     system: yes
   tags:
    - repo-manager
