@@ -12,5 +12,5 @@ repo_manager_buildrepodir: "{{ repo_manager_home }}/build-repo"
 repo_manager_runtime_repo_url: "https://dl.flathub.org/repo/flathub.flatpakrepo"
 repo_manager_version: "0.2.1"
 repo_manager_checksum: sha256:59452751f2dcb462a9107d2a54c223286ff78cf50f1f2e49776bd0311b29931d
-repo_manager_host: "0.0.0.0"
+repo_manager_host: "127.0.0.1"
 repo_manager_port: "8080"

@@ -102,15 +102,6 @@
   tags:
    - repo-manager
 
-- name: permit port 8080 in firewall for repo-manager
-  firewalld:
-    port: 8080/tcp
-    state: enabled
-    permanent: true
-    immediate: true
-  tags:
-   - repo-manager
-
 - name: install nginx conf.d/repo-manager.conf
   template:
     src: nginx-conf.d-repo-manager.conf.j2
