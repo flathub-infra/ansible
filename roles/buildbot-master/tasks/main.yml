@@ -148,3 +148,12 @@
     state: started
   tags:
    - buildbot-master
+
+- name: permit port 8010 in firewall for buildbot
+  firewalld:
+    port: 8010/tcp
+    state: enabled
+    permanent: true
+    immediate: true
+  tags:
+   - buildbot-master
