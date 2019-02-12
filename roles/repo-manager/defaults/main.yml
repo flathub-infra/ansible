@@ -1,4 +1,7 @@
 ---
+# External domain name
+repo_manager_domain: '{{ inventory_hostname }}'
+
 repo_manager_db: "repomgr"
 repo_manager_user: "repomgr"
 repo_manager_home: "/srv/repomgr"

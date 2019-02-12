@@ -32,6 +32,14 @@
   tags:
    - repo-manager
 
+- name: Ensure repo parent dir is readable by nginx
+  file:
+    path: "{{ repo_manager_home }}"
+    state: directory
+    mode: 0775
+  tags:
+   - repo-manager
+
 - name: Create bin directory
   file:
     path: "{{ repo_manager_home }}/bin"
@@ -102,3 +110,32 @@
     immediate: true
   tags:
    - repo-manager
+
+- name: install nginx conf.d/repo-manager.conf
+  template:
+    src: nginx-conf.d-repo-manager.conf.j2
+    dest: /etc/nginx/conf.d/repo-manager.conf
+    mode: 0644
+  notify:
+   - reload nginx
+  tags:
+    - repo-manager
+    - repo-manager_nginx
+
+- name: ensure nginx is running and dehydrated run to obtain certs
+  meta: flush_handlers
+  tags:
+    - repo-manager
+    - repo-manager_dehydrated
+    - repo-manager_nginx
+
+- name: install nginx conf.d/repo-manager-ssl.conf
+  template:
+    src: nginx-conf.d-repo-manager-ssl.conf.j2
+    dest: /etc/nginx/conf.d/repo-manager-ssl.conf
+    mode: 0644
+  notify:
+   - reload nginx
+  tags:
+    - repo-manager
+    - repo-manager_nginx
