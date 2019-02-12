@@ -18,10 +18,12 @@ repo_manager_base_url: "http://repo-test.flathub.org:8080"
 repo_manager_build_gpg_key: B6D632524F6FD5D87BAE089CEC2C26252B83462C
 
 repo_manager_collection_id: "org.flathub.Test"
+repo_manager_main_base_url: "{{ repo_manager_base_url }}/repo/stable"
 repo_manager_main_gpg_key: B6D632524F6FD5D87BAE089CEC2C26252B83462C
 repo_manager_suggested_repo_name: "test-flathub"
 
 repo_manager_beta_gpg_key: B6D632524F6FD5D87BAE089CEC2C26252B83462C
+repo_manager_beta_base_url: "{{ repo_manager_base_url }}/repo/beta"
 repo_manager_suggested_beta_repo_name: "test-flathub-beta"
 repo_manager_beta_collection_id: "org.flathub.TestBeta"
 
