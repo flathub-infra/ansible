@@ -5,6 +5,7 @@
       - postgresql-devel
       - python34-pip
       - python34-virtualenv
+      - python-setuptools
       - git
       - gcc # Needed for installing twisted
     state: latest
