@@ -1,0 +1,6 @@
+---
+- name: set up repo machine
+  hosts: hub
+  roles:
+  - postgres
+  - repo-manager
