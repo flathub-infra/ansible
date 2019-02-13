@@ -27,3 +27,4 @@ webapps_flathub_checkout: '{{ webapps_root_dir }}/flathub.org'
 webapps_flathub_domains:
   - flathub.org
   - www.flathub.org
+  - flathub.webapps.flathub.org
