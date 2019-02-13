@@ -164,7 +164,7 @@ worker_flathub_builder_pdx1_password: !vault |
           63313234306238373430316636336337336565303638333531663237663364626265366464353738
           6665323539613265316335306637343936373730346330663739
 
-buildbot_master_workers:
+full_buildbot_master_workers:
   arm-1:
     arches: [arm, aarch64]
     max-builds: 1
@@ -216,6 +216,8 @@ buildbot_master_workers:
     classes: [big]
     max-builds: 2
     password: "{{ worker_flathub_builder_pdx1_password }}"
+
+buildbot_master_workers:
   repo-test-worker:
     arches: [x86_64]
     max-builds: 2
