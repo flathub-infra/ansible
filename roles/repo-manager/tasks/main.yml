@@ -73,6 +73,16 @@
   tags:
    - repo-manager
 
+- name: update post-publish.sh
+  template:
+    src: post-publish.sh.j2
+    dest: "{{ repo_manager_home }}/bin/post-publish.sh"
+    owner: "{{ repo_manager_user }}"
+    group: "{{ repo_manager_user }}"
+    mode: 0775
+  tags:
+   - repo-manager
+
 - name: Update flat-manager-config.json
   template:
     src: flat-manager-config.json.j2
