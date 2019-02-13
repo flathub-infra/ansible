@@ -4,5 +4,4 @@
   roles:
   - postgres
   - repo-manager
-  - buildbot-master
   - buildbot-worker
