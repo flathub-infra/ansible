@@ -12,6 +12,9 @@
       - ostree
       - python34-requests
       - python34-gobject
+      # Source download needs these:
+      - flatpak-builder
+      - git
     state: latest
   tags:
     - buildbot-master

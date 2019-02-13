@@ -242,5 +242,4 @@ buildbot_master_workers:
   repo-test-worker:
     arches: [x86_64]
     max-builds: 2
-    download-sources: true
     password: "{{ worker_repo_test_worker_password }}"

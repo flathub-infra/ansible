@@ -2,8 +2,7 @@
 buildbot_master_user: "buildbot-master"
 buildbot_master_home: "/srv/buildbot-master"
 buildbot_master_db: "buildbot"
-# This is run on the worker, so the path is relative to the buildbot-worker dir:
-buildbot_master_sources: "/srv/buildbot/sources"
+buildbot_master_sources: "/srv/buildbot-master/sources"
 buildbot_master_dir: "{{ buildbot_master_home }}/master"
 buildbot_master_sandbox: "{{ buildbot_master_home }}/sandbox"
-buildbot_master_version: flathub1
+buildbot_master_version: flathub2
