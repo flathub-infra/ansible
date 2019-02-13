@@ -158,3 +158,12 @@
     immediate: true
   tags:
    - buildbot-master
+
+- name: permit port 9989 (workers) in firewall for buildbot
+  firewalld:
+    port: 9989/tcp
+    state: enabled
+    permanent: true
+    immediate: true
+  tags:
+   - buildbot-master
