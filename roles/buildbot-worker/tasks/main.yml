@@ -28,7 +28,7 @@
        - flatpak-builder
        - git
        - ostree
-       # repoclient needs these:
+       # flat-manager-client needs these:
        - python34-requests
        - python34-gobject
     state: latest

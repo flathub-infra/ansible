@@ -8,6 +8,10 @@
       - python-setuptools
       - git
       - gcc # Needed for installing twisted
+      # flat-manager-client needs these:
+      - ostree
+      - python34-requests
+      - python34-gobject
     state: latest
   tags:
     - buildbot-master
