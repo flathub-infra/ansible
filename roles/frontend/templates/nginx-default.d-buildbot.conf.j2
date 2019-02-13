@@ -21,3 +21,30 @@ location /builds/change_hook/github {
     deny all;
     proxy_pass {{ frontend_nginx_buildbot_origin }}/change_hook/github;
 }
+
+
+# This is a copy of the above but for buildbot.flathub.org instead of master.flathub.org
+# Once we migrate we can switch /builds to the new one
+location /buildbot/ {
+    proxy_pass {{ frontend_nginx_new_buildbot_origin }}/;
+}
+
+location /buildbot/sse {
+    # proxy buffering will prevent sse to work
+    proxy_buffering off;
+    proxy_pass {{ frontend_nginx_new_buildbot_origin }}/sse;
+}
+
+location /buildbot/ws {
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_pass {{ frontend_nginx_new_buildbot_origin }}/ws;
+    proxy_read_timeout 6000s;
+}
+
+location /buildbot/change_hook/github {
+    allow 192.30.252.0/22;
+    deny all;
+    proxy_pass {{ frontend_nginx_new_buildbot_origin }}/change_hook/github;
+}
