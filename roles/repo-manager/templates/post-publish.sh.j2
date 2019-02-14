@@ -1,0 +1,11 @@
+#!/bin/bash
+REPONAME="$1"
+REPODIR="$2"
+
+set -e
+
+# purge intermediate front-* caches and then CDN
+# (Fastly-Soft-Purge is a no-op on front-*)
+for host in front-hex front-sov dl; do
+    curl -X PURGE -H "Fastly-Soft-Purge: 1" https://${host}.flathub.org/repo/summary{,.sig} || true
+done

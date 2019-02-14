@@ -13,6 +13,7 @@
   user:
     name: "{{ repo_manager_user }}"
     home: "{{ repo_manager_home }}"
+    uid: "{{ repo_manager_uid | default(omit) }}"
     system: yes
   tags:
    - repo-manager
@@ -29,6 +30,14 @@
     name: "{{ repo_manager_db }}"
     owner: "{{ repo_manager_user }}"
   become_user: postgres
+  tags:
+   - repo-manager
+
+- name: Ensure repo parent dir is readable by nginx
+  file:
+    path: "{{ repo_manager_home }}"
+    state: directory
+    mode: 0775
   tags:
    - repo-manager
 
@@ -64,6 +73,16 @@
   tags:
    - repo-manager
 
+- name: update post-publish.sh
+  template:
+    src: post-publish.sh.j2
+    dest: "{{ repo_manager_home }}/bin/post-publish.sh"
+    owner: "{{ repo_manager_user }}"
+    group: "{{ repo_manager_user }}"
+    mode: 0775
+  tags:
+   - repo-manager
+
 - name: Update flat-manager-config.json
   template:
     src: flat-manager-config.json.j2
@@ -93,3 +112,32 @@
    - restart repo-manager
   tags:
    - repo-manager
+
+- name: install nginx conf.d/repo-manager.conf
+  template:
+    src: nginx-conf.d-repo-manager.conf.j2
+    dest: /etc/nginx/conf.d/repo-manager.conf
+    mode: 0644
+  notify:
+   - reload nginx
+  tags:
+    - repo-manager
+    - repo-manager_nginx
+
+- name: ensure nginx is running and dehydrated run to obtain certs
+  meta: flush_handlers
+  tags:
+    - repo-manager
+    - repo-manager_dehydrated
+    - repo-manager_nginx
+
+- name: install nginx conf.d/repo-manager-ssl.conf
+  template:
+    src: nginx-conf.d-repo-manager-ssl.conf.j2
+    dest: /etc/nginx/conf.d/repo-manager-ssl.conf
+    mode: 0644
+  notify:
+   - reload nginx
+  tags:
+    - repo-manager
+    - repo-manager_nginx

@@ -5,8 +5,16 @@
       - postgresql-devel
       - python34-pip
       - python34-virtualenv
+      - python-setuptools
       - git
       - gcc # Needed for installing twisted
+      # flat-manager-client needs these:
+      - ostree
+      - python34-requests
+      - python34-gobject
+      # Source download needs these:
+      - flatpak-builder
+      - git
     state: latest
   tags:
     - buildbot-master
@@ -148,3 +156,58 @@
     state: started
   tags:
    - buildbot-master
+
+- name: permit port 8010 in firewall for buildbot
+  firewalld:
+    port: 8010/tcp
+    state: enabled
+    permanent: true
+    immediate: true
+  tags:
+   - buildbot-master
+
+- name: permit port 9989 (workers) in firewall for buildbot
+  firewalld:
+    port: 9989/tcp
+    state: enabled
+    permanent: true
+    immediate: true
+  tags:
+   - buildbot-master
+
+- name: Ensure sources parent dir is readable by nginx
+  file:
+    path: "{{ buildbot_master_home }}"
+    state: directory
+    mode: 0775
+  tags:
+   - buildbot-master
+
+- name: install nginx conf.d/buildbot-master.conf
+  template:
+    src: nginx-conf.d-buildbot-master.conf.j2
+    dest: /etc/nginx/conf.d/buildbot-master.conf
+    mode: 0644
+  notify:
+   - reload nginx
+  tags:
+    - buildbot-master
+    - buildbot-master_nginx
+
+- name: ensure nginx is running and dehydrated run to obtain certs
+  meta: flush_handlers
+  tags:
+    - buildbot-master
+    - buildbot-master_dehydrated
+    - buildbot-master_nginx
+
+- name: install nginx conf.d/buildbot-master-ssl.conf
+  template:
+    src: nginx-conf.d-buildbot-master-ssl.conf.j2
+    dest: /etc/nginx/conf.d/buildbot-master-ssl.conf
+    mode: 0644
+  notify:
+   - reload nginx
+  tags:
+    - buildbot-master
+    - buildbot-master_nginx
