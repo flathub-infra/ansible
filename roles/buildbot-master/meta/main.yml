@@ -1,14 +1,3 @@
 dependencies:
   - base
   - postgres
-  - role: nginx
-    tags:
-      - buildbot-master
-      - buildbot-master_nginx
-  - role: dehydrated
-    vars:
-      dehydrated_domains:
-        - '{{ buildbot_master_domain }}'
-    tags:
-      - buildbot-master
-      - buildbot-master_dehydrated
