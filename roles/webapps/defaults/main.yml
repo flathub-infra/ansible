@@ -6,9 +6,11 @@ webapps_root_dir: /srv/www
 # LE certificate domains and syncing to frontends. Only the primary
 # domain name is used for syncing.
 webapps_dehydrated_domains:
-  - '{{ webapps_flatpak_domains | join(" ") }} {{ webapps_flathub_domains | join(" ") }}'
+  - '{{ webapps_flatpak_domains | join(" ") }}'
+  - '{{ webapps_flathub_domains | join(" ") }}'
 webapps_dehydrated_sync_domains:
-  - '{{ webapps_flatpak_domains[0] }} {{ webapps_flathub_domains[0] }}'
+  - '{{ webapps_flatpak_domains[0] }}'
+  - '{{ webapps_flathub_domains[0] }}'
 webapps_dehydrated_sync_hosts: '{{ groups.frontend }}'
 
 # flatpak.org
