@@ -7,6 +7,7 @@
       - flatpak-builder
       - git
       - python-pip
+      - gcc # Needed for installing twisted
       - ostree
       - virtualenv
       - subversion
@@ -24,6 +25,7 @@
        - "@development-tools"
        - python34-pip
        - python34-virtualenv
+       - gcc # Needed for installing twisted
        - libappstream-glib
        - elfutils
        - flatpak-builder
