@@ -3,6 +3,8 @@ dependencies:
   - base
   - postgres
   - role: nginx
+    vars:
+      nginx_network_connect: yes
     tags:
       - repo-manager
       - repo-manager_nginx
