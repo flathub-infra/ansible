@@ -7,6 +7,7 @@ repo.flathub.org
 front-hex.flathub.org
 front-sov.flathub.org
 webapps.flathub.org
+buildbot.flathub.org
 
 [packet]
 cncf-x86-1.flathub.org
@@ -42,3 +43,6 @@ repo-test.flathub.org
 
 [webapps]
 webapps.flathub.org
+
+[webapps-test]
+webapps-test.flathub.org

@@ -30,7 +30,7 @@
        - git
        - ostree
        - subversion
-       # repoclient needs these:
+       # flat-manager-client needs these:
        - python34-requests
        - python34-gobject
     state: latest

@@ -3,3 +3,5 @@
   hosts: webapps
   roles:
   - webapps
+  - postgres
+  - linux-store-backend

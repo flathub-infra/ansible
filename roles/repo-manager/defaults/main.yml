@@ -1,12 +1,16 @@
 ---
+# External domain name
+repo_manager_domain: '{{ inventory_hostname }}'
+
 repo_manager_db: "repomgr"
 repo_manager_user: "repomgr"
 repo_manager_home: "/srv/repomgr"
 repo_manager_gpghome: "{{ repo_manager_home }}/gpg"
 repo_manager_repodir: "{{ repo_manager_home }}/repo"
+repo_manager_beta_repodir: "{{ repo_manager_home }}/repo-beta"
 repo_manager_buildrepodir: "{{ repo_manager_home }}/build-repo"
-repo_manager_collection_id: "org.flathub.Test"
-repo_manager_base_url: "http://repo-test.flathub.org:8080"
-repo_manager_version: "0.1.1"
-repo_manager_checksum: sha256:f1a216c241af083246cee1fcedc4beaeeb54657d319521df8d432e2b38918ac3
+repo_manager_runtime_repo_url: "https://dl.flathub.org/repo/flathub.flatpakrepo"
+repo_manager_version: "0.2.2"
+repo_manager_checksum: sha256:c33e6d730971536ec8d30673f82ebc34f83fa450f1f6c83a08cf3e5363bc9ac9
+repo_manager_host: "127.0.0.1"
 repo_manager_port: "8080"

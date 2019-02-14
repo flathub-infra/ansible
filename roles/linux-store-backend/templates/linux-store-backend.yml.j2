@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    password: {{ linux_store_backend_db_password }}
+    url: jdbc:postgresql://127.0.0.1:5432/linuxstore
+
+  profiles:
+    active: "PRO,SCHED"
+
+user:
+  timezone: "GMT"
+
+logging:
+  level:
+    org.flathub: INFO

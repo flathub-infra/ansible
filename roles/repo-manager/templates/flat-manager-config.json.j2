@@ -1,0 +1,32 @@
+{
+    "repos": {
+        "stable": {
+            "path": "{{ repo_manager_repodir }}",
+            "collection-id": "{{ repo_manager_collection_id }}",
+            "base-url": "{{ repo_manager_main_base_url }}",
+            "gpg-key": "{{ repo_manager_main_gpg_key }}",
+            "runtime-repo-url": "{{ repo_manager_runtime_repo_url }}",
+            "suggested-repo-name": "{{ repo_manager_suggested_repo_name }}",
+            "post-publish-script": "{{ repo_manager_home }}/bin/post-publish.sh",
+            "subsets": {  }
+        },
+        "beta": {
+            "path": "{{ repo_manager_beta_repodir }}",
+            "collection-id": "{{ repo_manager_beta_collection_id }}",
+            "base-url": "{{ repo_manager_beta_base_url }}",
+            "gpg-key": "{{ repo_manager_beta_gpg_key }}",
+            "runtime-repo-url": "{{ repo_manager_runtime_repo_url }}",
+            "suggested-repo-name": "{{ repo_manager_suggested_beta_repo_name }}",
+            "post-publish-script": "{{ repo_manager_home }}/bin/post-publish.sh",
+            "subsets": { }
+        }
+    },
+    "host": "{{ repo_manager_host }}",
+    "port": {{ repo_manager_port }},
+    "base-url": "{{ repo_manager_base_url }}",
+    "database-url": "postgres://%2Fvar%2Frun%2Fpostgresql/{{ repo_manager_db }}",
+    "build-repo-base": "{{ repo_manager_buildrepodir }}",
+    "gpg-homedir": "{{ repo_manager_gpghome }}",
+    "build-gpg-key": "{{ repo_manager_build_gpg_key }}",
+    "secret": "{{ repo_manager_secret }}"
+}
