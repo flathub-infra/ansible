@@ -7,8 +7,10 @@ webapps_root_dir: /srv/www
 # domain name is used for syncing.
 webapps_dehydrated_domains:
   - '{{ webapps_flatpak_domains | join(" ") }}'
+  - '{{ webapps_flathub_domains | join(" ") }}'
 webapps_dehydrated_sync_domains:
   - '{{ webapps_flatpak_domains[0] }}'
+  - '{{ webapps_flathub_domains[0] }}'
 webapps_dehydrated_sync_hosts: '{{ groups.frontend }}'
 
 # flatpak.org
@@ -19,3 +21,12 @@ webapps_flatpak_domains:
   - flatpak.org
   - www.flatpak.org
   - flatpak.webapps.flathub.org
+
+# flathub.org
+webapps_flathub_repo: 'https://github.com/flathub/linux-store-frontend.git'
+webapps_flathub_branch: publish-to-flathub.org
+webapps_flathub_checkout: '{{ webapps_root_dir }}/flathub.org'
+webapps_flathub_domains:
+  - flathub.org
+  - www.flathub.org
+  - flathub.webapps.flathub.org

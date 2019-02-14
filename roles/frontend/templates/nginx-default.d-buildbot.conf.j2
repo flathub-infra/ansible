@@ -22,7 +22,6 @@ location /builds/change_hook/github {
     proxy_pass {{ frontend_nginx_buildbot_origin }}/change_hook/github;
 }
 
-
 # This is a copy of the above but for buildbot.flathub.org instead of master.flathub.org
 # Once we migrate we can switch /builds to the new one
 location /buildbot/ {
