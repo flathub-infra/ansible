@@ -16,6 +16,7 @@ server {
 
     location /sources {
         alias {{ buildbot_master_sources }};
+        autoindex on;
     }
 
     location / {
