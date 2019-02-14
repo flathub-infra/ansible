@@ -1,0 +1,6 @@
+---
+# External domain name
+sources_domain: '{{ inventory_hostname }}'
+
+sources_parent_dir: "{{ buildbot_worker_home }}"
+sources_dir: "{{ sources_parent_dir }}/sources"

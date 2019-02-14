@@ -1,0 +1,12 @@
+dependencies:
+  - base
+  - buildbot-worker
+  - role: nginx
+    tags:
+      - sources_nginx
+  - role: dehydrated
+    vars:
+      dehydrated_domains:
+        - '{{ sources_domain }}'
+    tags:
+      - sources_dehydrated
