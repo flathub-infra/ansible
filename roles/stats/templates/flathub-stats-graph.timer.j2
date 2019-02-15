@@ -1,0 +1,10 @@
+[Unit]
+Description=Daily flathub stats graph update
+
+[Timer]
+OnCalendar=*-*-* 09:00
+RandomizedDelaySec=10m
+Persistent=true
+
+[Install]
+WantedBy=timers.target

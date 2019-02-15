@@ -172,3 +172,10 @@
   tags:
     - stats
     - stats_nginx
+
+# Stats Graph generation
+# FIXME: what tags do we need?
+- name: setup graphing of stats
+  include: graph.yml
+  tags:
+    - stats

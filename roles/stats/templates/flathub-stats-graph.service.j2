@@ -1,0 +1,8 @@
+[Unit]
+Description=Daily flathub stats graph update
+
+[Service]
+Type=oneshot
+ExecStart={{ stats_graph_checkout_dir }}/flathub-stats-graph.sh
+KillMode=process
+WorkingDirectory={{ stats_graph_checkout_dir }}

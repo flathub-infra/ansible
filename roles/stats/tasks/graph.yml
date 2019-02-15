@@ -1,0 +1,57 @@
+---
+
+# FIXME: do we need tags ?
+
+# Dependencies
+
+# FIXME: This is all I install in a debian:stretch-slim container, assume it'll be enough...
+- name: install stats graphs depends
+  package: name='{{ item }}' state=latest
+  with_items:
+    - python3-matplotlib
+    - python3-requests
+
+# Get the code and setup dirs and helpers
+
+# FIXME: how do we update the code?
+# do we have a git pull in the scheduled script ?
+# or do we just redeploy the playbook each time ?
+- name: git clone stats graph generation code
+  git:
+    repo: https://gitlab.com/ahayzen/flathub-api-stats-generator.git
+    dest: '{{ stats_graph_checkout_dir }}'
+
+- name: install stats graph run helper
+  template:
+    src: flathub-stats-graph.sh.j2
+    dest: '{{ stats_graph_checkout_dir }}/flathub-stats-graph.sh'
+    mode: 0744
+
+# FIXME: do we need the SELinux stuff? if we do, probably need elsewhere...
+- name: create stats graph output directory
+  file:
+    path: '{{ stats_graph_output_dir }}'
+    state: directory
+    seuser: _default
+    serole: _default
+    setype: _default
+  tags:
+    - stats
+
+- name: install html overview page
+  template:
+    src: flathub-stats-overview.html.j2
+    dest: '{{ stats_graph_checkout_dir }}/flathub.html'
+
+# Setup systemd service and timer
+
+- name: install flathub stats graph systemd service and timer
+  template:
+    src: '{{ item }}.j2'
+    dest: '/etc/systemd/system/{{ item }}'
+  with_items:
+    - "flathub-stats-graph.service"
+    - "flathub-stats-graph.timer"
+
+- name: start flathub stats graph systemd timer
+  systemd: name="flathub-stats-graph.timer" daemon_reload=yes enabled=yes state=started

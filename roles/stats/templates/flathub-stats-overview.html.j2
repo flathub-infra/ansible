@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+    <title>Flathub Statistics</title>
+</head>
+<body style="text-align: center;">
+    <h1>Flathub Statistics</h1>
+    <p>Please report bugs to <a href="https://gitlab.com/ahayzen/flathub-api-stats-generator/issues">https://gitlab.com/ahayzen/flathub-api-stats-generator/issues</a></p>
+
+    <h2>Notices</h2>
+    <p>Please note that there was data loss in the download charts for the dates, 2018-06-18, 2018-06-19, 2018-06-20, 2018-07-24, 2018-08-14, 2018-11-19 -> 2018-11-28, 2018-12-08 -> 2018-12-11</p>
+
+    <h2>Contents</h2>
+    <ul>
+      <li><a href="#appcount">App Count</a></li>
+      <li><a href="#downloads">Downloads</a></li>
+      <li><a href="#downloadsonlyapps">Downloads (only apps)</a></li>
+      <li><a href="#downloadsonlyruntimes">Downloads (only runtimes)</a></li>
+      <li><a href="#downloadsbyarch">Downloads by arch</a></li>
+      <li><a href="#downloadsbyflatpak">Downloads by flatpak version</a></li>
+      <li><a href="#downloadsbyflatpakstacked">Downloads by flatpak version (stacked percentage)</a></li>
+      <li><a href="#downloadsbyostree">Downloads by ostree version</a></li>
+      <li><a href="#downloadsbyostreestacked">Downloads by ostree version (stacked percentage)</a></li>
+      <li><a href="#downloadsbyflatpakmajor">Downloads by flatpak major version</a></li>
+      <li><a href="#downloadsbyflatpakmajorstacked">Downloads by flatpak major version (stacked percentage)</a></li>
+      <li><a href="{{ stats_graph_web_path }}/flathub_downloads_only_nvidia_runtimes.txt">Downloads by nvidia runtime (text output on another page)</a></li>
+    </ul>
+
+    <h2 id="appcount">App count</h2>
+    <img src="{{ stats_graph_web_path }}/flathub.png"/>
+
+    <h2 id="downloads">Downloads</h2>
+    <img src="{{ stats_graph_web_path }}/flathub_downloads.png"/>
+
+    <h2 id="downloadsonlyapps">Downloads (only apps)</h2>
+    <img src="{{ stats_graph_web_path }}/flathub_downloads_only_apps.png"/>
+
+    <h2 id="downloadsonlyruntimes">Downloads (only runtimes)</h2>
+    <img src="{{ stats_graph_web_path }}/flathub_downloads_only_runtimes.png"/>
+
+    <h2 id="downloadsbyarch">Downloads by arch</h2>
+    <img src="{{ stats_graph_web_path }}/flathub_downloads_by_arch.png"/>
+
+    <h2 id="downloadsbyflatpak">Downloads by flatpak version</h2>
+    <img src="{{ stats_graph_web_path }}/flathub_downloads_by_flatpak_version.png"/>
+
+    <h2 id="downloadsbyflatpakstacked">Downloads by flatpak version (stacked percentage)</h2>
+    <img src="{{ stats_graph_web_path }}/flathub_downloads_by_flatpak_version_stacked_bar.png"/>
+
+    <h2 id="downloadsbyostree">Downloads by ostree version</h2>
+    <img src="{{ stats_graph_web_path }}/flathub_downloads_by_ostree_version.png"/>
+
+    <h2 id="downloadsbyostreestacked">Downloads by ostree version (stacked percentage)</h2>
+    <img src="{{ stats_graph_web_path }}/flathub_downloads_by_ostree_version_stacked_bar.png"/>
+
+    <h2 id="downloadsbyflatpakmajor">Downloads by flatpak major version</h2>
+    <img src="{{ stats_graph_web_path }}/flathub_downloads_by_flatpak_major_version.png"/>
+
+    <h2 id="downloadsbyflatpakmajorstacked">Downloads by flatpak major version (stacked percentage)</h2>
+    <img src="{{ stats_graph_web_path }}/flathub_downloads_by_flatpak_major_version_stacked_bar.png"/>
+</body>
+</html>
+
