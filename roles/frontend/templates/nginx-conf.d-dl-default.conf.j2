@@ -9,7 +9,6 @@ server {
 
     location /.well-known/acme-challenge {
       proxy_pass http://{{ frontend_nginx_webroot_origin }}/.well-known/acme-challenge;
-      proxy_hide_header Vary;
     }
     
     # Everything else to https://{{ frontend_nginx_webroot_domain }} for the time being
