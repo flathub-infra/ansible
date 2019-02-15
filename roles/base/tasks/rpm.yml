@@ -43,6 +43,18 @@
   tags:
    - base
 
+- name: allow ZeroTier through firewall
+  firewalld:
+    port: "{{ item }}"
+    state: enabled
+    immediate: true
+    permanent: true
+  with_items:
+   - 9993/udp
+   - 9993/tcp
+  tags:
+    - base_firewalld
+
 - name: add VPN addresses to firewalld dmz zone
   firewalld:
     zone: dmz
