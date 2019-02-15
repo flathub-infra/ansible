@@ -42,3 +42,14 @@
     name: "{{ base_packages + base_packages_rpm }}"
   tags:
    - base
+
+- name: add VPN addresses to firewalld dmz zone
+  firewalld:
+    zone: dmz
+    source: "{{ item }}"
+    state: enabled
+    immediate: true
+    permanent: true
+  with_items: "{{ base_firewall_dmz_sources }}"
+  tags:
+    - base_firewalld

@@ -29,6 +29,9 @@ base_packages_rpm:
  - libsemanage-python
  - policycoreutils-python
  - nc
+base_firewall_dmz_sources:
+ - 172.28.0.0/16
+ - fca2:895:f500::/40
 base_zerotier_network_id: a84ac5c10a425034
 base_zerotier_accesstoken: !vault |
           $ANSIBLE_VAULT;1.1;AES256
