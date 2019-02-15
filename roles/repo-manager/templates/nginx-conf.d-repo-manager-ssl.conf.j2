@@ -14,88 +14,88 @@ server {
     ## verify chain of trust of OCSP response using Root CA and Intermediate certs
     ssl_trusted_certificate /etc/dehydrated/certs/{{ repo_manager_domain }}/chain.pem;
 
-    location /repo/stable {
+    location /repo {
         alias {{ repo_manager_repodir }};
         add_header Cache-Control "public";
         expires 1h;
 
-        location ~ ^/repo/stable/summary(\.sig)?$ {
+        location ~ ^/repo/summary(\.sig)?$ {
             add_header Surrogate-Control "stale-if-error=86400";
         }
 
-       location /repo/stable/refs {
+       location /repo/refs {
             add_header Surrogate-Control "stale-if-error=86400";
             expires 1m;
        }
-       location ~ ^/repo/stable/objects/.+\.commitmeta$ {
+       location ~ ^/repo/objects/.+\.commitmeta$ {
            expires 1d;
            access_log off;
        }
-       location ~ ^/repo/stable/objects/.+\.(sig|sizes2)$ {
+       location ~ ^/repo/objects/.+\.(sig|sizes2)$ {
            return 404;
            expires 1y;
            access_log off;
        }
-       location ~ ^/repo/stable/objects/.+\.(commit|dirtree|filez)$ {
+       location ~ ^/repo/objects/.+\.(commit|dirtree|filez)$ {
            expires 1y;
            access_log off;
        }
-       location /repo/stable/deltas {
+       location /repo/deltas {
            expires 1y;
            access_log off;
        }
-       location /repo/stable/sources {
+       location /repo/sources {
            autoindex on;
        }
-       location /repo/stable/sources/downloads {
+       location /repo/sources/downloads {
            expires 1y;
            access_log off;
            autoindex on;
        }
-       location /repo/stable/appstream {
+       location /repo/appstream {
            autoindex on;
        }
     }
 
-    location /repo/beta {
+    location /beta-repo {
         alias {{ repo_manager_beta_repodir }};
         add_header Cache-Control "public";
         expires 1h;
 
-        location ~ ^/repo/beta/summary(\.sig)?$ {
+        location ~ ^/beta-repo/summary(\.sig)?$ {
             add_header Surrogate-Control "stale-if-error=86400";
         }
 
-       location /repo/beta/refs {
+       location /beta-repo/refs {
             add_header Surrogate-Control "stale-if-error=86400";
             expires 1m;
        }
-       location ~ ^/repo/beta/objects/.+\.commitmeta$ {
+       location ~ ^/beta-repo/objects/.+\.commitmeta$ {
            expires 1d;
            access_log off;
        }
-       location ~ ^/repo/beta/objects/.+\.(sig|sizes2)$ {
+       location ~ ^/beta-repo/objects/.+\.(sig|sizes2)$ {
            return 404;
            expires 1y;
            access_log off;
        }
-       location ~ ^/repo/beta/objects/.+\.(commit|dirtree|filez)$ {
+       location ~ ^/beta-repo/objects/.+\.(commit|dirtree|filez)$ {
            expires 1y;
            access_log off;
        }
-       location /repo/beta/deltas {
+       location /beta-repo/deltas {
            expires 1y;
            access_log off;
        }
-       location /repo/beta/sources {
+       location /beta-repo/sources {
            autoindex on;
        }
-       location /repo/beta/sources/downloads {
+       location /beta-repo/sources/downloads {
            expires 1y;
            access_log off;
            autoindex on;
        }
-       location /repo/beta/appstream {
+       location /beta-repo/appstream {
            autoindex on;
        }
     }
