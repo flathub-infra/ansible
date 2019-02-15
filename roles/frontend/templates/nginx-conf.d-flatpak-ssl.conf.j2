@@ -9,7 +9,6 @@ server {
 
     location / {
       proxy_cache frontend_cache;
-      proxy_hide_header Strict-Transport-Security;
       proxy_hide_header Vary;
       proxy_set_header Host $host;
       proxy_pass https://{{ frontend_nginx_flatpak_origin }};
