@@ -5,5 +5,6 @@ dependencies:
       zerotier_network_id: "{{ base_zerotier_network_id }}"
       zerotier_accesstoken: "{{ base_zerotier_accesstoken }}"
       zerotier_register_short_hostname: true
+      zerotier_api_delegate: "{{ base_zerotier_api_delegate }}"
     tags:
       base_zerotier
