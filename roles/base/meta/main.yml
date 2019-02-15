@@ -1,0 +1,9 @@
+---
+dependencies:
+  - role: m4rcu5nl.zerotier
+    vars:
+      zerotier_network_id: "{{ base_zerotier_network_id }}"
+      zerotier_accesstoken: "{{ base_zerotier_accesstoken }}"
+      zerotier_register_short_hostname: true
+    tags:
+      base_zerotier
