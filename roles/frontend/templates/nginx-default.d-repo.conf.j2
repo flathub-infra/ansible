@@ -35,3 +35,8 @@ location /beta-repo/summary {
     proxy_cache_key {{ frontend_nginx_beta_repo_origin_server }}$uri;
     proxy_pass {{ frontend_nginx_beta_repo_origin }}/summary;
 }
+
+location /build-repo {
+    gzip off;
+    proxy_pass {{ frontend_nginx_build_repo_origin }};
+}
