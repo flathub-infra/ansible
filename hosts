@@ -39,6 +39,9 @@ sources.flathub.org
 [stats]
 stats.flathub.org
 
+[repo]
+hub.flathub.org
+
 [testrepo]
 repo-test.flathub.org
 

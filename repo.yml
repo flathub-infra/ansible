@@ -1,6 +1,6 @@
 ---
 - name: set up repo machine
-  hosts: hub.flathub.org
+  hosts: repo
   roles:
   - postgres
   - repo-manager
