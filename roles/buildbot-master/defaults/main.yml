@@ -9,4 +9,4 @@ buildbot_master_sources_url: "https://sources.flathub.org/sources/"
 buildbot_master_sources: "/srv/buildbot-master/sources"
 buildbot_master_dir: "{{ buildbot_master_home }}/master"
 buildbot_master_sandbox: "{{ buildbot_master_home }}/sandbox"
-buildbot_master_version: flathub2
+buildbot_master_version: flathub3

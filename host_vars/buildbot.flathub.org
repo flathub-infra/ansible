@@ -1,6 +1,7 @@
 ---
 buildbot_master_uri: https://flathub.org/buildbot/
 buildbot_master_repo_manager_uri: https://hub.flathub.org
+buildbot_master_repo_manager_dl_uri: https://dl.flathub.org
 buildbot_master_sources: "/srv/buildbot/sources"
 
 buildbot_master_token: !vault |
