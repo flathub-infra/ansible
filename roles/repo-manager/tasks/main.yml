@@ -113,6 +113,17 @@
   tags:
    - repo-manager
 
+- name: install nginx default.d/repo.conf
+  template:
+    src: nginx-default.d-repo.conf.j2
+    dest: /etc/nginx/default.d/repo.conf
+    mode: 0644
+  notify:
+   - reload nginx
+  tags:
+    - repo-manager
+    - repo-manager_nginx
+
 - name: install nginx conf.d/repo-manager.conf
   template:
     src: nginx-conf.d-repo-manager.conf.j2
