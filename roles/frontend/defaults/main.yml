@@ -14,6 +14,8 @@ frontend_nginx_cache_purge_from: 127.0.0.1 2a00:1098:0:86:1000:bc:0:0/96 82.8.24
 frontend_nginx_cache_size: 260g
 frontend_nginx_repo_origin: "{{ frontend_nginx_repo_origin_server }}/repo"
 frontend_nginx_repo_origin_server: http://repo.flathub.org
+frontend_nginx_beta_repo_origin: "{{ frontend_nginx_beta_repo_origin_server }}/beta-repo"
+frontend_nginx_beta_repo_origin_server: https://hub.flathub.org
 frontend_nginx_ssl_name: "{{ inventory_hostname }}"
 frontend_nginx_stats_origin: https://stats.flathub.org
 frontend_nginx_webroot_domain: flathub.org

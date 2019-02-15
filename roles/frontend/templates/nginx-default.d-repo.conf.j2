@@ -16,3 +16,22 @@ location /repo/summary {
     proxy_cache_key {{ frontend_nginx_repo_origin_server }}$uri;
     proxy_pass {{ frontend_nginx_repo_origin }}/summary;
 }
+
+location /beta-repo {
+    gzip off;
+    proxy_cache frontend_cache;
+    proxy_cache_key {{ frontend_nginx_beta_repo_origin_server }}$uri;
+    proxy_pass {{ frontend_nginx_beta_repo_origin }};
+}
+
+location ~ ^/beta-repo/objects/.+\.(sig|sizes2)$ {
+    return 404;
+}
+
+location /beta-repo/summary {
+    gzip on;
+    gzip_types application/octet-stream;
+    proxy_cache frontend_cache;
+    proxy_cache_key {{ frontend_nginx_beta_repo_origin_server }}$uri;
+    proxy_pass {{ frontend_nginx_beta_repo_origin }}/summary;
+}
