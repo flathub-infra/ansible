@@ -1,7 +1,5 @@
 [mythic]
-apps.flathub.org
 hub.flathub.org
-front.flathub.org
 master.flathub.org
 repo.flathub.org
 front-hex.flathub.org
@@ -40,6 +38,9 @@ sources.flathub.org
 
 [stats]
 stats.flathub.org
+
+[repo]
+hub.flathub.org
 
 [testrepo]
 repo-test.flathub.org

@@ -150,6 +150,10 @@
     state: enabled
     permanent: true
     immediate: true
+    zone: "{{ item }}"
+  with_items:
+    - public
+    - dmz
   tags:
     - linux-store-backend
 

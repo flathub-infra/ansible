@@ -82,12 +82,25 @@
   tags:
     - nginx
 
-- name: permit http/https services in firewall
+- name: permit http/https services in firewall (default zone)
   firewalld:
     service: "{{ item }}"
     state: enabled
     permanent: true
     immediate: true
+  with_items:
+   - http
+   - https
+  tags:
+    - nginx
+
+- name: permit http/https services in firewall (dmz zone)
+  firewalld:
+    service: "{{ item }}"
+    state: enabled
+    permanent: true
+    immediate: true
+    zone: dmz
   with_items:
    - http
    - https
