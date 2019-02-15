@@ -16,7 +16,7 @@ repo_manager_uid: 995
 # don't want to touch it while in use by the buildbot.
 repo_manager_gpghome: "/srv/repomgr/gpg-socat"
 
-repo_manager_repodir: "/srv/repo/main"
+repo_manager_repodir: "/srv/repo/stable"
 repo_manager_beta_repodir: "/srv/repo/beta"
 repo_manager_buildrepodir: "/srv/repo/builds"
 
