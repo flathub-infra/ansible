@@ -9,8 +9,6 @@ location / {
 
     proxy_intercept_errors on;
 
-    proxy_hide_header Strict-Transport-Security;
-    proxy_hide_header Vary;
     proxy_set_header Host $host;
 
     if ($prerender = 1) {

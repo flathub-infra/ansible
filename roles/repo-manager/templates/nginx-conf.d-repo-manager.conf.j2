@@ -7,8 +7,6 @@ server {
     # Accept Let's Encrypt challenges for dehydrated
     include /etc/nginx/default.d/dehydrated.conf;
 
-    # Otherwise, redirect to https://
-    location / {
-        return 301 https://$host$request_uri;
-    }
+    # Proxy repos
+    include /etc/nginx/default.d/repo.conf;
 }

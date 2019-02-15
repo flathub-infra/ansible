@@ -1,0 +1,115 @@
+location /repo {
+    alias {{ repo_manager_repodir }};
+    add_header Cache-Control "public";
+    expires 1h;
+
+    location ~ ^/repo/summary(\.sig)?$ {
+        add_header Surrogate-Control "stale-if-error=86400";
+    }
+
+    location /repo/refs {
+        add_header Surrogate-Control "stale-if-error=86400";
+        expires 1m;
+    }
+
+    location ~ ^/repo/objects/.+\.commitmeta$ {
+        expires 1d;
+        access_log off;
+    }
+
+    location ~ ^/repo/objects/.+\.(sig|sizes2)$ {
+        return 404;
+        expires 1y;
+        access_log off;
+    }
+
+    location ~ ^/repo/objects/.+\.(commit|dirtree|filez)$ {
+        expires 1y;
+        access_log off;
+    }
+
+    location /repo/deltas {
+        expires 1y;
+        access_log off;
+    }
+
+    location /repo/sources {
+        autoindex on;
+    }
+
+    location /repo/sources/downloads {
+        expires 1y;
+        access_log off;
+        autoindex on;
+    }
+
+    location /repo/appstream {
+        autoindex on;
+    }
+}
+
+location /beta-repo {
+    alias {{ repo_manager_beta_repodir }};
+    add_header Cache-Control "public";
+    expires 1h;
+
+    location ~ ^/beta-repo/summary(\.sig)?$ {
+        add_header Surrogate-Control "stale-if-error=86400";
+    }
+
+    location /beta-repo/refs {
+        add_header Surrogate-Control "stale-if-error=86400";
+        expires 1m;
+    }
+
+    location ~ ^/beta-repo/objects/.+\.commitmeta$ {
+        expires 1d;
+        access_log off;
+    }
+
+    location ~ ^/beta-repo/objects/.+\.(sig|sizes2)$ {
+        return 404;
+        expires 1y;
+        access_log off;
+    }
+
+    location ~ ^/beta-repo/objects/.+\.(commit|dirtree|filez)$ {
+        expires 1y;
+        access_log off;
+    }
+
+    location /beta-repo/deltas {
+        expires 1y;
+        access_log off;
+    }
+
+    location /beta-repo/sources {
+        autoindex on;
+    }
+
+    location /beta-repo/sources/downloads {
+        expires 1y;
+        access_log off;
+        autoindex on;
+    }
+
+    location /beta-repo/appstream {
+        autoindex on;
+    }
+}
+
+location /build-repo {
+    proxy_pass http://127.0.0.1:8080;
+    add_header Vary Accept-Encoding;
+}
+
+location /api {
+    # Allow uploading large builds, deltas, etc
+    client_max_body_size 0;
+    proxy_pass http://127.0.0.1:8080;
+    add_header Vary Accept-Encoding;
+}
+
+location / {
+    deny all;
+}
