@@ -13,6 +13,7 @@
       - virtualenv
       - subversion
       # repoclient needs these:
+      - gir1.2-ostree-1.0
       - python3-requests
       - python3-gi
     state: latest
