@@ -20,9 +20,6 @@ codethink-arm-2.zt.flathub.org
 codethink-arm-3.zt.flathub.org
 codethink-arm-4.zt.flathub.org
 
-[hergert]
-pdx-x86-1.zt.flathub.org
-
 [buildbot-worker]
 cncf-x86-1.flathub.org
 cncf-x86-2.flathub.org

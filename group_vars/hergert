@@ -1,2 +1,0 @@
-buildbot_worker_description: 'Flathub x86_64 Builder located in PDX1'
-base_native: False
