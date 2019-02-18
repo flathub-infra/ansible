@@ -4,3 +4,4 @@
   roles:
   - postgres
   - repo-manager
+  - gpg-agent

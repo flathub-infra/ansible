@@ -14,7 +14,7 @@ repo_manager_uid: 995
 # /srv/gpg is the real gpg agent, but the ownership of it is wrong (user gpg)
 # This needs to be fixed manually when we migrate for real, but we
 # don't want to touch it while in use by the buildbot.
-repo_manager_gpghome: "/srv/repomgr/gpg-socat"
+repo_manager_gpghome: "/srv/gpg/agent"
 
 repo_manager_repodir: "/srv/repo/stable"
 repo_manager_beta_repodir: "/srv/repo/beta"

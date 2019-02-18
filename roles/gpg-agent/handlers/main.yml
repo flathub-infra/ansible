@@ -1,0 +1,4 @@
+- name: restart gpg-agent
+  service:
+    name: gpg-agent
+    state: restarted
