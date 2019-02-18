@@ -6,8 +6,9 @@
       - elfutils
       - flatpak-builder
       - git
-      - python-pip
+      - python3-pip
       - gcc # Needed for installing twisted
+      - python3-dev
       - ostree
       - virtualenv
       - subversion

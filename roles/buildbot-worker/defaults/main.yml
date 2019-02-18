@@ -7,4 +7,4 @@ buildbot_worker_name: "{{ ansible_hostname }}"
 buildbot_worker_master: "hub.flathub.org"
 buildbot_worker_admin: "Flathub Admins <admins@flathub.org>"
 buildbot_worker_virtualenv_command: virtualenv
-buildbot_worker_virtualenv_python: python
+buildbot_worker_virtualenv_python: python3
