@@ -107,6 +107,7 @@ location /api {
     # Allow uploading large builds, deltas, etc
     client_max_body_size 0;
     proxy_pass http://127.0.0.1:8080;
+    proxy_read_timeout 600s;
     add_header Vary Accept-Encoding;
 }
 
