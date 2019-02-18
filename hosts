@@ -1,11 +1,9 @@
 [mythic]
-hub.flathub.org
-master.flathub.org
-repo.flathub.org
+buildbot.flathub.org
 front-hex.flathub.org
 front-sov.flathub.org
+hub.flathub.org
 webapps.flathub.org
-buildbot.flathub.org
 
 [packet]
 cncf-x86-1.flathub.org
