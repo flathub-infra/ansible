@@ -66,13 +66,6 @@ gitlab_change_secret: !vault |
           3836346331386162640a653333386336383034373032326532313038346136623930653431613937
           3663
 
-worker_repo_test_worker_password: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-          62366130373130653966316231643732383063623237636337666534333766656433613532303966
-          3634333762396338633937343566383435346434393434340a323063636463373133316338373562
-          35313863386265643866393363373531303433656237383539663962336663373836653061333630
-          3434306238313766380a616563656332383861306234346438636532663536326336653430333466
-          3038
 worker_sources_password: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           62366130373130653966316231643732383063623237636337666534333766656433613532303966
@@ -80,6 +73,7 @@ worker_sources_password: !vault |
           35313863386265643866393363373531303433656237383539663962336663373836653061333630
           3434306238313766380a616563656332383861306234346438636532663536326336653430333466
           3038
+
 worker_arm_1_password: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           37613665373339363233386366333230316431353563353834333733373266306230363164613430
@@ -189,11 +183,6 @@ buildbot_master_workers:
     classes: [big]
     max-builds: 4
     password: "{{ worker_cncf_arm_2_password }}"
-  cncf-arm-3:
-    arches: [aarch64]
-    classes: [big]
-    max-builds: 4
-    password: "{{ worker_cncf_arm_3_password }}"
   cncf-x86-1:
     arches: [x86_64, i386]
     classes: [big]
@@ -204,13 +193,8 @@ buildbot_master_workers:
     classes: [big]
     max-builds: 4
     password: "{{ worker_cncf_x86_2_password }}"
-  cncf-x86-3:
-    arches: [x86_64, i386]
-    classes: [big]
-    max-builds: 4
-    password: "{{ worker_cncf_x86_3_password }}"
   sources:
     arches: []
     max-builds: 2
     download-sources: true
-    password: "{{ worker_repo_test_worker_password }}"
+    password: "{{ worker_sources_password }}"
