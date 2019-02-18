@@ -1,2 +1,5 @@
+buildbot_worker_user: "builder"
+buildbot_worker_home: "/home/builder"
+buildbot_worker_dir: "{{ buildbot_worker_home }}/worker"
 buildbot_worker_description: 'HP Moonshot cartridge provided by Codethink'
 base_native: False

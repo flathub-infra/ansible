@@ -172,19 +172,19 @@ worker_flathub_builder_pdx1_password: !vault |
 
 full_buildbot_master_workers:
   arm-1:
-    arches: [arm, aarch64]
+    arches: [arm]
     max-builds: 1
     password: "{{ worker_arm_1_password }}"
   arm-2:
-    arches: [arm, aarch64]
+    arches: [arm]
     max-builds: 1
     password: "{{ worker_arm_2_password }}"
   arm-3:
-    arches: [arm, aarch64]
+    arches: [aarch64]
     max-builds: 1
     password: "{{ worker_arm_3_password }}"
   arm-4:
-    arches: [arm, aarch64]
+    arches: [aarch64]
     max-builds: 1
     password: "{{ worker_arm_4_password }}"
   cncf-arm-1:
@@ -217,11 +217,6 @@ full_buildbot_master_workers:
     classes: [big]
     max-builds: 4
     password: "{{ worker_cncf_x86_3_password }}"
-  flathub-builder-pdx1:
-    arches: [x86_64, i386]
-    classes: [big]
-    max-builds: 2
-    password: "{{ worker_flathub_builder_pdx1_password }}"
 
 buildbot_master_workers:
   repo-test-worker:
