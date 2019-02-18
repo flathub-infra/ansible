@@ -8,3 +8,7 @@
   service:
     name: buildbot-master
     state: reloaded
+
+- name: restart buildbot-master required
+  debug:
+    msg: "Restarting buildbot-master service is required to pick up new config"

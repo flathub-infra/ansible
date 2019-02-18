@@ -115,7 +115,7 @@
     owner: "{{ buildbot_master_user }}"
     group: "{{ buildbot_master_user }}"
   notify:
-   - reconfig buildbot-master
+   - restart buildbot-master required
   tags:
    - buildbot-master
 
