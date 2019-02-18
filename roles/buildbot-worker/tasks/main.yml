@@ -107,6 +107,7 @@
     name: buildbot-worker
     daemon_reload: yes
     enabled: yes
+    state: started
   notify:
    - restart buildbot-worker
   tags:
