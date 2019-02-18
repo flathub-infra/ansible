@@ -157,19 +157,19 @@ worker_cncf_x86_3_password: !vault |
           3235383336363966653736663631363935306361396331613233
 
 buildbot_master_workers:
-  arm-1:
+  codethink-arm-1:
     arches: [arm]
     max-builds: 1
     password: "{{ worker_arm_1_password }}"
-  arm-2:
+  codethink-arm-2:
     arches: [arm]
     max-builds: 1
     password: "{{ worker_arm_2_password }}"
-  arm-3:
+  codethink-arm-3:
     arches: [aarch64]
     max-builds: 1
     password: "{{ worker_arm_3_password }}"
-  arm-4:
+  codethink-arm-4:
     arches: [aarch64]
     max-builds: 1
     password: "{{ worker_arm_4_password }}"
