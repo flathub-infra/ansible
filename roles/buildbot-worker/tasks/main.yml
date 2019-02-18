@@ -73,6 +73,7 @@
     '{{ buildbot_worker_password }}'
   args:
     creates: "{{ buildbot_worker_dir }}/buildbot.tac"
+  notify: restart buildbot-worker
   become: yes
   become_user: "{{ buildbot_worker_user }}"
   tags:
