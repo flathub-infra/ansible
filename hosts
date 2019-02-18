@@ -26,6 +26,9 @@ cncf-x86-2.flathub.org
 cncf-arm-1.flathub.org
 cncf-arm-2.flathub.org
 
+[buildbot-worker:children]
+codethink
+
 [frontend]
 front-hex.flathub.org
 front-sov.flathub.org
