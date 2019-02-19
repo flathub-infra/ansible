@@ -1,5 +1,4 @@
 ---
-buildbot_worker_master: "buildbot.flathub.org"
 buildbot_worker_virtualenv_command: virtualenv-3
 buildbot_worker_virtualenv_python: python3
 buildbot_worker_password: !vault |
