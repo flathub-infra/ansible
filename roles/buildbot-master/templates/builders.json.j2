@@ -1,1 +1,12 @@
-{{ buildbot_master_workers | to_json }}
+{
+{% for host in groups['buildbot-worker'] %}
+  "{{ hostvars[host]["inventory_hostname_short"] }}": {
+  {% for key, value in hostvars[host]["buildbot_worker_config"].items() %}
+    "{{ key }}": {{ value }},
+  {% endfor %}
+    "password": "{{ hostvars[host]["buildbot_worker_password"] }}"
+  }{% if not loop.last %},
+{% endif %}
+{% endfor %}
+
+}
