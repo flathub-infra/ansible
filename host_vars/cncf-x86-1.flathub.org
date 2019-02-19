@@ -1,7 +1,7 @@
 ---
 buildbot_worker_config:
-    arches: [x86_64, i386]
-    classes: [big]
+    arches: '["x86_64", "i386"]'
+    classes: '["big"]'
     max-builds: 4
 
 buildbot_worker_password: !vault |

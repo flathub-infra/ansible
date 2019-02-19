@@ -1,6 +1,6 @@
 ---
 buildbot_worker_config:
-    arches: [aarch64]
+    arches: '["aarch64"]'
     max-builds: 1
 
 buildbot_worker_password: !vault |
