@@ -157,20 +157,17 @@
   tags:
    - buildbot-master
 
-- name: permit port 8010 in firewall for buildbot
+- name: permit port 8010 in firewall for buildbot (zerotier only)
   firewalld:
     port: 8010/tcp
     state: enabled
     permanent: true
     immediate: true
-    zone: "{{ item }}"
-  with_items:
-    - public
-    - dmz
+    zone: dmz
   tags:
    - buildbot-master
 
-- name: permit port 9989 (workers) in firewall for buildbot (dmz only)
+- name: permit port 9989 (workers) in firewall for buildbot (zerotier only)
   firewalld:
     port: 9989/tcp
     state: enabled
