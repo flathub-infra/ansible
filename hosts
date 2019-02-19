@@ -26,6 +26,7 @@ cncf-x86-1.flathub.org
 cncf-x86-2.flathub.org
 cncf-arm-1.flathub.org
 cncf-arm-2.flathub.org
+sources.flathub.org
 
 [buildbot-worker:children]
 codethink
