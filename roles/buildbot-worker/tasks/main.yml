@@ -60,24 +60,27 @@
   with_items:
    - pip
    - buildbot-worker
+  become: true
   become_user: "{{ buildbot_worker_user }}"
   tags:
    - buildbot-worker
 
-- name: create buildbot-worker
-  command: >
-    '{{ buildbot_worker_sandbox }}/bin/buildbot-worker' create-worker
-    '{{ buildbot_worker_dir }}'
-    '{{ buildbot_worker_master }}'
-    '{{ buildbot_worker_name }}'
-    '{{ buildbot_worker_password }}'
-  args:
-    creates: "{{ buildbot_worker_dir }}/buildbot.tac"
-  notify: restart buildbot-worker
-  become: yes
+- name: create directories for worker configuration
+  file:
+    path: "{{ item }}"
+    state: directory
+  become: true
   become_user: "{{ buildbot_worker_user }}"
-  tags:
-   - buildbot-worker
+  with_items:
+    - "{{ buildbot_worker_dir }}"
+    - "{{ buildbot_worker_dir }}/info"
+
+- name: configure worker
+  template:
+    src: buildbot.tac.j2
+    dest: "{{ buildbot_worker_dir }}/buildbot.tac"
+  notify:
+   - restart buildbot-worker
 
 - name: set admin info
   copy:
