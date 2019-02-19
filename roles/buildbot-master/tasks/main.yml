@@ -76,10 +76,10 @@
   tags:
    - buildbot-master
 
-- name: Check out buildbot-config (use-repo-manager branch)
+- name: Check out buildbot-config
   git:
     repo: https://github.com/flathub/buildbot-config.git
-    version: use-repo-manager
+    version: master
     dest: "{{ buildbot_master_dir }}"
   become_user: "{{ buildbot_master_user }}"
   notify:
