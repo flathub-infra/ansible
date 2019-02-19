@@ -46,3 +46,19 @@
     state: started
     enabled: yes
   when: base_mythic_munin_hostname is defined
+
+- name: copy mythic-backup SSH public key
+  copy:
+    src: ssh/id_mythic_backup_rsa.pub
+    dest: /root/.ssh/id_mythic_backup_rsa.pub
+
+- name: copy mythic-backup SSH private key
+  copy:
+    src: ssh/id_mythic_backup_rsa
+    dest: /root/.ssh/id_mythic_backup_rsa
+
+- name: configure mythic-backup
+  template:
+    src: mythic-backup.conf.j2
+    dest: /etc/mythic/backup.conf
+    mode: 0644

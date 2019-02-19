@@ -1,4 +1,6 @@
 ---
+base_mythic_backup_excludes:
+ - /srv/repo
 base_mythic_munin_hostname: ma83
 
 repo_manager_secret: !vault |

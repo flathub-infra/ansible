@@ -1,4 +1,6 @@
 ---
+base_mythic_backup_excludes:
+ - /var/lib/appstream-extractor/export-data
 base_mythic_firewall_services:
  - ssh
  - http

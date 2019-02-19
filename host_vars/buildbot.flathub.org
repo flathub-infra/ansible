@@ -1,4 +1,6 @@
 ---
+base_mythic_backup_excludes:
+ - /srv/buildbot-master/master/workers
 base_mythic_firewall_services:
  - ssh
 base_mythic_firewall_ports:
