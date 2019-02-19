@@ -6,6 +6,14 @@ set -e
 
 # purge intermediate front-* caches and then CDN
 # (Fastly-Soft-Purge is a no-op on front-*)
+if [ $REPONAME == "stable" ]; then
+    REPO=repo
+elif [ $REPONAME == "beta" ]; then
+    REPO=beta-repo
+else
+    exit
+fi
+
 for host in front-hex front-sov dl; do
-    curl -X PURGE -H "Fastly-Soft-Purge: 1" https://${host}.flathub.org/repo/summary{,.sig} || true
+    curl -X PURGE -H "Fastly-Soft-Purge: 1" https://${host}.flathub.org/$REPO/summary{,.sig} || true
 done
