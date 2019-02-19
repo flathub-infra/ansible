@@ -62,3 +62,10 @@
   when: base_native == True
   tags:
    - base
+
+- name: configure Mythic Beasts hosts
+  include: mythic.yml
+  when: ('mythic' in group_names)
+  tags:
+   - base
+   - base_mythic

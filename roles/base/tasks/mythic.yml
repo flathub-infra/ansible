@@ -1,0 +1,22 @@
+---
+- name: configure Mythic yum remote
+  yum_repository:
+    name: mythic
+    description: Mythic Beasts
+    baseurl: http://mirror.mythic-beasts.com/rpm/mythic
+    gpgcheck: yes
+    gpgkey: http://mirror.mythic-beasts.com/mythic/support@mythic-beasts.com.gpg.key
+  when: ansible_os_family == "RedHat"
+
+- name: install Mythic management packages
+  package:
+    name:
+      - munin-node
+      - mythic-backup
+      - mythic-reporter
+    state: latest
+
+- name: add Mythic admin ssh key
+  authorized_key:
+    user: root
+    key: "{{ lookup('file', 'ssh/mythic.pub') }}"
