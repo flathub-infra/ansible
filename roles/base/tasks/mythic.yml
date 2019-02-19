@@ -20,3 +20,29 @@
   authorized_key:
     user: root
     key: "{{ lookup('file', 'ssh/mythic.pub') }}"
+
+- name: allow Mythic monitoring hosts through firewall
+  template:
+    src: mythic-firewalld-zone.xml.j2
+    dest: /etc/firewalld/zones/mythic.xml
+    mode: 0644
+  when: ansible_os_family == "RedHat"
+  notify:
+    - reload firewalld
+
+- name: configure munin-node
+  template:
+    src: mythic-munin-node.conf.j2
+    dest: /etc/munin/munin-node.conf
+    mode: 0644
+  when: base_mythic_munin_hostname is defined
+  notify:
+    - restart munin-node
+
+- name: enable munin-node
+  systemd:
+    name: munin-node
+    daemon-reload: yes
+    state: started
+    enabled: yes
+  when: base_mythic_munin_hostname is defined

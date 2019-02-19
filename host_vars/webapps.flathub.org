@@ -1,4 +1,13 @@
 ---
+base_mythic_firewall_services:
+ - ssh
+ - http
+ - https
+base_mythic_firewall_ports:
+ - 4949
+ - 8080
+base_mythic_munin_hostname: vflatcdncam
+
 linux_store_backend_db_password: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           63363361616164633466373838353564353166346465656564663631323165633866653330663834
