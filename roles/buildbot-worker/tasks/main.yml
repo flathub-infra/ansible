@@ -24,19 +24,19 @@
 - name: install buildbot packages (rpm)
   yum:
     name:
-       - "@development-tools"
-       - elfutils
-       - flatpak-builder
-       - gcc # Needed for installing twisted
-       - git
-       - libappstream-glib
-       - ostree
-       - python34-pip
-       - python34-virtualenv
-       - subversion
-       # flat-manager-client needs these:
-       - python34-gobject
-       - python34-requests
+      - "@development-tools"
+      - elfutils
+      - flatpak-builder
+      - gcc # Needed for installing twisted
+      - git
+      - libappstream-glib
+      - ostree
+      - python34-pip
+      - python34-virtualenv
+      - subversion
+      # flat-manager-client needs these:
+      - python34-gobject
+      - python34-requests
     state: latest
   when: ansible_distribution == "CentOS"
   tags:
