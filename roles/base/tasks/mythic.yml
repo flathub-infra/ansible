@@ -57,6 +57,13 @@
     src: ssh/id_mythic_backup_rsa
     dest: /root/.ssh/id_mythic_backup_rsa
 
+- name: add mythic-backup host keys to /etc/ssh/ssh_known_hosts
+  known_hosts:
+    path: /etc/ssh/ssh_known_hosts
+    name: '{{ base_mythic_backup_host }}'
+    key: '{{ item }}'
+  with_items: "{{ lookup('file', 'ssh-host/' ~ base_mythic_backup_host ~ '.pub').split('\n') }}"
+
 - name: configure mythic-backup
   template:
     src: mythic-backup.conf.j2

@@ -33,8 +33,9 @@ base_firewall_dmz_sources:
  - 172.28.0.0/16
  - fca2:895:f500::/40
 
-base_mythic_backup_disable: False
+base_mythic_backup_disabled: False
 base_mythic_backup_exclude: []
+base_mythic_backup_host: backup-mer-b.mythic-beasts.com
 base_mythic_backup_postgres: ('postgres' in group_names)
 base_mythic_firewall_sources:
  - 93.93.128.162
