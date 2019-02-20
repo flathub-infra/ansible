@@ -1,4 +1,14 @@
 ---
+base_mythic_backup_excludes:
+ - /srv/buildbot-master/master/workers
+base_mythic_firewall_services:
+ - ssh
+base_mythic_firewall_ports:
+ - 4949
+ - 8010
+ - 9989
+base_mythic_munin_hostname: vflatbuildbot
+
 buildbot_master_uri: https://flathub.org/builds/
 buildbot_master_repo_manager_uri: https://hub.flathub.org
 buildbot_master_repo_manager_dl_uri: https://dl.flathub.org

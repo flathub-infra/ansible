@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<zone>
+{% for addr in base_mythic_firewall_sources %}
+  <source address="{{ addr }}"/>
+{% endfor %}
+{% for service in base_mythic_firewall_services %}
+  <service name="{{ service }}"/>
+{% endfor %}
+{% for port in base_mythic_firewall_ports %}
+  <port protocol="tcp" port="{{ port }}"/>
+{% endfor %}
+</zone>

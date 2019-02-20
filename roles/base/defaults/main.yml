@@ -32,6 +32,24 @@ base_packages_rpm:
 base_firewall_dmz_sources:
  - 172.28.0.0/16
  - fca2:895:f500::/40
+
+base_mythic_backup_disable: False
+base_mythic_backup_exclude: []
+base_mythic_backup_postgres: ('postgres' in group_names)
+base_mythic_firewall_sources:
+ - 93.93.128.162
+ - 2a00:1098:0:80:1000::100
+ - 46.235.226.128
+ - 2a00:1098:0:80:1000::14
+ - 93.93.131.51
+ - 2a00:1098:0:86:1000::a
+ - 93.93.128.100
+ - 2a00:1098:0:86:1000::13
+base_mythic_firewall_services:
+ - ssh
+base_mythic_firewall_ports:
+ - 4949
+
 base_zerotier_network_id: a84ac5c10a425034
 base_zerotier_api_delegate: hub.flathub.org
 base_zerotier_accesstoken: !vault |
