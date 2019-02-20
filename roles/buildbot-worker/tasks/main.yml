@@ -5,17 +5,17 @@
       - build-essential
       - elfutils
       - flatpak-builder
-      - git
-      - python3-pip
       - gcc # Needed for installing twisted
-      - python3-dev
+      - git
       - ostree
-      - virtualenv
+      - python3-dev
+      - python3-pip
       - subversion
+      - virtualenv
       # repoclient needs these:
       - gir1.2-ostree-1.0
-      - python3-requests
       - python3-gi
+      - python3-requests
     state: latest
   when: ansible_os_family == "Debian"
   tags:
@@ -25,18 +25,18 @@
   yum:
     name:
        - "@development-tools"
-       - python34-pip
-       - python34-virtualenv
-       - gcc # Needed for installing twisted
-       - libappstream-glib
        - elfutils
        - flatpak-builder
+       - gcc # Needed for installing twisted
        - git
+       - libappstream-glib
        - ostree
+       - python34-pip
+       - python34-virtualenv
        - subversion
        # flat-manager-client needs these:
-       - python34-requests
        - python34-gobject
+       - python34-requests
     state: latest
   when: ansible_distribution == "CentOS"
   tags:
