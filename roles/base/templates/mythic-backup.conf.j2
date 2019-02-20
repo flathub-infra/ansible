@@ -1,6 +1,6 @@
 SERVER=backup-mer-b
 CUSTOMER=flathub
-DISABLE={{ base_mythic_backup_disable | ternary('yes', 'no') }}
+DISABLED={{ base_mythic_backup_disabled | ternary('yes', 'no') }}
 SUBDIR={{ inventory_hostname_short }}
 MYSQL=no
 POSTGRES={{ base_mythic_backup_postgres | ternary('yes', 'no') }}
