@@ -3,6 +3,7 @@
     name:
       - appstream-util
       - build-essential
+      - bzr
       - elfutils
       - flatpak-builder
       - gcc # Needed for installing twisted
@@ -25,6 +26,7 @@
   yum:
     name:
       - "@development-tools"
+      - bzr
       - elfutils
       - flatpak-builder
       - gcc # Needed for installing twisted
