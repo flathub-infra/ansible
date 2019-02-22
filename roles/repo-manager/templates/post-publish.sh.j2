@@ -4,6 +4,9 @@ REPODIR="$2"
 
 set -e
 
+# Work around issue with flat-manager getting the permissions wrong (not group readable + dictories executable)
+chmod -R a+rX /srv/repo/$REPONAME/screenshots /srv/repo/$REPONAME/deltas
+
 # purge intermediate front-* caches and then CDN
 # (Fastly-Soft-Purge is a no-op on front-*)
 if [ $REPONAME == "stable" ]; then
