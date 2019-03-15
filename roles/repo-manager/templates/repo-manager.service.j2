@@ -9,6 +9,7 @@ WorkingDirectory={{ repo_manager_home }}
 ExecStart={{ repo_manager_home }}/bin/flat-manager
 
 Environment=REPO_CONFIG={{ repo_manager_home }}/flat-manager-config.json
+Environment=RUST_BACKTRACE=1
 
 [Install]
 WantedBy=multi-user.target
