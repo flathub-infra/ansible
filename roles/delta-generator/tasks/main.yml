@@ -1,0 +1,57 @@
+---
+- name: install packages (deb)
+  package:
+    name:
+      - ostree
+      - flatpak
+      - libpq5
+    state: present
+  when: ansible_os_family == "Debian"
+
+- name: install packages (rpm)
+  package:
+    name:
+      - ostree
+      - flatpak
+      - postgresql-libs
+    state: present
+  when: ansible_os_family == "CentOS"
+
+- name: create user
+  user:
+    name: "{{ delta_generator_user }}"
+    home: "{{ delta_generator_home }}"
+    system: yes
+
+- name: Create bin directory
+  file:
+    path: "{{ delta_generator_home }}/bin"
+    state: directory
+    owner: "{{ delta_generator_user }}"
+    group: "{{ delta_generator_user }}"
+    mode: 0775
+
+- name: Download delta-generator release
+  get_url:
+    url: "https://github.com/flatpak/flat-manager/releases/download/{{ delta_generator_version }}/delta-generator-client"
+    checksum: "{{ delta_generator_checksum }}"
+    dest: "{{ delta_generator_home }}/bin/delta-generator-client"
+    mode: 0775
+  become_user: "{{ delta_generator_user }}"
+  notify:
+   - restart delta-generator
+
+- name: add systemd unit
+  template:
+    src: delta-generator.service.j2
+    dest: /etc/systemd/system/delta-generator.service
+  notify:
+   - restart delta-generator
+
+- name: enable and start delta-generator
+  systemd:
+    name: delta-generator
+    daemon_reload: yes
+    enabled: yes
+  notify:
+   - restart delta-generator

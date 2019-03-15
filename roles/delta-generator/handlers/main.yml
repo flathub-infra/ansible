@@ -1,0 +1,4 @@
+- name: restart delta-generator
+  service:
+    name: delta-generator
+    state: restarted

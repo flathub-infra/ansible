@@ -1,0 +1,16 @@
+[Unit]
+Description=delta-generator
+
+[Service]
+User={{ delta_generator_user }}
+Group={{ delta_generator_user }}
+WorkingDirectory={{ delta_generator_home }}
+ExecStart={{ delta_generator_home }}/bin/delta-generator-client
+
+Environment=REPO_TOKEN={{ delta_generator_token }}
+Environment=MANAGER_URL={{ delta_generator_manager_uri }}
+Environment=WORKDIR={{ delta_generator_home }}
+Environment=RUST_BACKTRACE=1
+
+[Install]
+WantedBy=multi-user.target
