@@ -10,7 +10,7 @@ repo_manager_repodir: "{{ repo_manager_home }}/repo"
 repo_manager_beta_repodir: "{{ repo_manager_home }}/repo-beta"
 repo_manager_buildrepodir: "{{ repo_manager_home }}/build-repo"
 repo_manager_runtime_repo_url: "https://dl.flathub.org/repo/flathub.flatpakrepo"
-repo_manager_version: "0.2.2"
-repo_manager_checksum: sha256:c33e6d730971536ec8d30673f82ebc34f83fa450f1f6c83a08cf3e5363bc9ac9
+repo_manager_version: "0.3.0"
+repo_manager_checksum: sha256:bd341e4f188bf27f9ae1b26a9c9021aed52d66ec0d003514cd7f9c757f5b8cfc
 repo_manager_host: "127.0.0.1"
 repo_manager_port: "8080"
