@@ -10,8 +10,8 @@ repo_manager_repodir: "{{ repo_manager_home }}/repo"
 repo_manager_beta_repodir: "{{ repo_manager_home }}/repo-beta"
 repo_manager_buildrepodir: "{{ repo_manager_home }}/build-repo"
 repo_manager_runtime_repo_url: "https://dl.flathub.org/repo/flathub.flatpakrepo"
-repo_manager_version: "0.3.1"
-repo_manager_checksum: sha256:9c918e95b7038de2160fb47c68b9268dceee403306cd711c798c0495cc0e583a
+repo_manager_version: "0.3.2"
+repo_manager_checksum: sha256:9344158565b89b6197b8c3fea3a404b0c25d58335c01f1c713801d8d25e97ff0
 repo_manager_host: "127.0.0.1"
 repo_manager_port: "8080"
 # Delay update jobs 2 minutes to allow grouping multiple publish jobs
