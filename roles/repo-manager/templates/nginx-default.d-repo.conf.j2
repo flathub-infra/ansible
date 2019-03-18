@@ -29,7 +29,7 @@ location /repo {
     }
 
     location ~ ^/repo/deltas/(.*)$ {
-        try_files /repo/deltas/$1 /repo/tmp/deltas/$1;
+        try_files /repo/deltas/$1 /repo/tmp/deltas/$1 =404;
         expires 1y;
         access_log off;
     }
@@ -80,7 +80,7 @@ location /beta-repo {
     }
 
     location ~ ^/beta-repo/deltas/(.*)$ {
-        try_files /beta-repo/deltas/$1 /beta-repo/tmp/deltas/$1;
+        try_files /beta-repo/deltas/$1 /beta-repo/tmp/deltas/$1 =404;
         expires 1y;
         access_log off;
     }
