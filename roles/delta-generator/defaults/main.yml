@@ -2,8 +2,8 @@
 # External domain name
 delta_generator_user: "deltagen"
 delta_generator_home: "/srv/deltagen"
-delta_generator_version: "0.3.2"
-delta_generator_checksum: sha256:9d01b399623103c29c376f2dfcc3b6258d37401aab41f5a81c7e66ff1771587d
+delta_generator_version: "0.3.3"
+delta_generator_checksum: sha256:3e3d93762aaf2c4a27f657699e2a0f934de9f68c05003358075bfb9efe07e64a
 delta_generator_manager_uri: http://hub.flathub.org
 delta_generator_token: !vault |
           $ANSIBLE_VAULT;1.1;AES256
