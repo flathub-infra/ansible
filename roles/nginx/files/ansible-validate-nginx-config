@@ -1,0 +1,14 @@
+#!/bin/bash
+TMPDIR="$(mktemp -d)"
+trap '{ rm -rf "$TMPDIR"; }' EXIT
+
+[[ $# -lt 2 ]] && exit 1
+
+dir="$(dirname $2)"
+
+cp -r /etc/nginx/ "$TMPDIR"
+[[ ! -d "$TMPDIR/nginx/$dir" ]] && mkdir -p "$TMPDIR/nginx/$dir"
+cp "$1" "$TMPDIR/nginx/$2"
+find "$TMPDIR" -type f -exec sed -i "s|/etc/nginx|$TMPDIR/nginx|g" {} +
+nginx -t -c "$TMPDIR/nginx/nginx.conf"
+exit $?

@@ -28,6 +28,12 @@
   tags:
     - nginx
 
+- name: install helper for validating config files
+  copy:
+    src: ansible-validate-nginx-config
+    dest: /usr/local/sbin/ansible-validate-nginx-config
+    mode: 0750
+
 - name: install nginx.conf
   template:
     src: nginx.conf.j2
