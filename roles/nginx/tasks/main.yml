@@ -38,6 +38,7 @@
   template:
     src: nginx.conf.j2
     dest: /etc/nginx/nginx.conf
+    validate: /usr/sbin/nginx -t -c %s
   notify:
    - reload nginx
   tags:
