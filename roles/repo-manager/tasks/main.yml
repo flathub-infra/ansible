@@ -118,6 +118,7 @@
     src: nginx-default.d-repo.conf.j2
     dest: /etc/nginx/default.d/repo.conf
     mode: 0644
+    validate: /usr/local/sbin/ansible-validate-nginx-config %s default.d/repo.conf
   notify:
    - reload nginx
   tags:
@@ -129,6 +130,7 @@
     src: nginx-conf.d-repo-manager.conf.j2
     dest: /etc/nginx/conf.d/repo-manager.conf
     mode: 0644
+    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/repo-manager.conf
   notify:
    - reload nginx
   tags:
@@ -147,6 +149,7 @@
     src: nginx-conf.d-repo-manager-ssl.conf.j2
     dest: /etc/nginx/conf.d/repo-manager-ssl.conf
     mode: 0644
+    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/repo-manager-ssl.conf
   notify:
    - reload nginx
   tags:
