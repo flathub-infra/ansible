@@ -35,3 +35,16 @@ stats_fastly_addresses:
   - "202.21.128.12/32"
   - "203.57.145.11/32"
   - "203.57.145.12/32"
+
+# Cache folder of the stats graph generation
+# FIXME: might not need stats ...
+stats_graph_cache_dir: /var/cache/flathub-stats-graph
+
+# Where the code for the stats graph generation is stored
+stats_graph_checkout_dir: /opt/flathub-stats-graph
+
+# Where the output of the graphs is put
+stats_graph_output_dir: '{{ stats_volume_mount }}/graphs'
+
+# What the web path to the graphs folder appears to the outside
+stats_graph_web_path: /graphs

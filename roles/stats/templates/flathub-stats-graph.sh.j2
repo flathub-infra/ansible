@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# FIXME: should we have a git pull here ?
+
+# FIXME: should we use --cache-dir ?
+# maybe have a special mode which can read from local filesystem rather than using network?
+# or will hitting flathub.org/stats be super fast as that is us ...
+
+# Update graph images
+/usr/bin/python3 {{ stats_graph_checkout_dir }}/main.py \
+  --cache-dir {{ stats_graph_cache_dir }} \
+  --model-skip-today \
+  --report \
+    count_by_time \
+    downloads \
+    downloads_by_arch \
+    downloads_by_flatpak_major_version \
+    downloads_by_flatpak_major_version \
+    downloads_by_flatpak_version \
+    downloads_by_flatpak_version \
+    downloads_by_ostree_version \
+    downloads_by_ostree_version \
+    downloads_only_apps \
+    downloads_only_runtimes \
+    downloads_only_nvidia_runtimes \
+  --type \
+    graph \
+    graph \
+    graph \
+    graph \
+    graph:stacked_bar \
+    graph \
+    graph:stacked_bar \
+    graph \
+    graph:stacked_bar \
+    graph \
+    graph \
+    data \
+  --output \
+    {{ stats_graph_output_dir }}/flathub.png \
+    {{ stats_graph_output_dir }}/flathub_downloads.png \
+    {{ stats_graph_output_dir }}/flathub_downloads_by_arch.png \
+    {{ stats_graph_output_dir }}/flathub_downloads_by_flatpak_major_version.png \
+    {{ stats_graph_output_dir }}/flathub_downloads_by_flatpak_major_version_stacked_bar.png \
+    {{ stats_graph_output_dir }}/flathub_downloads_by_flatpak_version.png \
+    {{ stats_graph_output_dir }}/flathub_downloads_by_flatpak_version_stacked_bar.png \
+    {{ stats_graph_output_dir }}/flathub_downloads_by_ostree_version.png \
+    {{ stats_graph_output_dir }}/flathub_downloads_by_ostree_version_stacked_bar.png \
+    {{ stats_graph_output_dir }}/flathub_downloads_only_apps.png \
+    {{ stats_graph_output_dir }}/flathub_downloads_only_runtimes.png \
+    {{ stats_graph_output_dir }}/flathub_downloads_only_nvidia_runtimes.txt
