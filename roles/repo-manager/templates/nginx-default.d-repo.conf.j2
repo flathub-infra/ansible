@@ -106,18 +106,20 @@ location /build-repo {
 }
 
 location /api {
+    proxy_pass http://127.0.0.1:8080;
+
     # Allow uploading large builds, deltas, etc
     client_max_body_size 0;
-    proxy_pass http://127.0.0.1:8080;
-    proxy_read_timeout 6000s;
+
     # Requests are large for uploads, so directly forward them
     proxy_request_buffering off;
+
     # Not sure if we need this, but bumping from the default 60s might
     # fix some of the timeouts we've seen
     proxy_send_timeout 180s;
-    proxy_read_timeout 180s;
+    proxy_read_timeout 6000s;
 
-    # It seems like this fixes the upload sendfile issue:
+    # It seems like this fixes the upload sendfile issue
     proxy_http_version 1.1;
     sendfile off;
 
