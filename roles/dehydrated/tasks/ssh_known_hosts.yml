@@ -5,5 +5,3 @@
     name: '{{ dehydrated_sync_host }}'
     key: '{{ item }}'
   with_items: "{{ lookup('file', 'ssh-host/' ~ dehydrated_sync_host ~ '.pub').split('\n') }}"
-  tags:
-    - dehydrated

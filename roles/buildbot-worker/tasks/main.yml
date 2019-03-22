@@ -19,8 +19,6 @@
       - python3-requests
     state: latest
   when: ansible_os_family == "Debian"
-  tags:
-   - buildbot-worker
 
 - name: install buildbot packages (rpm)
   yum:
@@ -41,16 +39,12 @@
       - python34-requests
     state: latest
   when: ansible_distribution == "CentOS"
-  tags:
-   - buildbot-worker
 
 - name: create buildbot user
   user:
     name: "{{ buildbot_worker_user }}"
     home: "{{ buildbot_worker_home }}"
     system: yes
-  tags:
-   - buildbot-worker
 
 - name: install pip and buildbot-worker in virtualenv
   pip:
@@ -64,8 +58,6 @@
    - buildbot-worker
   become: true
   become_user: "{{ buildbot_worker_user }}"
-  tags:
-   - buildbot-worker
 
 - name: create directories for worker configuration
   file:
@@ -88,15 +80,11 @@
   copy:
     content: '{{ buildbot_worker_admin }}'
     dest: "{{ buildbot_worker_dir }}/info/admin"
-  tags:
-   - buildbot-worker
 
 - name: set host info
   copy:
     content: '{{ buildbot_worker_description }}'
     dest: "{{ buildbot_worker_dir }}/info/host"
-  tags:
-   - buildbot-worker
 
 - name: add systemd unit
   template:
@@ -104,8 +92,6 @@
     dest: /etc/systemd/system/buildbot-worker.service
   notify:
    - restart buildbot-worker
-  tags:
-   - buildbot-worker
 
 - name: enable and start worker
   systemd:
@@ -115,5 +101,3 @@
     state: started
   notify:
    - restart buildbot-worker
-  tags:
-   - buildbot-worker

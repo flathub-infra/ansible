@@ -10,23 +10,17 @@
     gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7
     metalink: https://mirrors.fedoraproject.org/metalink?repo=epel-7&arch=$basearch
   when: ansible_distribution == "CentOS"
-  tags:
-    - nginx
 
 - name: add bochecha-nginx COPR
   copy:
     src: bochecha-nginx-epel-7.repo
     dest: /etc/yum.repos.d/bochecha-nginx-epel-7.repo
   when: ansible_distribution == "CentOS"
-  tags:
-    - nginx
 
 - name: install nginx
   package:
     name: nginx
     state: latest
-  tags:
-    - nginx
 
 - name: install helper for validating config files
   copy:
@@ -41,8 +35,6 @@
     validate: /usr/sbin/nginx -t -c %s
   notify:
    - reload nginx
-  tags:
-    - nginx
 
 - name: install nginx mime.types
   copy:
@@ -50,8 +42,6 @@
     dest: /etc/nginx/mime.types
   notify:
    - reload nginx
-  tags:
-    - nginx
 
 - name: install RFC7919 ffdhe2048 DH groups
   copy:
@@ -59,8 +49,6 @@
     dest: '{{ nginx_dhparam_file }}'
   notify:
    - reload nginx
-  tags:
-    - nginx
 
 - name: install nginx conf.d/gzip.conf
   copy:
@@ -68,8 +56,6 @@
     dest: /etc/nginx/conf.d/gzip.conf
   notify:
    - reload nginx
-  tags:
-    - nginx
 
 - name: install nginx default.d/dehydrated.conf
   copy:
@@ -77,8 +63,6 @@
     dest: /etc/nginx/default.d/dehydrated.conf
   notify:
    - reload nginx
-  tags:
-    - nginx
 
 - name: install nginx default.d/ssl.conf
   template:
@@ -86,8 +70,6 @@
     dest: /etc/nginx/default.d/ssl.conf
   notify:
    - reload nginx
-  tags:
-    - nginx
 
 - name: permit http/https services in firewall (default zone)
   firewalld:
@@ -98,8 +80,6 @@
   with_items:
    - http
    - https
-  tags:
-    - nginx
 
 - name: permit http/https services in firewall (dmz zone)
   firewalld:
@@ -111,13 +91,9 @@
   with_items:
    - http
    - https
-  tags:
-    - nginx
 
 - name: allow httpd to make network connections
   seboolean:
     name: httpd_can_network_connect
     state: '{{ nginx_network_connect | bool }}'
     persistent: yes
-  tags:
-    - nginx

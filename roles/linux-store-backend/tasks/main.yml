@@ -7,16 +7,13 @@
       - podman
     state: latest
   tags:
-    - linux-store-backend
-    - linux-store-backend_packages
+    - packages
 
 - name: create linux-store user
   user:
     name: "{{ linux_store_backend_user }}"
     home: "{{ linux_store_backend_home }}"
     system: yes
-  tags:
-   - linux-store-backend
 
 # We need the raw uid for the user for the podman command
 - name: Get information about the linux-store user
@@ -24,8 +21,6 @@
     key: "{{ linux_store_backend_user }}"
     database: "passwd"
     fail_key: true
-  tags:
-   - linux-store-backend
 
 - name: Add postgres user
   postgresql_user:
@@ -35,24 +30,18 @@
     # https://timonweb.com/posts/error-must-be-owner-of-extension-plpgsql/
     role_attr_flags: SUPERUSER
   become_user: postgres
-  tags:
-   - linux-store-backend
 
 - name: Create the database
   postgresql_db:
     name: "{{ linux_store_backend_db }}"
     owner: "{{ linux_store_backend_user }}"
   become_user: postgres
-  tags:
-   - linux-store-backend
 
 - name: add database connect info
   template:
     src: linux-store-backend.yml.j2
     owner: "{{ linux_store_backend_user }}"
     dest: "{{ linux_store_backend_home }}/linux-store-backend.yml"
-  tags:
-    - linux-store-backend
 
 - name: Allow linuxstore to auth to pg
   lineinfile:
@@ -60,8 +49,6 @@
     insertafter: '^#\sIPv4\slocal.+'
     regexp: '^host\s+{{ linux_store_backend_db }}\s+{{ linux_store_backend_user }}\s+127.0.0.1/32\s+md5$'
     line: "host    {{ linux_store_backend_db }}      {{ linux_store_backend_user }}      127.0.0.1/32            md5"
-  tags:
-    - linux-store-backend
 
 - name: Check out linux-store-backend
   git:
@@ -69,46 +56,34 @@
     version: "{{ linux_store_backend_git_version }}"
     dest: "{{ linux_store_backend_checkout }}"
   become_user: "{{ linux_store_backend_user }}"
-  tags:
-   - linux-store-backend
 
 - name: Allow container to see files in appstream-extractor directory
   sefcontext:
     target: '{{ linux_store_backend_apptream_extractor_dir }}(/.*)?'
     setype: container_file_t
     state: present
-  tags:
-   - linux-store-backend
 
 - name: create appstream-extractor directory
   file:
     path: "{{ linux_store_backend_apptream_extractor_dir }}"
     state: directory
     owner: "{{ linux_store_backend_user }}"
-  tags:
-    - linux-store-backend
 
 - name: create appstream-extractor/export-data directory
   file:
     path: "{{ linux_store_backend_apptream_extractor_dir }}/export-data"
     state: directory
     owner: "{{ linux_store_backend_user }}"
-  tags:
-    - linux-store-backend
 
 - name: add appstream-extractor service unit
   template:
     src: appstream-extractor.service.j2
     dest: /etc/systemd/system/appstream-extractor.service
-  tags:
-    - linux-store-backend
 
 - name: add appstream-extractor timer unit
   template:
     src: appstream-extractor.timer.j2
     dest: /etc/systemd/system/appstream-extractor.timer
-  tags:
-    - linux-store-backend
 
 - name: enable and start timer
   systemd:
@@ -116,23 +91,17 @@
     enabled: yes
     daemon_reload: yes
     state: started
-  tags:
-    - linux-store-backend
 
 - name: add linux-store-backend service unit
   template:
     src: linux-store-backend.service.j2
     dest: /etc/systemd/system/linux-store-backend.service
-  tags:
-    - linux-store-backend
 
 - name: Get current linux-store-backend image id
   command: podman images  -q -n --notruncate {{ linux_store_backend_image }}
   register: linux_store_backend_old_image
   changed_when: false
   failed_when: false
-  tags:
-    - linux-store-backend
 
 - name: Update to latest linux-store-backend image
   command: podman image pull -q {{ linux_store_backend_image }}
@@ -141,8 +110,6 @@
   changed_when: "'sha256:' + linux_store_backend_new_image.stdout != linux_store_backend_old_image.stdout"
   notify:
    - restart linux-store-backend
-  tags:
-    - linux-store-backend
 
 - name: permit port 8080 in firewall for linux-store-backend
   firewalld:
@@ -154,8 +121,6 @@
   with_items:
     - public
     - dmz
-  tags:
-    - linux-store-backend
 
 - name: enable and start linux-store-backend
   systemd:
@@ -163,5 +128,3 @@
     enabled: yes
     daemon_reload: yes
     state: started
-  tags:
-    - linux-store-backend

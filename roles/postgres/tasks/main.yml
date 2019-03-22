@@ -8,15 +8,12 @@
       - postgresql-devel
     state: latest
   tags:
-    - postgres
-    - postgres_packages
+    - packages
 
 - name: initdb
   command: postgresql-setup initdb
   args:
     creates: /var/lib/pgsql/data/pg_hba.conf
-  tags:
-    - postgres
 
 - name: enable and start postgres
   systemd:
@@ -24,5 +21,3 @@
     daemon_reload: yes
     enabled: yes
     state: started
-  tags:
-   - postgres

@@ -5,8 +5,7 @@
     groups: "{{ base_admin_group }}"
   with_items: "{{ base_admin_users }}"
   tags:
-   - base
-   - base_admins
+   - users
 
 # TODO: Get Alex to use a 4k RSA key
 - name: add admin ssh keys
@@ -15,8 +14,7 @@
     key: "{{ lookup('file', 'ssh/{{ item.username }}.pub') }}"
   with_items: "{{ base_admin_users }}"
   tags:
-   - base
-   - base_admins
+   - users
 
 - name: allow passwordless sudo
   lineinfile:
@@ -25,8 +23,6 @@
     regexp: '^%{{ base_admin_group }}(\s+)ALL='
     line: '%{{ base_admin_group }} ALL=(ALL) NOPASSWD: ALL'
     validate: '/usr/sbin/visudo -cf %s'
-  tags:
-   - base
 
 - name: configure deb system
   include: deb.yml
@@ -39,33 +35,24 @@
 - name: set timezone to UTC
   timezone:
     name: UTC
-  tags:
-   - base
 
 - name: configure etckeeper
   template:
     src: etckeeper.conf.j2
     dest: /etc/etckeeper/etckeeper.conf
-  tags:
-   - base
 
 - name: enable time service
   service:
     name: "{{ base_time_service_unit }}"
     state: started
     enabled: yes
-  tags:
-   - base
 
 - name: configure native flathub.org hosts
   include: native.yml
-  when: base_native == True
-  tags:
-   - base
+  when: base_native
 
 - name: configure Mythic Beasts hosts
   include: mythic.yml
   when: ('mythic' in group_names)
   tags:
-   - base
-   - base_mythic
+   - mythic

@@ -17,31 +17,24 @@
       - git
     state: latest
   tags:
-    - buildbot-master
-    - buildbot-master_packages
+    - packages
 
 - name: create buildbot-master user
   user:
     name: "{{ buildbot_master_user }}"
     home: "{{ buildbot_master_home }}"
     system: yes
-  tags:
-   - buildbot-master
 
 - name: Add postgres user
   postgresql_user:
     name: "{{ buildbot_master_user }}"
   become_user: postgres
-  tags:
-   - buildbot-master
 
 - name: Create the database
   postgresql_db:
     name: "{{ buildbot_master_db }}"
     owner: "{{ buildbot_master_user }}"
   become_user: postgres
-  tags:
-   - buildbot-master
 
 - name: install pip and python dependencies in virtualenv
   pip:
@@ -56,8 +49,6 @@
     virtualenv_command: virtualenv-3
     virtualenv_python: python3
   become_user: "{{ buildbot_master_user }}"
-  tags:
-   - buildbot-master
 
 - name: install buildbot in virtualenv
   pip:
@@ -73,8 +64,6 @@
   become_user: "{{ buildbot_master_user }}"
   notify:
    - restart buildbot-master
-  tags:
-   - buildbot-master
 
 - name: Check out buildbot-config
   git:
@@ -84,8 +73,6 @@
   become_user: "{{ buildbot_master_user }}"
   notify:
    - reconfig buildbot-master
-  tags:
-   - buildbot-master
 
 - name: Install flathub.gpg
   get_url:
@@ -94,8 +81,6 @@
     dest: "{{ buildbot_master_dir }}/flathub.gpg"
     owner: "{{ buildbot_master_user }}"
     group: "{{ buildbot_master_user }}"
-  tags:
-   - buildbot-master
 
 - name: Update buildbot config.json
   template:
@@ -105,8 +90,6 @@
     group: "{{ buildbot_master_user }}"
   notify:
    - reconfig buildbot-master
-  tags:
-   - buildbot-master
 
 - name: Update buildbot builders.json
   template:
@@ -116,8 +99,6 @@
     group: "{{ buildbot_master_user }}"
   notify:
    - restart buildbot-master required
-  tags:
-   - buildbot-master
 
 - name: create buildbot-master
   command: >-
@@ -127,8 +108,6 @@
     creates: "{{ buildbot_master_dir }}/buildbot.tac"
   become: yes
   become_user: "{{ buildbot_master_user }}"
-  tags:
-   - buildbot-master
 
 #- name: Upgrade master
 #  shell: '{{ buildbot_master_sandbox }}/bin/buildbot upgrade-master {{ buildbot_master_dir }} && touch {{ buildbot_master_dir }}/inited-db'
@@ -143,8 +122,6 @@
   template:
     src: buildbot-master.service.j2
     dest: /etc/systemd/system/buildbot-master.service
-  tags:
-   - buildbot-master
 
 - name: enable and start worker
   systemd:
@@ -152,8 +129,6 @@
     daemon_reload: yes
     enabled: yes
     state: started
-  tags:
-   - buildbot-master
 
 - name: permit port 8010 in firewall for buildbot (zerotier only)
   firewalld:
@@ -162,8 +137,6 @@
     permanent: true
     immediate: true
     zone: dmz
-  tags:
-   - buildbot-master
 
 - name: permit port 9989 (workers) in firewall for buildbot (zerotier only)
   firewalld:
@@ -172,5 +145,3 @@
     permanent: true
     immediate: true
     zone: dmz
-  tags:
-   - buildbot-master

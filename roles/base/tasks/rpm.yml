@@ -5,7 +5,6 @@
     state: present
   when: ansible_distribution == "CentOS"
   tags:
-   - base
    - update
 
 - name: add git-maint COPR
@@ -14,7 +13,6 @@
     dest: /etc/yum.repos.d/group_git-maint-git-epel-7.repo
   when: ansible_distribution == "CentOS"
   tags:
-   - base
    - update
 
 - name: Enable flatpak copr
@@ -26,7 +24,6 @@
     gpgkey: https://copr-be.cloud.fedoraproject.org/results/amigadave/flatpak-epel7/pubkey.gpg
   when: ansible_distribution == "CentOS"
   tags:
-    - base
     - update
 
 - name: upgrade all packages
@@ -34,14 +31,11 @@
     name: '*'
     state: latest
   tags:
-   - base
    - update
 
 - name: install base packages
   package:
     name: "{{ base_packages + base_packages_rpm }}"
-  tags:
-   - base
 
 - name: allow ZeroTier through firewall
   firewalld:
@@ -53,7 +47,7 @@
    - 9993/udp
    - 9993/tcp
   tags:
-    - base_firewalld
+    - firewalld
 
 - name: add VPN addresses to firewalld dmz zone
   firewalld:
@@ -64,4 +58,4 @@
     permanent: true
   with_items: "{{ base_firewall_dmz_sources }}"
   tags:
-    - base_firewalld
+    - firewalld

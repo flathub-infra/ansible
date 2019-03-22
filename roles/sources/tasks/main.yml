@@ -17,23 +17,21 @@
     src: nginx-conf.d-sources.conf.j2
     dest: /etc/nginx/conf.d/sources.conf
     mode: 0644
-  notify:
-   - reload nginx
+  notify: reload nginx
   tags:
-    - sources_nginx
+    - nginx
 
 - name: ensure nginx is running and dehydrated run to obtain certs
   meta: flush_handlers
   tags:
-    - sources_dehydrated
-    - sources_nginx
+    - dehydrated
+    - nginx
 
 - name: install nginx conf.d/sources-ssl.conf
   template:
     src: nginx-conf.d-sources-ssl.conf.j2
     dest: /etc/nginx/conf.d/sources-ssl.conf
     mode: 0644
-  notify:
-   - reload nginx
+  notify: reload nginx
   tags:
-    - sources_nginx
+    - nginx

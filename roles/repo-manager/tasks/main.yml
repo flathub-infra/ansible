@@ -6,8 +6,7 @@
       - flatpak
     state: latest
   tags:
-    - repo-manager
-    - repo-manager_packages
+    - packages
 
 - name: create user
   user:
@@ -15,31 +14,23 @@
     home: "{{ repo_manager_home }}"
     uid: "{{ repo_manager_uid | default(omit) }}"
     system: yes
-  tags:
-   - repo-manager
 
 - name: Add postgres user
   postgresql_user:
     name: "{{ repo_manager_user }}"
   become_user: postgres
-  tags:
-   - repo-manager
 
 - name: Create the database
   postgresql_db:
     name: "{{ repo_manager_db }}"
     owner: "{{ repo_manager_user }}"
   become_user: postgres
-  tags:
-   - repo-manager
 
 - name: Ensure repo parent dir is readable by nginx
   file:
     path: "{{ repo_manager_home }}"
     state: directory
     mode: 0775
-  tags:
-   - repo-manager
 
 - name: Create bin directory
   file:
@@ -48,8 +39,6 @@
     owner: "{{ repo_manager_user }}"
     group: "{{ repo_manager_user }}"
     mode: 0775
-  tags:
-   - repo-manager
 
 - name: Create gpghome directory
   file:
@@ -58,8 +47,6 @@
     owner: "{{ repo_manager_user }}"
     group: "{{ repo_manager_user }}"
     mode: 0700
-  tags:
-   - repo-manager
 
 - name: Download flat-manager release
   get_url:
@@ -70,8 +57,6 @@
   become_user: "{{ repo_manager_user }}"
   notify:
    - restart repo-manager
-  tags:
-   - repo-manager
 
 - name: update post-publish.sh
   template:
@@ -80,8 +65,6 @@
     owner: "{{ repo_manager_user }}"
     group: "{{ repo_manager_user }}"
     mode: 0775
-  tags:
-   - repo-manager
 
 - name: Update flat-manager-config.json
   template:
@@ -91,8 +74,6 @@
     group: "{{ repo_manager_user }}"
   notify:
    - restart repo-manager
-  tags:
-   - repo-manager
 
 - name: add systemd unit
   template:
@@ -100,8 +81,6 @@
     dest: /etc/systemd/system/repo-manager.service
   notify:
    - restart repo-manager
-  tags:
-   - repo-manager
 
 - name: enable and start repo-manager
   systemd:
@@ -110,8 +89,6 @@
     enabled: yes
   notify:
    - restart repo-manager
-  tags:
-   - repo-manager
 
 - name: install nginx default.d/repo.conf
   template:
@@ -122,8 +99,7 @@
   notify:
    - reload nginx
   tags:
-    - repo-manager
-    - repo-manager_nginx
+    - nginx
 
 - name: install nginx conf.d/repo-manager.conf
   template:
@@ -134,15 +110,13 @@
   notify:
    - reload nginx
   tags:
-    - repo-manager
-    - repo-manager_nginx
+    - nginx
 
 - name: ensure nginx is running and dehydrated run to obtain certs
   meta: flush_handlers
   tags:
-    - repo-manager
-    - repo-manager_dehydrated
-    - repo-manager_nginx
+    - dehydrated
+    - nginx
 
 - name: install nginx conf.d/repo-manager-ssl.conf
   template:
@@ -153,5 +127,4 @@
   notify:
    - reload nginx
   tags:
-    - repo-manager
-    - repo-manager_nginx
+    - nginx

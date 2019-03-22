@@ -5,8 +5,7 @@
     policy: targeted
     state: enforcing
   tags:
-    - stats
-    - stats_selinux
+    - selinux
 
 # External persistent volume for stats
 - name: mount stats persistent volume
@@ -16,8 +15,7 @@
     fstype: auto
     state: mounted
   tags:
-    - stats
-    - stats_volume
+    - volume
 
 - name: install packages
   package:
@@ -29,8 +27,7 @@
       - selinux-policy-devel
     state: latest
   tags:
-    - stats
-    - stats_packages
+    - packages
 
 - name: copy flathubstats.te file
   copy:
@@ -39,8 +36,7 @@
     mode: 0644
   register: flathubstats_te
   tags:
-    - stats
-    - stats_selinux
+    - selinux
 
 - name: copy flathubstats.fc file
   template:
@@ -49,39 +45,32 @@
     mode: 0644
   register: flathubstats_fc
   tags:
-    - stats
-    - stats_selinux
+    - selinux
 
 - name: check for flathubstats.pp file
   stat:
     path: /etc/selinux/targeted/modules/flathubstats.pp
   register: flathubstats_pp_check
   tags:
-    - stats
-    - stats_selinux
+    - selinux
 
 - name: compile flathubstats selinux module
   command: make -f /usr/share/selinux/devel/Makefile -C /etc/selinux/targeted/modules flathubstats.pp
   register: flathubstats_pp
   when: (flathubstats_te is changed) or (flathubstats_fc is changed) or (not flathubstats_pp_check.stat.exists)
   tags:
-    - stats
-    - stats_selinux
+    - selinux
 
 - name: install flathubstats selinux module
   command: semodule -i /etc/selinux/targeted/modules/flathubstats.pp
   when: flathubstats_pp is changed
   tags:
-    - stats
-    - stats_selinux
+    - selinux
 
 - name: checkout flathub-stats git repo
   git:
     repo: 'https://github.com/flathub/flathub-stats.git'
     dest: '{{ stats_checkout_dir }}'
-  tags:
-    - stats
-    - stats_git_checkout
 
 - name: create stats cache directory
   file:
@@ -90,8 +79,6 @@
     seuser: _default
     serole: _default
     setype: _default
-  tags:
-    - stats
 
 - name: create stats cache logs directory
   file:
@@ -100,8 +87,6 @@
     seuser: _default
     serole: _default
     setype: _default
-  tags:
-    - stats
 
 - name: create stats output directory
   file:
@@ -110,8 +95,6 @@
     seuser: _default
     serole: _default
     setype: _default
-  tags:
-    - stats
 
 - name: install flathub-stats rsyslog configuration
   template:
@@ -121,8 +104,7 @@
   notify:
     - restart rsyslog
   tags:
-    - stats
-    - stats_rsyslog
+    - rsyslog
 
 - name: install flathub-stats logrotate configuration
   template:
@@ -130,8 +112,7 @@
     dest: /etc/logrotate.d/flathub-stats
     mode: 0644
   tags:
-    - stats
-    - stats_logrotate
+    - logrotate
 
 - name: install firewalld zone for fastly log streaming
   template:
@@ -141,8 +122,7 @@
   notify:
     - reload firewalld
   tags:
-    - stats
-    - stats_firewalld
+    - firewalld
 
 - name: install nginx conf.d/flathub-stats.conf
   template:
@@ -152,15 +132,13 @@
   notify:
    - reload nginx
   tags:
-    - stats
-    - stats_nginx
+    - nginx
 
 - name: ensure nginx is running and dehydrated run to obtain certs
   meta: flush_handlers
   tags:
-    - stats
-    - stats_dehydrated
-    - stats_nginx
+    - dehydrated
+    - nginx
 
 - name: install nginx conf.d/flathub-stats-ssl.conf
   template:
@@ -170,5 +148,4 @@
   notify:
    - reload nginx
   tags:
-    - stats
-    - stats_nginx
+    - nginx
