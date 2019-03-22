@@ -3,6 +3,7 @@
   template:
     src: nginx/conf.d/flatpak-ssl.conf
     dest: /etc/nginx/conf.d/flatpak-ssl.conf
+    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/flatpak-ssl.conf
   notify:
     - reload nginx
 
@@ -10,5 +11,6 @@
   template:
     src: nginx/conf.d/flathub-ssl.conf
     dest: /etc/nginx/conf.d/flathub-ssl.conf
+    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/flathub-ssl.conf
   notify:
     - reload nginx

@@ -128,6 +128,7 @@
   template:
     src: nginx-conf.d-flathub-stats.conf.j2
     dest: /etc/nginx/conf.d/flathub-stats.conf
+    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/flathub-stats.conf
     mode: 0644
   notify:
    - reload nginx
@@ -144,6 +145,7 @@
   template:
     src: nginx-conf.d-flathub-stats-ssl.conf.j2
     dest: /etc/nginx/conf.d/flathub-stats-ssl.conf
+    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/flathub-stats-ssl.conf
     mode: 0644
   notify:
    - reload nginx

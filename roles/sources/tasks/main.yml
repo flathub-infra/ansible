@@ -16,6 +16,7 @@
   template:
     src: nginx-conf.d-sources.conf.j2
     dest: /etc/nginx/conf.d/sources.conf
+    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/sources.conf
     mode: 0644
   notify: reload nginx
   tags:
@@ -31,6 +32,7 @@
   template:
     src: nginx-conf.d-sources-ssl.conf.j2
     dest: /etc/nginx/conf.d/sources-ssl.conf
+    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/sources-ssl.conf
     mode: 0644
   notify: reload nginx
   tags:

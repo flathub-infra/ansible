@@ -10,6 +10,7 @@
   template:
     src: nginx-conf.d-cache.conf.j2
     dest: /etc/nginx/conf.d/cache.conf
+    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/cache.conf
   notify:
    - reload nginx
 
@@ -17,6 +18,7 @@
   template:
     src: nginx-conf.d-default.conf.j2
     dest: /etc/nginx/conf.d/default.conf
+    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/default.conf
   notify:
    - reload nginx
 
@@ -24,6 +26,7 @@
   template:
     src: nginx-conf.d-dl-default.conf.j2
     dest: /etc/nginx/conf.d/dl-default.conf
+    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/dl-default.conf
   notify:
    - reload nginx
 
@@ -31,6 +34,7 @@
   copy:
     src: nginx-conf.d-prerender-map.conf
     dest: /etc/nginx/conf.d/prerender-map.conf
+    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/prerender-map.conf
   notify:
    - reload nginx
 
@@ -38,6 +42,7 @@
   template:
     src: nginx-conf.d-upstream-api.conf.j2
     dest: /etc/nginx/conf.d/upstream-api.conf
+    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/upstream-api.conf
   notify:
    - reload nginx
 
@@ -45,6 +50,7 @@
   template:
     src: nginx-conf.d-upstream-prerender.conf.j2
     dest: /etc/nginx/conf.d/upstream-prerender.conf
+    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/upstream-prerender.conf
   notify:
    - reload nginx
 
@@ -52,6 +58,7 @@
   template:
     src: nginx-conf.d-webroot-default.conf.j2
     dest: /etc/nginx/conf.d/webroot-default.conf
+    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/webroot-default.conf
   notify:
    - reload nginx
 
@@ -59,6 +66,7 @@
   template:
     src: nginx-conf.d-flatpak-default.conf.j2
     dest: /etc/nginx/conf.d/flatpak-default.conf
+    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/flatpak-default.conf
   notify:
    - reload nginx
 
@@ -66,6 +74,7 @@
   template:
     src: nginx-default.d-api.conf.j2
     dest: /etc/nginx/default.d/api.conf
+    validate: /usr/local/sbin/ansible-validate-nginx-config %s default.d/api.conf
   notify:
    - reload nginx
 
@@ -73,6 +82,7 @@
   template:
     src: nginx-default.d-buildbot.conf.j2
     dest: /etc/nginx/default.d/buildbot.conf
+    validate: /usr/local/sbin/ansible-validate-nginx-config %s default.d/buildbot.conf
   notify:
    - reload nginx
 
@@ -80,6 +90,7 @@
   template:
     src: nginx-default.d-repo.conf.j2
     dest: /etc/nginx/default.d/repo.conf
+    validate: /usr/local/sbin/ansible-validate-nginx-config %s default.d/repo.conf
   notify:
    - reload nginx
 
@@ -87,6 +98,7 @@
   template:
     src: nginx-default.d-stats.conf.j2
     dest: /etc/nginx/default.d/stats.conf
+    validate: /usr/local/sbin/ansible-validate-nginx-config %s default.d/stats.conf
   notify:
    - reload nginx
 
@@ -94,5 +106,6 @@
   template:
     src: nginx-default.d-webroot.conf.j2
     dest: /etc/nginx/default.d/webroot.conf
+    validate: /usr/local/sbin/ansible-validate-nginx-config %s default.d/webroot.conf
   notify:
    - reload nginx

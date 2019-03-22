@@ -54,6 +54,7 @@
   copy:
     src: conf.d/gzip.conf
     dest: /etc/nginx/conf.d/gzip.conf
+    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/gzip.conf
   notify:
    - reload nginx
 
@@ -61,6 +62,7 @@
   copy:
     src: default.d/dehydrated.conf
     dest: /etc/nginx/default.d/dehydrated.conf
+    validate: /usr/local/sbin/ansible-validate-nginx-config %s default.d/dehydrated.conf
   notify:
    - reload nginx
 
@@ -68,6 +70,7 @@
   template:
     src: default.d/ssl.conf.j2
     dest: /etc/nginx/default.d/ssl.conf
+    validate: /usr/local/sbin/ansible-validate-nginx-config %s default.d/ssl.conf
   notify:
    - reload nginx
 
