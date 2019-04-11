@@ -69,3 +69,10 @@
     src: mythic-backup.conf.j2
     dest: /etc/mythic/backup.conf
     mode: 0644
+
+- name: update mythic-backup cronjob
+  lineinfile:
+    path: /etc/cron.d/mythic-backup
+    regexp: '^#?(.*/usr/sbin/mythic-backup.*)$'
+    line: '{{ base_mythic_backup_disabled | ternary("#", "") }}\1'
+    backrefs: yes
