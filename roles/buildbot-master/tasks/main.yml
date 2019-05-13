@@ -19,20 +19,6 @@
   tags:
     - packages
 
-- name: add flathub remote to flatpak
-  flatpak_remote:
-    name: flathub
-    flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
-  tags:
-    - packages
-
-- name: install org.freedesktop.appstream-glib
-  flatpak:
-    name: org.freedesktop.appstream-glib
-    remote: flathub
-  tags:
-    - packages
-
 - name: create buildbot-master user
   user:
     name: "{{ buildbot_master_user }}"
