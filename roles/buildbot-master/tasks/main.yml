@@ -67,10 +67,10 @@
 - name: install buildbot in virtualenv
   pip:
     name:
-      - https://github.com/flathub/buildbot/releases/download/v2.0.0.{{ buildbot_master_version }}/buildbot_pkg-2.0.0+{{ buildbot_master_version }}-py2.py3-none-any.whl
-      - https://github.com/flathub/buildbot/releases/download/v2.0.0.{{ buildbot_master_version }}/buildbot_worker-2.0.0+{{ buildbot_master_version }}-py2.py3-none-any.whl
-      - https://github.com/flathub/buildbot/releases/download/v2.0.0.{{ buildbot_master_version }}/buildbot-2.0.0+{{ buildbot_master_version }}-py2.py3-none-any.whl
-      - https://github.com/flathub/buildbot/releases/download/v2.0.0.{{ buildbot_master_version }}/buildbot_www-2.0.0+{{ buildbot_master_version }}-py2.py3-none-any.whl
+      - https://github.com/flathub/buildbot/releases/download/v{{ buildbot_master_version | replace('+', '.') }}/buildbot_pkg-{{ buildbot_master_version }}-py3-none-any.whl
+      - https://github.com/flathub/buildbot/releases/download/v{{ buildbot_master_version | replace('+', '.') }}/buildbot_worker-{{ buildbot_master_version }}-py2.py3-none-any.whl
+      - https://github.com/flathub/buildbot/releases/download/v{{ buildbot_master_version | replace('+', '.') }}/buildbot-{{ buildbot_master_version }}-py3-none-any.whl
+      - https://github.com/flathub/buildbot/releases/download/v{{ buildbot_master_version | replace('+', '.') }}/buildbot_www-{{ buildbot_master_version }}-py3-none-any.whl
     state: present
     virtualenv: "{{ buildbot_master_sandbox }}"
     virtualenv_command: virtualenv-3
