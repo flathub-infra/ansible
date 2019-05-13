@@ -3,15 +3,15 @@
   package:
     name:
       - postgresql-devel
-      - python34-pip
-      - python34-virtualenv
+      - python36-pip
+      - python36-virtualenv
       - python-setuptools
       - git
       - gcc # Needed for installing twisted
       # flat-manager-client needs these:
       - ostree
-      - python34-requests
-      - python34-gobject
+      - python36-requests
+      - python36-gobject
       # Source download needs these:
       - flatpak-builder
       - git
