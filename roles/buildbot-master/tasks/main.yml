@@ -49,6 +49,7 @@
     virtualenv_command: virtualenv-3
     virtualenv_python: python3
   become_user: "{{ buildbot_master_user }}"
+  tags: virtualenv
 
 - name: install buildbot in virtualenv
   pip:
@@ -64,6 +65,7 @@
   become_user: "{{ buildbot_master_user }}"
   notify:
    - restart buildbot-master
+  tags: virtualenv
 
 - name: Check out buildbot-config
   git:
