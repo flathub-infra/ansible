@@ -29,10 +29,10 @@ repo_manager_build_gpg_key: 4184DD4D907A7CAE
 
 repo_manager_collection_id: "org.flathub.Stable"
 repo_manager_main_gpg_key: 4184DD4D907A7CAE
-repo_manager_main_base_url: "https://dl.flathub.org/repo"
+repo_manager_main_base_url: "https://dl.flathub.org/repo/"
 repo_manager_suggested_repo_name: "flathub"
 
 repo_manager_beta_collection_id: "org.flathub.Beta"
 repo_manager_beta_gpg_key: 4184DD4D907A7CAE
-repo_manager_beta_base_url: "https://dl.flathub.org/beta-repo"
+repo_manager_beta_base_url: "https://dl.flathub.org/beta-repo/"
 repo_manager_suggested_beta_repo_name: "flathub-beta"
