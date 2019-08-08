@@ -47,6 +47,12 @@
     state: started
     enabled: yes
 
+- name: enable node exporter service
+  service:
+    name: "{{ base_node_exporter_service_unit }}"
+    state: started
+    enabled: yes
+
 - name: configure native flathub.org hosts
   include: native.yml
   when: base_native
