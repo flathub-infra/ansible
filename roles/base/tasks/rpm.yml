@@ -47,7 +47,7 @@
    - 9993/udp
    - 9993/tcp
   tags:
-    - firewalld
+    - firewall
 
 - name: add VPN addresses to firewalld dmz zone
   firewalld:
@@ -58,4 +58,4 @@
     permanent: true
   with_items: "{{ base_firewall_dmz_sources }}"
   tags:
-    - firewalld
+    - firewall

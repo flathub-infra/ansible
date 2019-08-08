@@ -21,6 +21,7 @@ base_packages_deb:
  - host
  - fail2ban
  - netcat
+ - ufw
 base_packages_rpm:
  - bind-utils
  - fail2ban-firewalld
