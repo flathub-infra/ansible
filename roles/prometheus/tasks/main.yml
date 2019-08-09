@@ -1,0 +1,103 @@
+---
+- name: create prometheus system group
+  group:
+    name: prometheus
+    system: true
+    state: present
+
+- name: create prometheus system user
+  user:
+    name: prometheus
+    system: true
+    shell: "/sbin/nologin"
+    group: prometheus
+    createhome: false
+    home: "{{ prometheus_db_dir }}"
+
+- name: create prometheus data directory
+  file:
+    path: "{{ prometheus_db_dir }}"
+    state: directory
+    owner: prometheus
+    group: prometheus
+    mode: 0755
+
+- name: create prometheus configuration directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: prometheus
+    mode: 0770
+  with_items:
+    - "{{ prometheus_config_dir }}"
+    - "{{ prometheus_config_dir }}/rules"
+    - "{{ prometheus_config_dir }}/file_sd"
+
+- name: create download directory
+  file:
+    path: /root/.ansible/tmp/prometheus
+    state: directory
+
+- name: download prometheus {{ prometheus_version }}
+  get_url:
+    url: "https://github.com/prometheus/prometheus/releases/download/v{{ prometheus_version }}/prometheus-{{ prometheus_version }}.linux-amd64.tar.gz"
+    dest: "/root/.ansible/tmp/prometheus/prometheus-{{ prometheus_version }}.linux-amd64.tar.gz"
+    checksum: "{{ prometheus_checksum }}"
+
+- name: unpack prometheus binaries
+  unarchive:
+    src: "/root/.ansible/tmp/prometheus/prometheus-{{ prometheus_version }}.linux-amd64.tar.gz"
+    dest: /root/.ansible/tmp/prometheus/
+    creates: "/root/.ansible/tmp/prometheus/prometheus-{{ prometheus_version }}.linux-amd64/prometheus"
+    remote_src: true
+  check_mode: false
+
+- name: install prometheus and promtool
+  copy:
+    src: "/root/.ansible/tmp/prometheus/prometheus-{{ prometheus_version }}.linux-amd64/{{ item }}"
+    dest: "/usr/local/bin/{{ item }}"
+    mode: 0755
+    remote_src: true
+  with_items:
+    - prometheus
+    - promtool
+  notify: restart prometheus
+
+- name: install systemd unit
+  template:
+    src: prometheus.service.j2
+    dest: /etc/systemd/system/prometheus.service
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart prometheus
+
+- name: configure prometheus
+  template:
+    src: prometheus.yml.j2
+    dest: "{{ prometheus_config_dir }}/prometheus.yml"
+    force: true
+    owner: root
+    group: prometheus
+    mode: 0640
+    validate: "/usr/local/bin/promtool check config %s"
+  notify: reload prometheus
+
+- name: configure alerting rules
+  template:
+    src: alerting.rules.j2
+    dest: "{{ prometheus_config_dir }}/rules/alerting.rules"
+    owner: root
+    group: prometheus
+    mode: 0640
+    validate: "/usr/local/bin/promtool check rules %s"
+  notify: reload prometheus
+  tags: alerting
+
+- name: start and enable prometheus
+  systemd:
+    name: prometheus
+    daemon-reload: yes
+    state: started
+    enabled: yes
