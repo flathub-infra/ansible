@@ -55,8 +55,8 @@
     dest: "{{ repo_manager_home }}/bin/flat-manager"
     mode: 0775
   become_user: "{{ repo_manager_user }}"
-  notify:
-   - restart repo-manager
+  notify: restart repo-manager
+  tags: flat-manager
 
 - name: update post-publish.sh
   template:
@@ -72,15 +72,15 @@
     dest: "{{ repo_manager_home }}/flat-manager-config.json"
     owner: "{{ repo_manager_user }}"
     group: "{{ repo_manager_user }}"
-  notify:
-   - restart repo-manager
+  notify: restart repo-manager
+  tags: flat-manager
 
 - name: add systemd unit
   template:
     src: repo-manager.service.j2
     dest: /etc/systemd/system/repo-manager.service
-  notify:
-   - restart repo-manager
+  notify: restart repo-manager
+  tags: flat-manager
 
 - name: enable and start repo-manager
   systemd:
