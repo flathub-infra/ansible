@@ -11,6 +11,7 @@ cncf-arm-2.flathub.org
 cncf-arm-3.flathub.org
 cncf-x86-1.flathub.org
 cncf-x86-2.flathub.org
+monitoring.flathub.org
 repo-test.flathub.org
 sources.flathub.org
 stats.flathub.org
@@ -63,3 +64,6 @@ repo-test.flathub.org
 
 [webapps]
 webapps.flathub.org
+
+[monitoring]
+monitoring.flathub.org
