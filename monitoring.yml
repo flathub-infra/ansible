@@ -1,0 +1,10 @@
+---
+- name: gather facts from all hosts
+  hosts: all
+  gather_facts: true
+  tasks: []
+
+- name: set up monitoring
+  hosts: monitoring
+  roles:
+  - prometheus
