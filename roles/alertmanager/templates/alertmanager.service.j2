@@ -1,0 +1,18 @@
+[Unit]
+Description=Alertmanager for prometheus
+Documentation=https://prometheus.io/docs/alerting/alertmanager/
+After=network-online.target
+
+[Service]
+User=alertmanager
+ExecStart=/usr/local/bin/alertmanager --config.file={{ alertmanager_config_dir }}/alertmanager.yml --storage.path={{ alertmanager_db_dir }}
+ExecReload=/bin/kill -HUP $MAINPID
+
+NoNewPrivileges=true
+ProtectHome=true
+ProtectSystem=full
+ProtectHostname=true
+LockPersonality=true
+
+[Install]
+WantedBy=multi-user.target

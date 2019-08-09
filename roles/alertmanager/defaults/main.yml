@@ -1,0 +1,5 @@
+---
+alertmanager_version: 0.18.0
+alertmanager_checksum: sha256:5f17155d669a8d2243b0d179fa46e609e0566876afd0afb09311a8bc7987ab15
+alertmanager_config_dir: /etc/alertmanager
+alertmanager_db_dir: /var/lib/alertmanager
