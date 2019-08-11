@@ -1,14 +1,14 @@
 groups:
 - name: basic
   rules:
-#  - alert: Watchdog
-#    expr: vector(1)
-#    for: 10m
-#    labels:
-#      severity: warning
-#    annotations:
-#      description: "Dead Man's Snitch"
-#      summary: 'Ensure entire alerting pipeline is functional'
+  - alert: Watchdog
+    expr: vector(1)
+    for: 10m
+    labels:
+      severity: warning
+    annotations:
+      description: "Dead Man's Switch"
+      summary: 'Ensure entire alerting pipeline is functional'
   - alert: InstanceDown
     expr: "up == 0"
     for: 5m
