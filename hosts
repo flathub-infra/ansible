@@ -22,10 +22,10 @@ codethink-arm-2.zt.flathub.org
 codethink-arm-3.zt.flathub.org
 codethink-arm-4.zt.flathub.org
 
-[buildbot-master]
+[buildbot_master]
 buildbot.flathub.org
 
-[buildbot-worker]
+[buildbot_worker]
 cncf-x86-1.flathub.org
 cncf-x86-2.flathub.org
 cncf-arm-1.flathub.org
@@ -33,10 +33,10 @@ cncf-arm-2.flathub.org
 cncf-arm-3.flathub.org
 sources.flathub.org
 
-[buildbot-worker:children]
+[buildbot_worker:children]
 codethink
 
-[delta-generator]
+[delta_generator]
 cncf-x86-1.flathub.org
 cncf-x86-2.flathub.org
 
@@ -45,7 +45,7 @@ front-hex.flathub.org
 front-sov.flathub.org
 
 [postgres:children]
-buildbot-master
+buildbot_master
 testrepo
 repo
 webapps
