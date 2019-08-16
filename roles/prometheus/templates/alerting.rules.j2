@@ -19,11 +19,11 @@ groups:
       summary: "{% raw %}Instance {{ $labels.instance }} down{% endraw %}"
   - alert: CriticalCPULoad
     expr: '100 - (avg by (instance) (irate(node_cpu_seconds_total{job="node",mode="idle"}[5m])) * 100) > 96'
-    for: 2m
+    for: 15m
     labels:
       severity: critical
     annotations:
-      description: "{% raw %}{{ $labels.instance }} of job {{ $labels.job }} has Critical CPU load for more than 2 minutes.{% endraw %}"
+      description: "{% raw %}{{ $labels.instance }} of job {{ $labels.job }} has Critical CPU load for more than 15 minutes.{% endraw %}"
       summary: "{% raw %}Instance {{ $labels.instance }} - Critical CPU load{% endraw %}"
   - alert: CriticalRAMUsage
     expr: '(1 - ((node_memory_MemFree_bytes + node_memory_Buffers_bytes + node_memory_Cached_bytes) / node_memory_MemTotal_bytes)) * 100 > 98'
