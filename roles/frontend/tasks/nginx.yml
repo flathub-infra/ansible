@@ -46,14 +46,6 @@
   notify:
    - reload nginx
 
-- name: install nginx conf.d/upstream-prerender.conf
-  template:
-    src: nginx-conf.d-upstream-prerender.conf.j2
-    dest: /etc/nginx/conf.d/upstream-prerender.conf
-    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/upstream-prerender.conf
-  notify:
-   - reload nginx
-
 - name: install nginx conf.d/webroot-default.conf
   template:
     src: nginx-conf.d-webroot-default.conf.j2

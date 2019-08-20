@@ -9,11 +9,13 @@ location / {
     proxy_intercept_errors on;
 
     proxy_set_header Host $host;
+    proxy_set_header X-Prerender-Token {{ frontend_prerender_token }};
 
     if ($prerender = 1) {
-        rewrite .* /$scheme://$host$request_uri? break;
-        proxy_pass http://prerender;
+        set $prerender "service.prerender.io";
+        proxy_pass http://$prerender/$scheme://$host$request_uri?;
     }
+
     if ($prerender = 0) {
         proxy_pass https://{{ frontend_nginx_webroot_origin }};
     }
