@@ -21,6 +21,8 @@ base_packages_deb:
  - host
  - fail2ban
  - netcat
+ - ufw
+ - prometheus-node-exporter
 base_packages_rpm:
  - bind-utils
  - fail2ban-firewalld
@@ -28,10 +30,11 @@ base_packages_rpm:
  - fail2ban-systemd
  - libsemanage-python
  - policycoreutils-python
- - nc
+ - golang-github-prometheus-node_exporter
 base_firewall_dmz_sources:
  - 172.28.0.0/16
  - fca2:895:f500::/40
+base_node_exporter_service_unit: "{{ (ansible_os_family == 'Debian') | ternary('prometheus-node-exporter.service', 'node_exporter.service') }}"
 
 base_mythic_backup_disabled: False
 base_mythic_backup_exclude: []

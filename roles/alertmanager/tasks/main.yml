@@ -1,0 +1,84 @@
+---
+- name: create system group
+  group:
+    name: alertmanager
+    system: true
+    state: present
+
+- name: create system user
+  user:
+    name: alertmanager
+    system: true
+    shell: "/sbin/nologin"
+    group: alertmanager
+    createhome: false
+
+- name: create directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: alertmanager
+    group: alertmanager
+    mode: 0755
+  with_items:
+    - "{{ alertmanager_config_dir }}"
+    - "{{ alertmanager_config_dir }}/templates"
+    - "{{ alertmanager_db_dir }}"
+
+- name: create download directory
+  file:
+    path: /root/.ansible/tmp/alertmanager
+    state: directory
+
+- name: download {{ alertmanager_version }}
+  get_url:
+    url: "https://github.com/prometheus/alertmanager/releases/download/v{{ alertmanager_version }}/alertmanager-{{ alertmanager_version }}.linux-amd64.tar.gz"
+    dest: "/root/.ansible/tmp/alertmanager/alertmanager-{{ alertmanager_version }}.linux-amd64.tar.gz"
+    checksum: "{{ alertmanager_checksum }}"
+
+- name: unpack binaries
+  unarchive:
+    src: "/root/.ansible/tmp/alertmanager/alertmanager-{{ alertmanager_version }}.linux-amd64.tar.gz"
+    dest: /root/.ansible/tmp/alertmanager/
+    creates: "/root/.ansible/tmp/alertmanager/alertmanager-{{ alertmanager_version }}.linux-amd64/alertmanager"
+    remote_src: true
+  check_mode: false
+
+- name: install binaries
+  copy:
+    src: "/root/.ansible/tmp/alertmanager/alertmanager-{{ alertmanager_version }}.linux-amd64/{{ item }}"
+    dest: "/usr/local/bin/{{ item }}"
+    mode: 0755
+    remote_src: true
+  with_items:
+    - alertmanager
+    - amtool
+  notify: restart alertmanager
+
+- name: configure alertmanager
+  template:
+    force: true
+    src: alertmanager.yml.j2
+    dest: "{{ alertmanager_config_dir }}/alertmanager.yml"
+    owner: alertmanager
+    group: alertmanager
+    mode: 0644
+    validate: "/usr/local/bin/amtool --alertmanager.url=  check-config %s"
+  notify: restart alertmanager
+  tags: alerting
+
+- name: install systemd unit
+  template:
+    src: alertmanager.service.j2
+    dest: /etc/systemd/system/alertmanager.service
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart alertmanager
+
+- name: start and enable systemd unit
+  systemd:
+    name: alertmanager
+    daemon-reload: yes
+    state: started
+    enabled: yes

@@ -1,5 +1,5 @@
 ---
 - name: set up buildbot workers
-  hosts: buildbot-worker
+  hosts: buildbot_worker
   roles:
   - buildbot-worker

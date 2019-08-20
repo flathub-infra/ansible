@@ -26,6 +26,17 @@
   tags:
     - update
 
+- name: enable prometheus-exporters copr
+  yum_repository:
+    name: ibotty:prometheus-exporters
+    description: Copr repo for prometheus-exporters owned by ibotty
+    baseurl: https://copr-be.cloud.fedoraproject.org/results/ibotty/prometheus-exporters/epel-7-$basearch/
+    gpgcheck: yes
+    gpgkey: https://copr-be.cloud.fedoraproject.org/results/ibotty/prometheus-exporters/pubkey.gpg
+  when: ansible_distribution == "CentOS"
+  tags:
+    - update
+
 - name: upgrade all packages
   yum:
     name: '*'
@@ -47,7 +58,7 @@
    - 9993/udp
    - 9993/tcp
   tags:
-    - firewalld
+    - firewall
 
 - name: add VPN addresses to firewalld dmz zone
   firewalld:
@@ -58,4 +69,14 @@
     permanent: true
   with_items: "{{ base_firewall_dmz_sources }}"
   tags:
-    - firewalld
+    - firewall
+
+- name: add node-exporter port to firewalld dmz zone
+  firewalld:
+    zone: dmz
+    port: 9100/tcp
+    state: enabled
+    immediate: true
+    permanent: true
+  tags:
+    - firewall

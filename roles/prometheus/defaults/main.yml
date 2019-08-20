@@ -1,0 +1,5 @@
+---
+prometheus_version: 2.11.1
+prometheus_checksum: sha256:50b5f4dfd3f358518c1aaa3bd7df2e90780bdb5292b5c996137c2b1e81102390
+prometheus_db_dir: /var/lib/prometheus
+prometheus_config_dir: /etc/prometheus

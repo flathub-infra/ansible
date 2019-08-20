@@ -29,5 +29,35 @@
 
 - name: apt safe-upgrade
   apt: upgrade=safe
-  tags:
-   - update
+  tags: update
+
+- name: allow ssh in ufw
+  ufw:
+    rule: allow
+    name: OpenSSH
+  tags: firewall
+
+- name: allow zerotier through firewall
+  ufw:
+    rule: allow
+    port: 9993
+    proto: "{{ item }}"
+  loop:
+    - udp
+    - tcp
+  tags: firewall
+
+- name: allow to access node-exporter from VPN
+  ufw:
+    rule: allow
+    src: '{{ item }}'
+    port: 9100
+    proto: tcp
+  loop: "{{ base_firewall_dmz_sources }}"
+  tags: firewall
+
+- name: enable ufw and set policy to default
+  ufw:
+    state: enabled
+    policy: deny
+  tags: firewall
