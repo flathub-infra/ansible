@@ -72,6 +72,7 @@
     dest: "{{ repo_manager_home }}/flat-manager-config.json"
     owner: "{{ repo_manager_user }}"
     group: "{{ repo_manager_user }}"
+    mode: 0600
   notify: restart repo-manager
   tags: flat-manager
 
