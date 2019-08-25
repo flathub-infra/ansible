@@ -62,3 +62,9 @@
   when: ('mythic' in group_names)
   tags:
    - mythic
+
+- name: configure Packet.net hosts
+  include: packet.yml
+  when: ('packet' in group_names)
+  tags:
+   - packet

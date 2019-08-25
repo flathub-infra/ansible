@@ -1,0 +1,8 @@
+---
+- name: enable SELinux
+  selinux:
+    policy: targeted
+    state: enforcing
+  tags:
+    - selinux
+  when: ansible_os_famoly == "RedHat'
