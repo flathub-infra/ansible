@@ -19,6 +19,20 @@
   tags:
     - packages
 
+- name: add flathub remote
+  flatpak_remote:
+    name: flathub
+    flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+  tags:
+    - packages
+
+- name: add flathub-beta remote
+  flatpak_remote:
+    name: flathub-beta
+    flatpakrepo_url: https://flathub.org/beta-repo/flathub-beta.flatpakrepo
+  tags:
+    - packages
+
 - name: create buildbot-master user
   user:
     name: "{{ buildbot_master_user }}"
