@@ -116,8 +116,9 @@ location /api {
 
     # Not sure if we need this, but bumping from the default 60s might
     # fix some of the timeouts we've seen
-    proxy_send_timeout 180s;
-    proxy_read_timeout 6000s;
+    proxy_send_timeout 180;
+    proxy_read_timeout 6000;
+    client_body_timeout 600;
 
     # It seems like this fixes the upload sendfile issue
     proxy_http_version 1.1;
