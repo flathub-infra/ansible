@@ -3,6 +3,5 @@
   selinux:
     policy: targeted
     state: enforcing
-  tags:
-    - selinux
-  when: ansible_os_famoly == "RedHat'
+  tags: selinux
+  when: ansible_os_family == "RedHat"

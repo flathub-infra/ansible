@@ -1,0 +1,17 @@
+node_exporter_arch_map:
+  i386: '386'
+  x86_64: 'amd64'
+  aarch64: 'arm64'
+  armv7l: 'armv7'
+  armv6l: 'armv6'
+
+node_exporter_arch: "{{ node_exporter_arch_map[ansible_architecture] | default(ansible_architecture) }}"
+
+node_exporter_checksums:
+  i386: 'sha256:a6c7eb64bb5f27a5567d545a1b93780f3aa72d0627751fd9f054626bb542a4b5'
+  x86_64: 'sha256:b2503fd932f85f4e5baf161268854bf5d22001869b84f00fd2d1f57b51b72424'
+  aarch64: 'sha256:d5a28c46e74f45b9f2158f793a6064fd9fe8fd8da6e0d1e548835ceb7beb1982'
+  armv7l: 'sha256:5de85067f44b42b22d62b2789cb1a379ff5559649b99795cd1ba0c144b512ad0'
+
+node_exporter_old_service: "{{ (ansible_os_family == 'Debian') | ternary('prometheus-node-exporter.service', 'node_exporter.service') }}"
+node_exporter_old_package: "{{ (ansible_os_family == 'Debian') | ternary('prometheus-node-exporter', 'golang-github-prometheus-node_exporter') }}"

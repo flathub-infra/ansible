@@ -26,17 +26,6 @@
   tags:
     - update
 
-- name: enable prometheus-exporters copr
-  yum_repository:
-    name: ibotty:prometheus-exporters
-    description: Copr repo for prometheus-exporters owned by ibotty
-    baseurl: https://copr-be.cloud.fedoraproject.org/results/ibotty/prometheus-exporters/epel-7-$basearch/
-    gpgcheck: yes
-    gpgkey: https://copr-be.cloud.fedoraproject.org/results/ibotty/prometheus-exporters/pubkey.gpg
-  when: ansible_distribution == "CentOS"
-  tags:
-    - update
-
 - name: upgrade all packages
   yum:
     name: '*'
