@@ -75,22 +75,25 @@
     state: directory
     owner: "{{ linux_store_backend_user }}"
 
-- name: add appstream-extractor service unit
+- name: install systemd units
   template:
-    src: appstream-extractor.service.j2
-    dest: /etc/systemd/system/appstream-extractor.service
+    src: "{{ item }}.j2"
+    dest: "/etc/systemd/system/{{ item }}"
+  loop:
+    - appstream-extractor.service
+    - appstream-extractor.timer
+    - delete-eol-apps.service
+    - delete-eol-apps.timer
 
-- name: add appstream-extractor timer unit
-  template:
-    src: appstream-extractor.timer.j2
-    dest: /etc/systemd/system/appstream-extractor.timer
-
-- name: enable and start timer
+- name: enable and start timers
   systemd:
-    name: appstream-extractor.timer
+    name: "{{ item }}"
     enabled: yes
     daemon_reload: yes
     state: started
+  loop:
+    - appstream-extractor.timer
+    - delete-eol-apps.timer
 
 - name: add linux-store-backend service unit
   template:
