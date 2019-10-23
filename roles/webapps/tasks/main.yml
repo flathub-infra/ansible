@@ -5,21 +5,19 @@
     state: directory
     setype: _default
 
-- name: configure flatpak.org
-  include: flatpak.yml
-  tags:
-    - flatpak
+- name: checkout flathub.org git repo
+  git:
+    repo: '{{ webapps_flathub_repo }}'
+    version: '{{ webapps_flathub_branch }}'
+    dest: '{{ webapps_flathub_checkout }}'
 
-- name: configure flathub.org
-  include: flathub.yml
-  tags:
-    - flathub
-
-- name: configure nginx http servers
-  include: nginx-http.yml
-  tags:
-    - nginx
-    - dehydrated
+- name: install nginx conf.d/flathub-ssl.conf
+  template:
+    src: nginx/conf.d/flathub-ssl.conf
+    dest: /etc/nginx/conf.d/flathub-ssl.conf
+    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/flathub-ssl.conf
+  notify:
+    - reload nginx
 
 - name: ensure nginx is running and run dehydrated
   meta: flush_handlers
@@ -27,7 +25,10 @@
     - dehydrated
     - nginx
 
-- name: configure nginx https servers
-  include: nginx-https.yml
-  tags:
-    - nginx
+- name: install nginx conf.d/flathub.conf
+  template:
+    src: nginx/conf.d/flathub.conf
+    dest: /etc/nginx/conf.d/flathub.conf
+    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/flathub.conf
+  notify:
+    - reload nginx

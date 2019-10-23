@@ -1,6 +1,0 @@
----
-- name: checkout flatpak.org git repo
-  git:
-    repo: '{{ webapps_flatpak_repo }}'
-    version: '{{ webapps_flatpak_branch }}'
-    dest: '{{ webapps_flatpak_checkout }}'
