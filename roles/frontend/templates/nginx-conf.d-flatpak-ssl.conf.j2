@@ -11,10 +11,6 @@ server {
       proxy_cache frontend_cache;
       proxy_set_header Host $host;
       proxy_pass https://{{ frontend_nginx_flatpak_origin }};
-
-      # Temporarily disable proxy server SSL verification. OpenShift uses its own
-      # certificate, but does not want to request LE cert of our domain.
-      proxy_ssl_verify off;
     }
 
     # certs sent to the client in SERVER HELLO are concatenated in ssl_certificate

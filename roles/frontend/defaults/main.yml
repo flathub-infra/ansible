@@ -20,4 +20,4 @@ frontend_nginx_stats_origin: https://stats.flathub.org
 frontend_nginx_webroot_domain: flathub.org
 frontend_nginx_webroot_origin: flathub.webapps.flathub.org
 frontend_nginx_flatpak_domain: flatpak.org
-frontend_nginx_flatpak_origin: flatpak.oscp.flathub.org
+frontend_nginx_flatpak_origin: flatpak.openshift.gnome.org
