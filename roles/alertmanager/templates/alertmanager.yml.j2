@@ -9,7 +9,7 @@ route:
   group_wait: 30s
   group_interval: 5m
   repeat_interval: 3h
-  receiver: pushover
+  receiver: pagerduty
   routes:
     - match:
         alertname: Watchdog
@@ -17,10 +17,9 @@ route:
       receiver: healthchecks.io
 
 receivers:
-  - name: pushover
-    pushover_configs:
-      - token: {{ alertmanager_pushover_token }}
-        user_key: {{ alertmanager_pushover_user_key }}
+  - name: pagerduty
+    pagerduty_configs:
+      - service_key: {{ alertmanager_pagerduty_key }}
   - name: healthchecks.io
     webhook_configs:
       - url: {{ alertmanager_healthchecks_webhook_url }}
