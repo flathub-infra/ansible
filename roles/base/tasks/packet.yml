@@ -1,4 +1,17 @@
 ---
+- name: install SELinux packages
+  package: name=selinux-policy,selinux-policy-targeted
+  register: selinux_packages
+
+- name: create autorelabel file
+  file: path=/.autorelabel state=touch
+  when: selinux_packages.changed
+  register: autorelabel
+
+- name: reboot {{ inventory_hostname }} to force selinux relabel
+  reboot:
+  when: autorelabel.changed
+
 - name: enable SELinux
   selinux:
     policy: targeted
