@@ -5,6 +5,6 @@
   tasks: []
 
 - name: set up monitoring
-  hosts: monitoring
+  hosts: stats
   roles:
   - prometheus
