@@ -10,8 +10,6 @@ cncf-arm-1.flathub.org
 cncf-arm-2.flathub.org
 cncf-x86-1.flathub.org
 cncf-x86-2.flathub.org
-monitoring.flathub.org
-repo-test.flathub.org
 sources.flathub.org
 stats.flathub.org
 
@@ -44,7 +42,6 @@ front-sov.flathub.org
 
 [postgres:children]
 buildbot_master
-testrepo
 repo
 webapps
 
@@ -57,11 +54,8 @@ stats.flathub.org
 [repo]
 hub.flathub.org
 
-[testrepo]
-repo-test.flathub.org
-
 [webapps]
 webapps.flathub.org
 
 [monitoring]
-monitoring.flathub.org
+stats.flathub.org
