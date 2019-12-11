@@ -1,4 +1,26 @@
 ---
+- name: install nginx conf.d/flathub.conf
+  template:
+    src: nginx/conf.d/flathub.conf
+    dest: /etc/nginx/conf.d/flathub.conf
+    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/flathub.conf
+  notify:
+    - reload nginx
+  tags:
+    - nginx
+    - dehydrated
+
+- name: install nginx conf.d/flathub-ssl.conf
+  template:
+    src: nginx/conf.d/flathub-ssl.conf
+    dest: /etc/nginx/conf.d/flathub-ssl.conf
+    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/flathub-ssl.conf
+  notify:
+    - reload nginx
+  tags:
+    - nginx
+    - dehydrated
+
 - name: checkout flathub.org git repo
   git:
     repo: '{{ webapps_flathub_repo }}'
