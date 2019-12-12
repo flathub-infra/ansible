@@ -1,4 +1,11 @@
 ---
+- name: add GitHub deployment key
+  authorized_key:
+    user: deploy
+    state: present
+    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMJ6RY33/20jjRJtZcdFqkbFoHGAq6qsWgQhx8lfCwEQ deploy@webapps.flathub.org"
+    key_options: 'command="/usr/local/bin/rrsync ~/flathub.org",no-agent-forwarding,no-port-forwarding,no-pty,no-user-rc,no-X11-forwarding'
+
 - name: install nginx conf.d/flathub.conf
   template:
     src: nginx/conf.d/flathub.conf
@@ -20,9 +27,3 @@
   tags:
     - nginx
     - dehydrated
-
-- name: checkout flathub.org git repo
-  git:
-    repo: '{{ webapps_flathub_repo }}'
-    version: '{{ webapps_flathub_branch }}'
-    dest: '{{ webapps_flathub_checkout }}'
