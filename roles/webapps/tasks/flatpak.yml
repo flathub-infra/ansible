@@ -4,7 +4,7 @@
     user: deploy
     state: present
     key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFYVAN2hHpr82NbfBdVc5AdOFOHIXKa3G2HklsCsvMXH deploy@webapps.flatpak.org"
-    key_options: 'command="/usr/local/bin/rrsync -ro ~/flatpak.org",no-agent-forwarding,no-port-forwarding,no-pty,no-user-rc,no-X11-forwarding'
+    key_options: 'command="/usr/local/bin/rrsync ~/flatpak.org",no-agent-forwarding,no-port-forwarding,no-pty,no-user-rc,no-X11-forwarding'
 
 - name: install nginx conf.d/flatpak.conf
   template:
