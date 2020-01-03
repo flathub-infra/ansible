@@ -1,19 +1,26 @@
 ---
+- name: include OS-specific variables (Ubuntu).
+  include_vars: "{{ ansible_distribution }}-{{ ansible_distribution_version.split('.')[0] }}.yml"
+  when: ansible_os_family == 'Debian'
+
+- name: include OS-specific variables (RedHat).
+  include_vars: "{{ ansible_os_family }}-{{ ansible_distribution_version.split('.')[0] }}.yml"
+  when:
+  - ansible_os_family == 'RedHat'
+
 - name: install postgres
-  package:
-    name:
-      - postgresql-server
-      - postgresql-contrib
-      - python-psycopg2
-      - postgresql-devel
-    state: latest
+  package: name={{ postgresql_packages }} state=latest
   tags:
     - packages
 
-- name: initdb
-  command: postgresql-setup initdb
+- name: initialize postgres
+  become: yes
+  become_user: postgres
+  become_method: su
+  command: "{{ postgresql_bin_path }}/initdb --locale en_US.UTF-8 -E UTF8 -D {{ postgresql_data_dir }}"
   args:
-    creates: /var/lib/pgsql/data/pg_hba.conf
+    chdir: "{{ postgresql_data_dir }}"
+    creates: "{{ postgresql_config_path }}/postgresql.conf"
 
 - name: enable and start postgres
   systemd:
