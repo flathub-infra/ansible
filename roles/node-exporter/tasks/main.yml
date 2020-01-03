@@ -1,20 +1,4 @@
 ---
-- name: disable prometheus-exporters copr
-  yum_repository:
-    name: ibotty:prometheus-exporters
-    description: Copr repo for prometheus-exporters owned by ibotty
-    baseurl: https://copr-be.cloud.fedoraproject.org/results/ibotty/prometheus-exporters/epel-7-$basearch/
-    gpgcheck: yes
-    gpgkey: https://copr-be.cloud.fedoraproject.org/results/ibotty/prometheus-exporters/pubkey.gpg
-    state: absent
-  when: ansible_distribution == "CentOS"
-
-- name: disable repository service
-  service: name={{ node_exporter_old_service }} state=stopped enabled=no
-
-- name: remove repository package
-  package: name={{ node_exporter_old_package }} state=absent
-
 - name: create system group
   group:
     name: node_exporter
