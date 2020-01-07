@@ -79,29 +79,44 @@
   notify:
    - reload nginx
 
-- name: permit http/https services in firewall (default zone)
-  firewalld:
-    service: "{{ item }}"
-    state: enabled
-    permanent: true
-    immediate: true
-  with_items:
-   - http
-   - https
+- name: configure firewalld and SELinux
+  block:
+  - name: permit http/https services in firewall (default zone)
+    firewalld:
+      service: "{{ item }}"
+      state: enabled
+      permanent: true
+      immediate: true
+    with_items:
+    - http
+    - https
 
-- name: permit http/https services in firewall (dmz zone)
-  firewalld:
-    service: "{{ item }}"
-    state: enabled
-    permanent: true
-    immediate: true
-    zone: dmz
-  with_items:
-   - http
-   - https
+  - name: permit http/https services in firewall (dmz zone)
+    firewalld:
+      service: "{{ item }}"
+      state: enabled
+      permanent: true
+      immediate: true
+      zone: dmz
+    with_items:
+    - http
+    - https
 
-- name: allow httpd to make network connections
-  seboolean:
-    name: httpd_can_network_connect
-    state: '{{ nginx_network_connect | bool }}'
-    persistent: yes
+  - name: allow httpd to make network connections
+    seboolean:
+      name: httpd_can_network_connect
+      state: '{{ nginx_network_connect | bool }}'
+      persistent: yes
+  when: ansible_os_family == "RedHat"
+
+- name: configure ufw
+  block:
+  - name: permit http/https services in firewall
+    ufw:
+      rule: allow
+      port: "{{ item }}"
+      proto: tcp
+    loop:
+      - http
+      - https
+  when: ansible_os_family == "Debian"
