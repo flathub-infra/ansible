@@ -1,8 +1,8 @@
-# For more information on configuration, see:
-#   * Official English Documentation: http://nginx.org/en/docs/
-#   * Official Russian Documentation: http://nginx.org/ru/docs/
-
+{% if ansible_os_family == 'Debian' %}
+user www-data;
+{% else %}
 user nginx;
+{% endif %}
 worker_processes auto;
 error_log /var/log/nginx/error.log;
 pid /run/nginx.pid;
