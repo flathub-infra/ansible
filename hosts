@@ -4,6 +4,7 @@ front-hex.flathub.org
 front-sov.flathub.org
 hub.flathub.org
 webapps.flathub.org
+master.flathub.org
 
 [packet]
 cncf-arm-1.flathub.org
@@ -53,6 +54,7 @@ stats.flathub.org
 
 [repo]
 hub.flathub.org
+master.flathub.org
 
 [webapps]
 webapps.flathub.org
