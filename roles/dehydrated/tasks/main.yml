@@ -1,8 +1,12 @@
+- name: include OS-specific variables (Ubuntu).
+  include_vars: "{{ ansible_os_family }}.yml"
+
 - name: set selinux context on certs dir
   sefcontext:
     target: '/etc/dehydrated/certs(/.*)?'
     setype: cert_t
     state: present
+  when: ansible_os_family == "RedHat"
 
 - name: install dehydrated
   package:
@@ -18,7 +22,7 @@
 - name: create LE account
   command: dehydrated --register --accept-terms
   args:
-    creates: /etc/dehydrated/accounts/*/registration_info.json
+    creates: "{{ dehydrated_registration_info_path }}"
 
 - name: create root SSH keypair for certificate syncing
   user:
