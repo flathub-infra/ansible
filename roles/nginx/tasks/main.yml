@@ -22,6 +22,11 @@
     name: nginx
     state: latest
 
+- name: create default.d directory
+  file:
+    path: /etc/nginx/default.d
+    state: directory
+
 - name: install helper for validating config files
   copy:
     src: ansible-validate-nginx-config
