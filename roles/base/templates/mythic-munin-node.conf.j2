@@ -3,8 +3,12 @@
 #
 
 log_level 4
-log_file /var/log/munin-node/munin-node.log
 pid_file /var/run/munin/munin-node.pid
+{% if ansible_os_family == 'Debian' %}
+log_file /var/log/munin/munin-node.log
+{% else %}
+log_file /var/log/munin-node/munin-node.log
+{% endif %}
 
 background 1
 setsid 1

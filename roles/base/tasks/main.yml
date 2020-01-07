@@ -24,11 +24,11 @@
     line: '%{{ base_admin_group }} ALL=(ALL) NOPASSWD: ALL'
     validate: '/usr/sbin/visudo -cf %s'
 
-- name: configure deb system
+- name: include Debian-specific tasks
   include: deb.yml
   when: ansible_os_family == "Debian"
 
-- name: configure rpm system
+- name: include Red Hat-specific tasks
   include: rpm.yml
   when: ansible_os_family == "RedHat"
 
