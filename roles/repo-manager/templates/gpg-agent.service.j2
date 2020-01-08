@@ -2,10 +2,10 @@
 Description=GPG agent
 
 [Service]
-User={{ gpg_agent_user }}
-Group={{ gpg_agent_user }}
+User={{ repo_manager_user }}
+Group={{ repo_manager_user }}
 ExecStart=/usr/bin/gpg-agent --daemon
-Environment=GNUPGHOME={{ gpg_agent_dir }}/agent
+Environment=GNUPGHOME={{ repo_manager_gpghome }}/agent
 Type=forking
 
 [Install]
