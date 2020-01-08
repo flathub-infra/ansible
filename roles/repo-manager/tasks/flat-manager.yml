@@ -16,13 +16,10 @@
     state: directory
     mode: 0775
 
-- name: Create bin directory
+- name: Create /usr/local/lib/flat-manager directory
   file:
-    path: "{{ repo_manager_home }}/bin"
+    path: /usr/local/lib/flat-manager
     state: directory
-    owner: "{{ repo_manager_user }}"
-    group: "{{ repo_manager_user }}"
-    mode: 0775
 
 - name: Download flat-manager release
   get_url:
@@ -33,18 +30,16 @@
   notify: restart repo-manager
   tags: flat-manager
 
-- name: update post-publish.sh
+- name: Install post-publish.sh
   template:
     src: post-publish.sh.j2
-    dest: "{{ repo_manager_home }}/bin/post-publish.sh"
-    owner: "{{ repo_manager_user }}"
-    group: "{{ repo_manager_user }}"
-    mode: 0775
+    dest: /usr/local/lib/flat-manager/post-publish.sh"
+    mode: 0755
 
 - name: Update flat-manager-config.json
   template:
     src: flat-manager-config.json.j2
-    dest: "{{ repo_manager_home }}/flat-manager-config.json"
+    dest: /etc/flat-manager.json
     owner: "{{ repo_manager_user }}"
     group: "{{ repo_manager_user }}"
     mode: 0600

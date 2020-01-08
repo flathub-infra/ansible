@@ -4,7 +4,7 @@ repo_manager_domain: '{{ inventory_hostname }}'
 
 repo_manager_db: "repomgr"
 repo_manager_user: "repomgr"
-repo_manager_home: "/srv/repomgr"
+repo_manager_home: "/var/lib/flat-manager"
 repo_manager_gpghome: "{{ repo_manager_home }}/gpg"
 repo_manager_repodir: "{{ repo_manager_home }}/repo"
 repo_manager_beta_repodir: "{{ repo_manager_home }}/repo-beta"

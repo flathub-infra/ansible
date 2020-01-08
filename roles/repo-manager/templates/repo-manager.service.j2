@@ -6,9 +6,9 @@ After=postgresql.service
 User={{ repo_manager_user }}
 Group={{ repo_manager_user }}
 WorkingDirectory={{ repo_manager_home }}
-ExecStart={{ repo_manager_home }}/bin/flat-manager
+ExecStart=/usr/local/bin/flat-manager
 
-Environment=REPO_CONFIG={{ repo_manager_home }}/flat-manager-config.json
+Environment=REPO_CONFIG=/etc/flat-manager.json
 Environment=RUST_BACKTRACE=1
 
 [Install]
