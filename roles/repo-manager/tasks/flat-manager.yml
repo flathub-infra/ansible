@@ -1,0 +1,106 @@
+---
+- name: Add postgres user
+  postgresql_user:
+    name: "{{ repo_manager_user }}"
+  become_user: postgres
+
+- name: Create the database
+  postgresql_db:
+    name: "{{ repo_manager_db }}"
+    owner: "{{ repo_manager_user }}"
+  become_user: postgres
+
+- name: Ensure repo parent dir is readable by nginx
+  file:
+    path: "{{ repo_manager_home }}"
+    state: directory
+    mode: 0775
+
+- name: Create bin directory
+  file:
+    path: "{{ repo_manager_home }}/bin"
+    state: directory
+    owner: "{{ repo_manager_user }}"
+    group: "{{ repo_manager_user }}"
+    mode: 0775
+
+- name: Download flat-manager release
+  get_url:
+    url: "https://github.com/flatpak/flat-manager/releases/download/{{ repo_manager_version }}/flat-manager"
+    checksum: "{{ repo_manager_checksum }}"
+    dest: /usr/local/bin/flat-manager
+    mode: 0755
+  notify: restart repo-manager
+  tags: flat-manager
+
+- name: update post-publish.sh
+  template:
+    src: post-publish.sh.j2
+    dest: "{{ repo_manager_home }}/bin/post-publish.sh"
+    owner: "{{ repo_manager_user }}"
+    group: "{{ repo_manager_user }}"
+    mode: 0775
+
+- name: Update flat-manager-config.json
+  template:
+    src: flat-manager-config.json.j2
+    dest: "{{ repo_manager_home }}/flat-manager-config.json"
+    owner: "{{ repo_manager_user }}"
+    group: "{{ repo_manager_user }}"
+    mode: 0600
+  notify: restart repo-manager
+  tags: flat-manager
+
+- name: add systemd unit
+  template:
+    src: repo-manager.service.j2
+    dest: /etc/systemd/system/repo-manager.service
+  notify: restart repo-manager
+  tags: flat-manager
+
+- name: enable and start repo-manager
+  systemd:
+    name: repo-manager
+    daemon_reload: yes
+    enabled: yes
+  notify:
+   - restart repo-manager
+
+- name: install nginx default.d/repo.conf
+  template:
+    src: nginx-default.d-repo.conf.j2
+    dest: /etc/nginx/default.d/repo.conf
+    mode: 0644
+    validate: /usr/local/sbin/ansible-validate-nginx-config %s default.d/repo.conf
+  notify:
+   - reload nginx
+  tags:
+    - nginx
+
+- name: install nginx conf.d/repo-manager.conf
+  template:
+    src: nginx-conf.d-repo-manager.conf.j2
+    dest: /etc/nginx/conf.d/repo-manager.conf
+    mode: 0644
+    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/repo-manager.conf
+  notify:
+   - reload nginx
+  tags:
+    - nginx
+
+- name: ensure nginx is running and dehydrated run to obtain certs
+  meta: flush_handlers
+  tags:
+    - dehydrated
+    - nginx
+
+- name: install nginx conf.d/repo-manager-ssl.conf
+  template:
+    src: nginx-conf.d-repo-manager-ssl.conf.j2
+    dest: /etc/nginx/conf.d/repo-manager-ssl.conf
+    mode: 0644
+    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/repo-manager-ssl.conf
+  notify:
+   - reload nginx
+  tags:
+    - nginx

@@ -1,5 +1,0 @@
----
-
-gpg_agent_dir: "/srv/gpg"
-gpg_agent_gpghome: "{{ gpg_agent_dir }}/agent"
-gpg_agent_user: "repomgr"

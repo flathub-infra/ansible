@@ -1,0 +1,62 @@
+---
+- name: Create gpg-agent gpghome
+  file:
+    path: "{{ repo_manager_gpghome }}"
+    state: directory
+    owner: "{{ repo_manager_user }}"
+    group: "{{ repo_manager_user }}"
+    mode: 0700
+
+- name: update gpg-agent.conf
+  template:
+    src: gpg-agent.conf.j2
+    dest: "{{ repo_manager_gpghome }}/gpg-agent.conf"
+    owner: "{{ repo_manager_user }}"
+    group: "{{ repo_manager_user }}"
+    mode: 0700
+  notify:
+   - restart gpg-agent
+
+- name: update gpg.conf
+  template:
+    src: gpg.conf.j2
+    dest: "{{ repo_manager_gpghome }}/gpg.conf"
+    owner: "{{ repo_manager_user }}"
+    group: "{{ repo_manager_user }}"
+    mode: 0700
+  notify:
+   - restart gpg-agent
+
+- name: install pubkey
+  copy:
+    src: pubkey
+    dest: "{{ repo_manager_home }}/pubkey"
+
+- name: import public key
+  command: "gpg --homedir={{ repo_manager_gpghome }}  --import {{ repo_manager_home }}/pubkey"
+  args:
+    creates: "{{ repo_manager_gpghome }}/secring.gpg"
+  become: true
+  become_user: "{{ repo_manager_user }}"
+
+- name: import private key
+  command: "gpg --homedir={{ repo_manager_gpghome }}  --card-status"
+  args:
+    creates: "{{ repo_manager_gpghome }}/trustdb.gpg"
+  become: true
+  become_user: "{{ repo_manager_user }}"
+
+- name: add systemd unit
+  template:
+    src: gpg-agent.service.j2
+    dest: /etc/systemd/system/gpg-agent.service
+  notify:
+   - restart gpg-agent
+
+- name: enable and start gpg-agent
+  systemd:
+    name: gpg-agent
+    daemon_reload: yes
+    enabled: yes
+  notify:
+   - restart gpg-agent
