@@ -1,4 +1,13 @@
 ---
+- name: include OS-specific variables (Ubuntu).
+  include_vars: "{{ ansible_distribution }}-{{ ansible_distribution_version.split('.')[0] }}.yml"
+  when: ansible_os_family == 'Debian'
+
+- name: include OS-specific variables (RedHat).
+  include_vars: "{{ ansible_os_family }}-{{ ansible_distribution_version.split('.')[0] }}.yml"
+  when:
+  - ansible_os_family == 'RedHat'
+
 - name: disable nginx* from EPEL
   yum_repository:
     name: epel
@@ -64,8 +73,8 @@
    - reload nginx
 
 - name: install nginx default.d/dehydrated.conf
-  copy:
-    src: default.d/dehydrated.conf
+  template:
+    src: default.d/dehydrated.conf.j2
     dest: /etc/nginx/default.d/dehydrated.conf
     validate: /usr/local/sbin/ansible-validate-nginx-config %s default.d/dehydrated.conf
   notify:
