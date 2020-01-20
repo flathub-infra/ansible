@@ -52,7 +52,7 @@ base_mythic_firewall_ports:
  - 4949
 
 base_zerotier_network_id: a84ac5c10a425034
-base_zerotier_api_delegate: hub.flathub.org
+base_zerotier_api_delegate: master.flathub.org
 base_zerotier_accesstoken: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           32353230643130653066623131336263636236626338343138333866666663366166333231343066
