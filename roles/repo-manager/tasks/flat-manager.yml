@@ -33,7 +33,7 @@
 - name: Install post-publish.sh
   template:
     src: post-publish.sh.j2
-    dest: /usr/local/lib/flat-manager/post-publish.sh"
+    dest: /usr/local/lib/flat-manager/post-publish.sh
     mode: 0755
 
 - name: Update flat-manager-config.json

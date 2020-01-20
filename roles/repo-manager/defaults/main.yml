@@ -1,18 +1,23 @@
 ---
 # External domain name
-repo_manager_domain: '{{ inventory_hostname }}'
+repo_manager_domain: repo.flathub.org
+repo_manager_runtime_repo_url: "https://dl.flathub.org/repo/flathub.flatpakrepo"
 
 repo_manager_db: "repomgr"
 repo_manager_user: "repomgr"
 repo_manager_home: "/var/lib/flat-manager"
-repo_manager_gpghome: "{{ repo_manager_home }}/gpg"
-repo_manager_repodir: "{{ repo_manager_home }}/repo"
-repo_manager_beta_repodir: "{{ repo_manager_home }}/repo-beta"
-repo_manager_buildrepodir: "{{ repo_manager_home }}/build-repo"
-repo_manager_runtime_repo_url: "https://dl.flathub.org/repo/flathub.flatpakrepo"
+repo_manager_gpghome: "{{ repo_manager_home }}/.gnupg"
+
+repo_manager_repodir: /srv/repo
+repo_manager_repo_stable: "{{ repo_manager_repodir }}/stable"
+repo_manager_repo_beta: "{{ repo_manager_repodir }}/beta"
+repo_manager_repo_builds: "{{ repo_manager_repodir }}/builds"
+
 repo_manager_version: "0.3.7"
 repo_manager_checksum: sha256:e3d61f312a5f9fc057b038db499c0d8de706b431043de89045bde9f07bdc29f6
+
 repo_manager_host: "127.0.0.1"
 repo_manager_port: "8080"
+
 # Delay update jobs 2 minutes to allow grouping multiple publish jobs
 repo_manager_update_delay: "120"

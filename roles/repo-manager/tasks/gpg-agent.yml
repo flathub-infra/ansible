@@ -35,7 +35,7 @@
 - name: import public key
   command: "gpg --homedir={{ repo_manager_gpghome }}  --import {{ repo_manager_home }}/pubkey"
   args:
-    creates: "{{ repo_manager_gpghome }}/secring.gpg"
+    creates: "{{ repo_manager_gpghome }}/pubring.kbx"
   become: true
   become_user: "{{ repo_manager_user }}"
 

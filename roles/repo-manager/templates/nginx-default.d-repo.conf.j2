@@ -1,5 +1,5 @@
 location /repo {
-    alias {{ repo_manager_repodir }};
+    alias {{ repo_manager_repo_stable }};
     add_header Cache-Control "public";
     expires 1h;
 
@@ -50,7 +50,7 @@ location /repo {
 }
 
 location /beta-repo {
-    alias {{ repo_manager_beta_repodir }};
+    alias {{ repo_manager_repo_beta }};
     add_header Cache-Control "public";
     expires 1h;
 

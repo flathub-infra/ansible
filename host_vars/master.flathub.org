@@ -1,6 +1,6 @@
 ---
 base_mythic_backup_excludes:
- - /tank
+ - /tank/repo
 base_mythic_munin_hostname: ma83
 
 repo_manager_domain: "repo.flathub.org"
@@ -13,9 +13,7 @@ repo_manager_secret: !vault |
           65626463396634633361396665333066656561376264643939363937333261653236653539326361
           3562353735666531666664343066383164326230363436313561
 
-repo_manager_repodir: "/tank/repo/stable"
-repo_manager_beta_repodir: "/tank/repo/beta"
-repo_manager_buildrepodir: "/tank/repo/builds"
+repo_manager_repodir: "/tank/repo"
 
 repo_manager_base_url: "https://dl.flathub.org"
 repo_manager_build_gpg_key: "4184DD4D907A7CAE"
