@@ -8,11 +8,11 @@ server {
     include /etc/nginx/default.d/ssl.conf;
 
     # certs sent to the client in SERVER HELLO are concatenated in ssl_certificate
-    ssl_certificate /etc/dehydrated/certs/{{ sources_domain }}/fullchain.pem;
-    ssl_certificate_key /etc/dehydrated/certs/{{ sources_domain }}/privkey.pem;
+    ssl_certificate {{ dehydrated_basedir }}/certs/{{ sources_domain }}/fullchain.pem;
+    ssl_certificate_key {{ dehydrated_basedir }}/certs/{{ sources_domain }}/privkey.pem;
 
     ## verify chain of trust of OCSP response using Root CA and Intermediate certs
-    ssl_trusted_certificate /etc/dehydrated/certs/{{ sources_domain }}/chain.pem;
+    ssl_trusted_certificate {{ dehydrated_basedir }}/certs/{{ sources_domain }}/chain.pem;
 
     location /sources {
         alias {{ sources_dir }};

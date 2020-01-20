@@ -19,7 +19,7 @@
 
 - name: install nginx conf.d/flathub-ssl.conf
   template:
-    src: nginx/conf.d/flathub-ssl.conf
+    src: nginx/conf.d/flathub-ssl.conf.j2
     dest: /etc/nginx/conf.d/flathub-ssl.conf
     validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/flathub-ssl.conf
   notify:
