@@ -10,14 +10,6 @@
     dest: /etc/apt/preferences.d/flatpak-backport
   when: ansible_distribution == "Debian"
 
-- name: add Ubuntu PPAs
-  apt_repository:
-    repo: "{{ item }}"
-  with_items:
-   - "ppa:alexlarsson/flatpak"
-   - "ppa:git-core/ppa"
-  when: ansible_distribution == "Ubuntu"
-
 - name: apt update
   apt: update_cache=yes cache_valid_time=3600
   tags:

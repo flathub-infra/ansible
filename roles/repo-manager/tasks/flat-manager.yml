@@ -1,4 +1,11 @@
 ---
+- name: add flatpak ppa
+  apt_repository:
+    repo: ppa:alexlarsson/flatpak
+
+- name: install flatpak
+  apt: name=flatpak update_cache=yes cache_valid_time=3600
+
 - name: Add postgres user
   postgresql_user:
     name: "{{ repo_manager_user }}"
