@@ -8,3 +8,4 @@ dependencies:
       zerotier_api_delegate: "{{ base_zerotier_api_delegate }}"
     tags:
       base_zerotier
+  - role: node-exporter
