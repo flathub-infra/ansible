@@ -10,19 +10,12 @@
     key: "{{ lookup('file', 'ssh/{{ item }}.pub') }}"
   with_items: "{{ frontend_certsync_ssh_users }}"
 
-- name: set selinux context on certs dir
-  sefcontext:
-    target: '/var/lib/certsync/certs(/.*)?'
-    setype: cert_t
-    state: present
-
 - name: make certs dir
   file:
     path: /var/lib/certsync/certs
     state: directory
     owner: certsync
     group: certsync
-    setype: _default
     mode: 0700
 
 - name: grant permission to restart nginx

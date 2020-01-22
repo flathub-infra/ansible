@@ -1,103 +1,44 @@
-- name: create cache directory
+- name: install cache-purge nginx module
+  package: name=libnginx-mod-http-cache-purge 
+
+- name: create cache directories
   file:
-    path: "{{ frontend_nginx_cache_dir }}"
+    path: "/var/cache/nginx/{{ item.key }}"
     state: directory
-    owner: nginx
-    group: nginx
-    setype: _default
+    owner: www-data
+    group: www-data
+  with_dict: "{{ nginx_proxy_caches }}"
+  when: nginx_proxy_caches is defined
 
-- name: install nginx conf.d/cache.conf
+- name: install conf.d files
   template:
-    src: nginx-conf.d-cache.conf.j2
-    dest: /etc/nginx/conf.d/cache.conf
-    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/cache.conf
+    src: "conf.d/{{ item }}.j2"
+    dest: "/etc/nginx/conf.d/{{ item }}"
+  loop:
+    - proxy_cache.conf
+
+- name: install default.d files
+  template:
+    src: "default.d/{{ item }}.j2"
+    dest: "/etc/nginx/default.d/{{ item }}"
+  loop:
+    - api.conf
+    - buildbot.conf
+    - repo.conf
+    - stats.conf
+    - webroot.conf
   notify:
    - reload nginx
 
-- name: install nginx conf.d/default.conf
+- name: install conf.d files
   template:
-    src: nginx-conf.d-default.conf.j2
-    dest: /etc/nginx/conf.d/default.conf
-    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/default.conf
-  notify:
-   - reload nginx
-
-- name: install nginx conf.d/dl-default.conf
-  template:
-    src: nginx-conf.d-dl-default.conf.j2
-    dest: /etc/nginx/conf.d/dl-default.conf
-    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/dl-default.conf
-  notify:
-   - reload nginx
-
-- name: install nginx conf.d/prerender-map.conf
-  copy:
-    src: nginx-conf.d-prerender-map.conf
-    dest: /etc/nginx/conf.d/prerender-map.conf
-    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/prerender-map.conf
-  notify:
-   - reload nginx
-
-- name: install nginx conf.d/upstream-api.conf
-  template:
-    src: nginx-conf.d-upstream-api.conf.j2
-    dest: /etc/nginx/conf.d/upstream-api.conf
-    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/upstream-api.conf
-  notify:
-   - reload nginx
-
-- name: install nginx conf.d/webroot-default.conf
-  template:
-    src: nginx-conf.d-webroot-default.conf.j2
-    dest: /etc/nginx/conf.d/webroot-default.conf
-    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/webroot-default.conf
-  notify:
-   - reload nginx
-
-- name: install nginx conf.d/flatpak-default.conf
-  template:
-    src: nginx-conf.d-flatpak-default.conf.j2
-    dest: /etc/nginx/conf.d/flatpak-default.conf
-    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/flatpak-default.conf
-  notify:
-   - reload nginx
-
-- name: install nginx default.d/api.conf
-  template:
-    src: nginx-default.d-api.conf.j2
-    dest: /etc/nginx/default.d/api.conf
-    validate: /usr/local/sbin/ansible-validate-nginx-config %s default.d/api.conf
-  notify:
-   - reload nginx
-
-- name: install nginx default.d/buildbot.conf
-  template:
-    src: nginx-default.d-buildbot.conf.j2
-    dest: /etc/nginx/default.d/buildbot.conf
-    validate: /usr/local/sbin/ansible-validate-nginx-config %s default.d/buildbot.conf
-  notify:
-   - reload nginx
-
-- name: install nginx default.d/repo.conf
-  template:
-    src: nginx-default.d-repo.conf.j2
-    dest: /etc/nginx/default.d/repo.conf
-    validate: /usr/local/sbin/ansible-validate-nginx-config %s default.d/repo.conf
-  notify:
-   - reload nginx
-
-- name: install nginx default.d/stats.conf
-  template:
-    src: nginx-default.d-stats.conf.j2
-    dest: /etc/nginx/default.d/stats.conf
-    validate: /usr/local/sbin/ansible-validate-nginx-config %s default.d/stats.conf
-  notify:
-   - reload nginx
-
-- name: install nginx default.d/webroot.conf
-  template:
-    src: nginx-default.d-webroot.conf.j2
-    dest: /etc/nginx/default.d/webroot.conf
-    validate: /usr/local/sbin/ansible-validate-nginx-config %s default.d/webroot.conf
+    src: "conf.d/{{ item }}.j2"
+    dest: "/etc/nginx/conf.d/{{ item }}"
+  loop:
+    - prerender.conf
+    - default.conf
+    - dl.conf
+    - flathub.conf
+    - flatpak.conf
   notify:
    - reload nginx

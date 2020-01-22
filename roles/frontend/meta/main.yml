@@ -1,5 +1,5 @@
 dependencies:
-  - base
+  # - base
   - role: nginx
     vars:
       nginx_network_connect: yes
@@ -12,3 +12,4 @@ dependencies:
     tags:
       - frontend
       - frontend_dehydrated
+      - nginx

@@ -1,5 +1,5 @@
 location /api {
-    proxy_cache frontend_cache;
+    proxy_cache api;
     proxy_cache_valid 200 302 10m;
     proxy_cache_valid 301      1h;
     proxy_pass http://api;

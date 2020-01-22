@@ -1,59 +1,16 @@
-- name: configure nginx
-  include: nginx.yml
-  tags:
-   - nginx
-
+---
 - name: set up certsync from front
   include: certsync.yml
   tags:
    - certsync
 
+- name: configure nginx
+  include: nginx.yml
+  tags:
+   - nginx
+
 - name: ensure nginx is running and run dehydrated
   meta: flush_handlers
   tags:
    - dehydrated
-   - nginx
-
-- name: deploy nginx conf.d/ssl.conf
-  template:
-    src: nginx-conf.d-ssl.conf.j2
-    dest: /etc/nginx/conf.d/ssl.conf
-    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/ssl.conf
-  notify:
-   - reload nginx
-  tags:
-   - dehydrated
-   - nginx
-
-- name: deploy nginx conf.d/dl-ssl.conf
-  template:
-    src: nginx-conf.d-dl-ssl.conf.j2
-    dest: /etc/nginx/conf.d/dl-ssl.conf
-    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/dl-ssl.conf
-  notify:
-   - reload nginx
-  tags:
-   - certsync
-   - nginx
-
-- name: deploy nginx conf.d/webroot-ssl.conf
-  template:
-    src: nginx-conf.d-webroot-ssl.conf.j2
-    dest: /etc/nginx/conf.d/webroot-ssl.conf
-    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/webroot-ssl.conf
-  notify:
-   - reload nginx
-  tags:
-   - certsync
-   - nginx
-
-- name: deploy nginx conf.d/flatpak-ssl.conf
-  template:
-    src: nginx-conf.d-flatpak-ssl.conf.j2
-    dest: /etc/nginx/conf.d/flatpak-ssl.conf
-    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/flatpak-ssl.conf
-  notify:
-   - reload nginx
-  tags:
-   - certsync
    - nginx

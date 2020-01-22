@@ -7,3 +7,24 @@ frontend_prerender_token: !vault |
           39373065313739633765303530663963616432653539633165386230376638643234363466333837
           6336303865363632620a306235346636623762623034396364613462656236343566613063636562
           30316663313630343336613332346266313636663635396233326636313062663766
+nginx_proxy_caches:
+    flathub:
+        keys_zone_size: "1m"
+        max_size: "1g"
+        inactive: "30d"
+    flatpak:
+        keys_zone_size: "1m"
+        max_size: "1g"
+        inactive: "30d"
+    stats:
+        keys_zone_size: "1m"
+        max_size: "1g"
+        inactive: "60d"
+    api:
+        keys_zone_size: "1m"
+        max_size: "1g"
+        inactive: "30d"
+    repo:
+        keys_zone_size: "100m"
+        max_size: "200g"
+        inactive: "90d"

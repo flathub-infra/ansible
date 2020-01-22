@@ -1,0 +1,57 @@
+upstream api {
+    least_conn;
+{% for server in frontend_nginx_api_servers %}
+    server {{ server }};
+{% endfor %}
+}
+
+server {
+    listen       80;
+    listen       [::]:80;
+    server_name  {{ frontend_nginx_webroot_domain }} www.{{ frontend_nginx_webroot_domain }};
+
+    location /.well-known/acme-challenge {
+      proxy_pass http://{{ frontend_nginx_webroot_origin }}/.well-known/acme-challenge;
+    }
+
+    location / {
+      return 301 https://$host$request_uri;
+    }
+}
+
+{% if frontend_nginx_enable_ssl %}
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+
+    server_name {{ frontend_nginx_webroot_domain }} www.{{ frontend_nginx_webroot_domain }};
+
+    ssl_certificate /var/lib/certsync/certs/{{ frontend_nginx_webroot_domain }}/fullchain.pem;
+    ssl_certificate_key /var/lib/certsync/certs/{{ frontend_nginx_webroot_domain }}/privkey.pem;
+    ssl_trusted_certificate /var/lib/certsync/certs/{{ frontend_nginx_webroot_domain }}/chain.pem;
+
+    include /etc/nginx/default.d/api.conf;
+    include /etc/nginx/default.d/buildbot.conf;
+    include /etc/nginx/default.d/ssl.conf;
+    include /etc/nginx/default.d/stats.conf;
+    include /etc/nginx/default.d/webroot.conf;
+
+    location ~ \.flatpak(ref|repo)$ {
+        proxy_cache repo;
+        proxy_cache_key https://hub.flathub.org$uri;
+        proxy_pass https://hub.flathub.org$request_uri;
+    }
+
+    location /repo {
+        return 301 https://dl.flathub.org$request_uri;
+    }
+
+    location /beta-repo {
+        return 301 https://dl.flathub.org$request_uri;
+    }
+
+    location /build-repo {
+        return 301 https://dl.flathub.org$request_uri;
+    }
+}
+{% endif %}

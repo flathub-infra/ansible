@@ -1,0 +1,11 @@
+proxy_buffering on;
+proxy_cache_use_stale error timeout updating http_500 http_502 http_503 http_504;
+proxy_cache_revalidate on;
+proxy_cache_purge PURGE from 127.0.0.1 {{ frontend_nginx_cache_purge_from }};
+proxy_hide_header Strict-Transport-Security;
+proxy_cache_background_update on;
+
+{% for cache in nginx_proxy_caches %}
+proxy_cache_path /var/cache/nginx/{{ cache }} keys_zone={{ cache }}:{{ nginx_proxy_caches[cache]['keys_zone_size'] }}
+                 levels=1:2 max_size={{ nginx_proxy_caches[cache]['max_size'] }} inactive={{ nginx_proxy_caches[cache]['inactive'] }} use_temp_path=off;
+{% endfor %}
