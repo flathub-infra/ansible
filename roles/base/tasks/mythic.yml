@@ -1,17 +1,47 @@
 ---
-- name: configure Mythic yum remote
-  yum_repository:
-    name: mythic
-    description: Mythic Beasts
-    baseurl: http://mirror.mythic-beasts.com/rpm/mythic
-    gpgcheck: yes
-    gpgkey: http://mirror.mythic-beasts.com/mythic/support@mythic-beasts.com.gpg.key
+- block:
+  - name: add mythic repository
+    yum_repository:
+      name: mythic
+      description: Mythic Beasts
+      baseurl: http://mirror.mythic-beasts.com/rpm/mythic
+      gpgcheck: yes
+      gpgkey: http://mirror.mythic-beasts.com/mythic/support@mythic-beasts.com.gpg.key
+
+  - name: allow Mythic monitoring hosts through firewall
+    template:
+      src: mythic-firewalld-zone.xml.j2
+      dest: /etc/firewalld/zones/mythic.xml
+      mode: 0644
+    notify:
+      - reload firewalld
   when: ansible_os_family == "RedHat"
+
+- block:
+  - name: add mythic repository gpg key
+    apt_key:
+      url: http://mirror.mythic-beasts.com/mythic/support@mythic-beasts.com.gpg.key
+
+  - name: add mythic repository
+    apt_repository:
+      repo: deb http://mirror.mythic-beasts.com/mythic mythic main
+      state: present
+
+  - name: apt update
+    apt: update_cache=yes cache_valid_time=3600
+
+  - name: allow Mythic monitoring hosts through firewall
+    ufw:
+      rule: allow
+      proto: tcp
+      src: "{{ item }}"
+      port: 4949
+    loop: "{{ base_mythic_firewall_sources }}"
+  when: ansible_os_family == "Debian"
 
 - name: install Mythic management packages
   package:
     name:
-      - munin-node
       - mythic-backup
       - mythic-reporter
     state: latest
@@ -20,32 +50,6 @@
   authorized_key:
     user: root
     key: "{{ lookup('file', 'ssh/mythic.pub') }}"
-
-- name: allow Mythic monitoring hosts through firewall
-  template:
-    src: mythic-firewalld-zone.xml.j2
-    dest: /etc/firewalld/zones/mythic.xml
-    mode: 0644
-  when: ansible_os_family == "RedHat"
-  notify:
-    - reload firewalld
-
-- name: configure munin-node
-  template:
-    src: mythic-munin-node.conf.j2
-    dest: /etc/munin/munin-node.conf
-    mode: 0644
-  when: base_mythic_munin_hostname is defined
-  notify:
-    - restart munin-node
-
-- name: enable munin-node
-  systemd:
-    name: munin-node
-    daemon-reload: yes
-    state: started
-    enabled: yes
-  when: base_mythic_munin_hostname is defined
 
 - name: copy mythic-backup SSH public key
   copy:
