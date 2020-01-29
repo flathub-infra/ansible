@@ -28,3 +28,7 @@ nginx_proxy_caches:
         keys_zone_size: "100m"
         max_size: "200g"
         inactive: "90d"
+    buildrepo:
+        keys_zone_size: "1m"
+        max_size: "40g"
+        inactive: "7d"
