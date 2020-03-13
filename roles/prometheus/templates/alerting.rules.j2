@@ -1,5 +1,5 @@
 groups:
-- name: basic
+- name: prometheus
   rules:
   - alert: Watchdog
     expr: vector(1)
@@ -9,50 +9,50 @@ groups:
     annotations:
       description: "Dead Man's Switch"
       summary: 'Ensure entire alerting pipeline is functional'
-  - alert: InstanceDown
+- name: node
+  rules:
+  - alert: Instance down
     expr: "up == 0"
     for: 5m
     labels:
       severity: critical
     annotations:
-      description: "{% raw %}{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes.{% endraw %}"
-      summary: "{% raw %}Instance {{ $labels.instance }} down{% endraw %}"
-  - alert: CriticalCPULoad
-    expr: '100 - (avg by (instance) (irate(node_cpu_seconds_total{job="node",mode="idle"}[5m])) * 100) > 96'
-    for: 15m
-    labels:
-      severity: critical
-    annotations:
-      description: "{% raw %}{{ $labels.instance }} of job {{ $labels.job }} has Critical CPU load for more than 15 minutes.{% endraw %}"
-      summary: "{% raw %}Instance {{ $labels.instance }} - Critical CPU load{% endraw %}"
-  - alert: CriticalRAMUsage
-    expr: '(1 - ((node_memory_MemFree_bytes + node_memory_Buffers_bytes + node_memory_Cached_bytes) / node_memory_MemTotal_bytes)) * 100 > 98'
-    for: 5m
-    labels:
-      severity: critical
-    annotations:
-      description: "{% raw %}{{ $labels.instance }} has Critical Memory Usage more than 5 minutes.{% endraw %}"
-      summary: "{% raw %}Instance {{ $labels.instance }} has Critical Memory Usage{% endraw %}"
-  - alert: CriticalDiskSpace
-    expr: 'node_filesystem_free_bytes{mountpoint!~"^/run(/.*|$)",fstype!~"(squashfs|fuse.*)",job="node"} / node_filesystem_size_bytes{job="node"} < 0.05'
-    for: 4m
-    labels:
-      severity: critical
-    annotations:
-      description: "{% raw %}{{ $labels.instance }} of job {{ $labels.job }} has less than 10% space remaining.{% endraw %}"
-      summary: "{% raw %}Instance {{ $labels.instance }} - Critical disk space usage{% endraw %}"
-  - alert: RebootRequired
-    expr: "node_reboot_required > 0"
+      summary: "{% raw %}Instance {{ $labels.instance }} is down{% endraw %}"
+  - alert: Instance rebooted
+    expr: node_boot_time_seconds < 60
     labels:
       severity: warning
     annotations:
-      description: "{% raw %}{{ $labels.instance }} requires a reboot.{% endraw %}"
-      summary: "{% raw %}Instance {{ $labels.instance }} - reboot required{% endraw %}"
-  - alert: ClockSkewDetected
-    expr: 'abs(node_timex_offset_seconds) * 1000 > 30'
-    for: 2m
+      summary: "{% raw %}Instance {{ $labels.instance }} was rebooted{% endraw %}"
+  - alert: High CPU usage
+    expr: '1 - (avg by (instance) (irate(node_cpu_seconds_total{job="node",mode="idle",role!="buildbot_worker"}[5m]))) > 0.9'
+    for: 10m
+    labels:
+      severity: critical
+    annotations:
+      summary: "{% raw %}Instance {{ $labels.instance }} is under high CPU usage{% endraw %}"
+  - alert: Prolonged high CPU usage on builder
+    expr: '1 - (avg by (instance) (irate(node_cpu_seconds_total{job="node",mode="idle",role="buildbot_worker"}[5m]))) > 0.95'
+    for: 2h
+    labels:
+      severity: critical
+    annotations:
+      summary: "{% raw %}Buildbot worker{{ $labels.instance }} is under high CPU usage for 2h{% endraw %}"
+  - alert: High disk usage
+    expr: (node_filesystem_size_bytes{mountpoint=~"/|/srv|/boot|/tank"} - node_filesystem_avail_bytes{mountpoint=~"/|/srv|/boot|/tank"}) /  node_filesystem_size_bytes{mountpoint=~"/|/srv|/boot|/tank"} > 0.8
     labels:
       severity: warning
     annotations:
-      description: "{% raw %}Clock skew detected on {{ $labels.instance }}. Ensure NTP is configured correctly on this host.{% endraw %}"
-      summary: "{% raw %}Instance {{ $labels.instance }} - Clock skew detected{% endraw %}"
+      summary: "{% raw %}Instance {{ $labels.instance }} has high disk usage on {{ $labels.mountpoint }}{% endraw %}"
+  - alert: Critically high disk usage
+    expr: (node_filesystem_size_bytes{mountpoint=~"/|/srv|/boot|/tank"} - node_filesystem_avail_bytes{mountpoint=~"/|/srv|/boot|/tank"}) /  node_filesystem_size_bytes{mountpoint=~"/|/srv|/boot|/tank"} > 0.93
+    labels:
+      severity: critical
+    annotations:
+      summary: "{% raw %}Instance {{ $labels.instance }} has ran out of disk space on {{ $labels.mountpoint }}{% endraw %}"
+  - alert: Read-only filesystem
+    expr: node_filesystem_readonly{mountpoint=~"/|/srv|/tank"} != 0
+    labels:
+      severity: critical
+    annotations:
+      summary: "{% raw %}Instance {{ $labels.instance }} has read-only filesystem on {{ $labels.mountpoint }}{% endraw %}"
