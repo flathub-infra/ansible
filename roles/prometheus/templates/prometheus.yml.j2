@@ -20,14 +20,18 @@ scrape_configs:
 
   - job_name: 'node'
     static_configs:
+{% for hostgroup in prometheus_node_hostgroups %}
     - targets:
-{% for host in groups['all'] %}
+{% for host in groups[hostgroup] %}
 {% if hostvars[host].ansible_ztnfaipej6 is defined %}
       - {{ hostvars[host].ansible_ztnfaipej6['ipv4']['address'] }}:9100
 {% endif %}
 {% if hostvars[host].ansible_zt0 is defined %}
       - {{ hostvars[host].ansible_zt0['ipv4']['address'] }}:9100
 {% endif %}
+{% endfor %}
+      labels:
+        role: {{ hostgroup }}
 {% endfor %}
 
     relabel_configs:
@@ -45,4 +49,3 @@ scrape_configs:
         replacement: {{ host }}
 {% endif %}
 {% endfor %}
-

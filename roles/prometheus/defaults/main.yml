@@ -3,3 +3,11 @@ prometheus_version: 2.16.0
 prometheus_checksum: sha256:c04e631d18e186b66a51cac3062157298e037ffae784f35ccaaf29e496d65d3f
 prometheus_db_dir: /var/lib/prometheus
 prometheus_config_dir: /etc/prometheus
+prometheus_node_hostgroups:
+  - buildbot_master
+  - buildbot_worker
+  - frontend
+  - sources
+  - stats
+  - repo
+  - webapps
