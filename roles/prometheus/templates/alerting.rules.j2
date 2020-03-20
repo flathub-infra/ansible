@@ -67,7 +67,7 @@ groups:
       summary: "Blackbox exporter is offline"
   - alert: Probe failed
     expr: probe_success == 0
-    for: 10s
+    for: 5m
     labels:
       severity: critical
     annotations:
