@@ -56,3 +56,33 @@ groups:
       severity: critical
     annotations:
       summary: "{% raw %}Instance {{ $labels.instance }} has read-only filesystem on {{ $labels.mountpoint }}{% endraw %}"
+- name: blackbox
+  rules:
+  - alert: Blackbox exporter is down
+    expr: up{job="blackbox"} == 0
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Blackbox exporter is offline"
+  - alert: Probe failed
+    expr: probe_success == 0
+    for: 10s
+    labels:
+      severity: critical
+    annotations:
+      summary: "{% raw %}Endpoint {{ $labels.instance }} is down for more than 10s{% endraw %}"
+  - alert: SSL certificate expires
+    expr: probe_ssl_earliest_cert_expiry - time() < 86400 * 30 
+    for: 10m
+    labels:
+      severity: warning
+    annotations:
+      summary: "{% raw %}SSL certificate used for {{ $labels.instance }} expires in 30 days{% endraw %}"
+  - alert: SSL certificate expires soon
+    expr: probe_ssl_earliest_cert_expiry - time() < 86400 * 7
+    for: 10m
+    labels:
+      severity: critical
+    annotations:
+      summary: "{% raw %}SSL certificate used for {{ $labels.instance }} expires in 7 days{% endraw %}"

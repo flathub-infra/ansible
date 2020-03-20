@@ -1,0 +1,75 @@
+---
+- name: create system group
+  group:
+    name: blackbox_exporter
+    system: true
+    state: present
+
+- name: create system user
+  user:
+    name: blackbox_exporter
+    system: true
+    shell: /sbin/nologin
+    group: blackbox_exporter
+    createhome: false
+
+- name: create download directory
+  file:
+    path: /root/.ansible/tmp/blackbox_exporter
+    state: directory
+
+- name: download {{ blackbox_exporter_version }}
+  get_url:
+    url: "https://github.com/prometheus/blackbox_exporter/releases/download/v{{ blackbox_exporter_version }}/blackbox_exporter-{{ blackbox_exporter_version }}.linux-amd64.tar.gz"
+    dest: "/root/.ansible/tmp/blackbox_exporter/blackbox_exporter-{{ blackbox_exporter_version }}.linux-amd64.tar.gz"
+    checksum: "{{ blackbox_exporter_checksum }}"
+
+- name: unpack binaries
+  unarchive:
+    src: "/root/.ansible/tmp/blackbox_exporter/blackbox_exporter-{{ blackbox_exporter_version }}.linux-amd64.tar.gz"
+    dest: /root/.ansible/tmp/blackbox_exporter/
+    creates: "/root/.ansible/tmp/blackbox_exporter/blackbox_exporter-{{ blackbox_exporter_version }}.linux-amd64/blackbox_exporter"
+    remote_src: true
+  check_mode: false
+
+- name: install binaries
+  copy:
+    src: "/root/.ansible/tmp/blackbox_exporter/blackbox_exporter-{{ blackbox_exporter_version }}.linux-amd64/{{ item }}"
+    dest: "/usr/local/bin/{{ item }}"
+    mode: 0755
+    remote_src: true
+  with_items:
+    - blackbox_exporter
+  notify: restart blackbox_exporter
+
+- name: configure blackbox_exporter
+  template:
+    force: true
+    src: blackbox_exporter.yml.j2
+    dest: /etc/blackbox_exporter.yml
+    owner: blackbox_exporter
+    group: blackbox_exporter
+    mode: 0644
+  notify: restart blackbox_exporter
+
+- name: install systemd unit
+  template:
+    src: blackbox_exporter.service.j2
+    dest: /etc/systemd/system/blackbox_exporter.service
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart blackbox_exporter
+
+- name: start and enable systemd unit
+  systemd:
+    name: blackbox_exporter
+    daemon-reload: yes
+    state: started
+    enabled: yes
+
+- name: ensure blackbox exporter binary has cap_net_raw capability
+  capabilities:
+    path: /usr/local/bin/blackbox_exporter
+    capability: cap_net_raw+ep
+    state: present
