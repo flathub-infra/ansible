@@ -72,13 +72,13 @@ groups:
       severity: critical
     annotations:
       summary: "{% raw %}Endpoint {{ $labels.instance }} is down for more than 10s{% endraw %}"
-  - alert: SSL certificate expires
-    expr: probe_ssl_earliest_cert_expiry - time() < 86400 * 30 
+  - alert: SSL certificate expires in 3 weeks
+    expr: probe_ssl_earliest_cert_expiry - time() < 86400 * 21
     for: 10m
     labels:
       severity: warning
     annotations:
-      summary: "{% raw %}SSL certificate used for {{ $labels.instance }} expires in 30 days{% endraw %}"
+      summary: "{% raw %}SSL certificate used for {{ $labels.instance }} expires in 3 weeks{% endraw %}"
   - alert: SSL certificate expires soon
     expr: probe_ssl_earliest_cert_expiry - time() < 86400 * 7
     for: 10m
