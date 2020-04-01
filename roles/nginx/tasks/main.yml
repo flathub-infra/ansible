@@ -28,8 +28,15 @@
 
 - name: install nginx
   package:
+    name: nginx
+    state: latest
+  when: ansible_distribution == "CentOS"
+
+- name: install nginx-light
+  package:
     name: nginx-light
     state: latest
+  when: ansible_os_family == "Debian"
 
 - name: create default.d directory
   file:
