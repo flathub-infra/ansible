@@ -3,7 +3,7 @@ base_mythic_backup_excludes:
  - /tank/repo
 base_mythic_munin_hostname: ma83
 
-repo_manager_domain: "repo.flathub.org"
+repo_manager_domain: "hub.flathub.org"
 repo_manager_secret: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           36393961316530303939373430396535363162613162626339393230303534356661313265383964

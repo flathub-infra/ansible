@@ -1,6 +1,6 @@
 ---
 # External domain name
-repo_manager_domain: repo.flathub.org
+repo_manager_domain: hub.flathub.org
 repo_manager_runtime_repo_url: "https://dl.flathub.org/repo/flathub.flatpakrepo"
 
 repo_manager_db: "repomgr"
