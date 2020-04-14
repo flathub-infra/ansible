@@ -1,3 +1,9 @@
 dependencies:
   - base
   - postgres
+  - role: dehydrated
+    tags: [dehydrated, nginx]
+    vars:
+      dehydrated_domains:
+        - "{{ buildbot_master_domain }}"
+  - { role: nginx, tags: [nginx] }

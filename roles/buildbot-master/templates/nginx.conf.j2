@@ -1,0 +1,38 @@
+server {
+    listen 80;
+    listen [::]:80;
+    server_name {{ buildbot_master_domain }};
+
+    include /etc/nginx/default.d/dehydrated.conf;
+
+    location / {
+      return 302 https://flathub.org/builds/$request_uri;
+    }
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+
+    server_name {{ buildbot_master_domain }};
+
+    include /etc/nginx/default.d/ssl.conf;
+    include /etc/nginx/default.d/dehydrated.conf;
+
+    ssl_certificate {{ dehydrated_basedir }}/certs/{{ buildbot_master_domain }}/fullchain.pem;
+    ssl_certificate_key {{ dehydrated_basedir }}/certs/{{ buildbot_master_domain }}/privkey.pem;
+    ssl_trusted_certificate {{ dehydrated_basedir }}/certs/{{ buildbot_master_domain }}/chain.pem;
+
+    location /change_hook/github {
+        allow 192.30.252.0/22;
+        allow 185.199.108.0/22;
+        allow 140.82.112.0/20;
+        deny all;
+
+        proxy_pass http://localhost:8010/change_hook/github;
+    }
+
+    location / {
+      return 302 https://flathub.org/builds/$request_uri;
+    }
+}

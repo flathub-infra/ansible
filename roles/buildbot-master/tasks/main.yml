@@ -161,3 +161,14 @@
     permanent: true
     immediate: true
     zone: dmz
+
+- name: configure nginx
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/conf.d/buildbot.conf
+    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/buildbot.conf
+    mode: 0644
+  notify:
+   - reload nginx
+  tags:
+    - nginx
