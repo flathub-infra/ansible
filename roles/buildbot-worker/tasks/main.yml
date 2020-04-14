@@ -29,6 +29,7 @@
       - gir1.2-ostree-1.0
       - python3-gi
       - python3-requests
+      - git-lfs
     state: latest
   when: ansible_os_family == "Debian"
 
@@ -113,3 +114,8 @@
     state: started
   notify:
    - restart buildbot-worker
+
+- name: configure git
+  template:
+    src: gitconfig.j2
+    dest: "{{ buildbot_worker_home }}/.gitconfig"
