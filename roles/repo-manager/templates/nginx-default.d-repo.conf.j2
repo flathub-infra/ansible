@@ -47,6 +47,10 @@ location /repo {
     location /repo/appstream {
         autoindex on;
     }
+
+    location /repo/config {
+        access_log off;
+    }
 }
 
 location /beta-repo {
