@@ -32,6 +32,13 @@ server {
         proxy_pass http://localhost:8010/change_hook/github;
     }
 
+    location /change_hook/gitlab {
+        allow 195.201.182.103/32; # invent.kde.org
+        deny all;
+
+        proxy_pass http://localhost:8010/change_hook/gitlab;
+    }
+
     location / {
       return 302 https://flathub.org/builds/$request_uri;
     }
