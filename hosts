@@ -1,9 +1,9 @@
 [mythic]
 buildbot.flathub.org
-front-hex.flathub.org
-front-sov.flathub.org
 webapps.flathub.org
 master.flathub.org
+front-ams.flathub.org
+front-hex2.flathub.org
 
 [packet]
 cncf-arm-1.flathub.org
@@ -37,8 +37,8 @@ cncf-x86-1.flathub.org
 cncf-x86-2.flathub.org
 
 [frontend]
-front-hex.flathub.org
-front-sov.flathub.org
+front-ams.flathub.org
+front-hex2.flathub.org
 
 [postgres:children]
 buildbot_master

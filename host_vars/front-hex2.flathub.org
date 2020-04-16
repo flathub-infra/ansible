@@ -3,4 +3,4 @@ base_mythic_firewall_services:
  - ssh
  - http
  - https
-base_mythic_munin_hostname: vflatcdnhex
+base_mythic_munin_hostname: vflatcdnhex2
