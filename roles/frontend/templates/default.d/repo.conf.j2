@@ -44,7 +44,7 @@ location /beta-repo/{{ file }} {
 
 location /build-repo {
     gzip off;
-    proxy_cache buildrepo;
+    proxy_cache repo;
     proxy_cache_key {{ frontend_nginx_build_repo_origin }}$uri;
     proxy_cache_valid 200 5d;
     proxy_pass {{ frontend_nginx_build_repo_origin }};

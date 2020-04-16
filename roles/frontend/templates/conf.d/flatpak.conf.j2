@@ -24,7 +24,7 @@ server {
     include /etc/nginx/default.d/ssl.conf;
 
     location / {
-      proxy_cache flatpak;
+      proxy_cache webapps;
       proxy_cache_valid 200 302 3d;
       proxy_set_header Host $host;
       proxy_pass https://{{ frontend_nginx_flatpak_origin }};

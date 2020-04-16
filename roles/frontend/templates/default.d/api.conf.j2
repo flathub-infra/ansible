@@ -1,6 +1,6 @@
 location /api {
-    proxy_cache api;
-    proxy_cache_valid 200 302 10m;
+    proxy_cache webapps;
+    proxy_cache_valid 200 302 15m;
     proxy_cache_valid 301      1h;
     proxy_pass http://api;
     proxy_set_header Host $host;

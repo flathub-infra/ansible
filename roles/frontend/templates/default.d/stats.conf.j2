@@ -1,5 +1,5 @@
 location /stats {
-    proxy_cache stats;
+    proxy_cache webapps;
     proxy_cache_valid 200 302 2m;
     proxy_cache_key {{ frontend_nginx_stats_origin }}$uri;
     proxy_pass {{ frontend_nginx_stats_origin }};
