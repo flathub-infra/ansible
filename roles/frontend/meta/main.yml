@@ -1,5 +1,5 @@
 dependencies:
-  # - base
+  - base
   - role: nginx
     vars:
       nginx_network_connect: yes
