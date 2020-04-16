@@ -8,9 +8,11 @@ webapps_root_dir: /srv/www
 webapps_dehydrated_domains:
   - '{{ webapps_flatpak_domains | join(" ") }}'
   - '{{ webapps_flathub_domains | join(" ") }}'
+  - dl.flathub.org
 webapps_dehydrated_sync_domains:
   - '{{ webapps_flatpak_domains[0] }}'
   - '{{ webapps_flathub_domains[0] }}'
+  - dl.flathub.org
 webapps_dehydrated_sync_hosts: '{{ groups.frontend }}'
 
 # flatpak.org
