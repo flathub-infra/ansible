@@ -83,6 +83,7 @@
     mode: 0640
     validate: "/usr/local/bin/promtool check config %s"
   notify: reload prometheus
+  tags: prometheus_config
 
 - name: configure alerting rules
   template:
@@ -101,3 +102,4 @@
     daemon-reload: yes
     state: started
     enabled: yes
+  tags: prometheus_config
