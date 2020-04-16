@@ -3,7 +3,9 @@ location /repo {
     proxy_cache repo;
     proxy_cache_key {{ frontend_nginx_repo_origin_server }}$uri;
     proxy_cache_valid 200 30d;
+    proxy_cache_lock on;
     proxy_pass {{ frontend_nginx_repo_origin }};
+    expires 30d;
 }
 
 location ~ ^/repo/objects/.+\.(sig|sizes2)$ {
@@ -18,14 +20,16 @@ location /repo/{{ file }} {
     proxy_cache_key {{ frontend_nginx_repo_origin_server }}$uri;
     proxy_pass {{ frontend_nginx_repo_origin }}/{{ file }};
 }
-{% endfor %}
 
+{% endfor %}
 location /beta-repo {
     gzip off;
     proxy_cache repo;
     proxy_cache_key {{ frontend_nginx_beta_repo_origin_server }}$uri;
     proxy_cache_valid 200 30d;
+    proxy_cache_lock on;
     proxy_pass {{ frontend_nginx_beta_repo_origin }};
+    expires 30d;
 }
 
 location ~ ^/beta-repo/objects/.+\.(sig|sizes2)$ {
@@ -40,12 +44,14 @@ location /beta-repo/{{ file }} {
     proxy_cache_key {{ frontend_nginx_beta_repo_origin_server }}$uri;
     proxy_pass {{ frontend_nginx_beta_repo_origin }}/{{ file }};
 }
-{% endfor %}
 
+{% endfor %}
 location /build-repo {
     gzip off;
     proxy_cache repo;
     proxy_cache_key {{ frontend_nginx_build_repo_origin }}$uri;
     proxy_cache_valid 200 5d;
+    proxy_cache_lock on;
     proxy_pass {{ frontend_nginx_build_repo_origin }};
+    expires 5d;
 }
