@@ -39,17 +39,11 @@ groups:
     annotations:
       summary: "{% raw %}Buildbot worker{{ $labels.instance }} is under high CPU usage for 2h{% endraw %}"
   - alert: High disk usage
-    expr: (node_filesystem_size_bytes{mountpoint=~"/|/srv|/boot|/tank"} - node_filesystem_avail_bytes{mountpoint=~"/|/srv|/boot|/tank"}) /  node_filesystem_size_bytes{mountpoint=~"/|/srv|/boot|/tank"} > 0.8
+    expr: (node_filesystem_size_bytes{mountpoint=~"/|/srv|/boot|/tank"} - node_filesystem_avail_bytes{mountpoint=~"/|/srv|/boot|/tank"}) /  node_filesystem_size_bytes{mountpoint=~"/|/srv|/boot|/tank"} > 0.9
     labels:
       severity: warning
     annotations:
       summary: "{% raw %}Instance {{ $labels.instance }} has high disk usage on {{ $labels.mountpoint }}{% endraw %}"
-  - alert: Critically high disk usage
-    expr: (node_filesystem_size_bytes{mountpoint=~"/|/srv|/boot|/tank"} - node_filesystem_avail_bytes{mountpoint=~"/|/srv|/boot|/tank"}) /  node_filesystem_size_bytes{mountpoint=~"/|/srv|/boot|/tank"} > 0.93
-    labels:
-      severity: critical
-    annotations:
-      summary: "{% raw %}Instance {{ $labels.instance }} has ran out of disk space on {{ $labels.mountpoint }}{% endraw %}"
   - alert: Read-only filesystem
     expr: node_filesystem_readonly{mountpoint=~"/|/srv|/tank"} != 0
     labels:

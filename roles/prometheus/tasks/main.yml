@@ -94,7 +94,8 @@
     mode: 0640
     validate: "/usr/local/bin/promtool check rules %s"
   notify: reload prometheus
-  tags: alerting
+  tags:
+    - prometheus_config
 
 - name: start and enable prometheus
   systemd:
