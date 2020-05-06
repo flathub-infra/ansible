@@ -1,4 +1,4 @@
-- name: include OS-specific variables (Ubuntu).
+- name: include OS-specific variables
   include_vars: "{{ ansible_os_family }}.yml"
 
 - name: set selinux context on certs dir
