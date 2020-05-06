@@ -35,23 +35,5 @@ server {
     include /etc/nginx/default.d/ssl.conf;
     include /etc/nginx/default.d/stats.conf;
     include /etc/nginx/default.d/webroot.conf;
-
-    location ~ \.flatpak(ref|repo)$ {
-        proxy_cache repo;
-        proxy_cache_key https://hub.flathub.org$uri;
-        proxy_pass https://hub.flathub.org$request_uri;
-    }
-
-    location /repo {
-        return 301 https://dl.flathub.org$request_uri;
-    }
-
-    location /beta-repo {
-        return 301 https://dl.flathub.org$request_uri;
-    }
-
-    location /build-repo {
-        return 301 https://dl.flathub.org$request_uri;
-    }
 }
 {% endif %}
