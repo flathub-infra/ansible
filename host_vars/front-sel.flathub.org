@@ -1,0 +1,10 @@
+---
+nginx_proxy_caches:
+    webapps:
+        keys_zone_size: "5m"
+        max_size: "1g"
+        inactive: "30d"
+    repo:
+        keys_zone_size: "100m"
+        max_size: "34g"
+        inactive: "30d"
