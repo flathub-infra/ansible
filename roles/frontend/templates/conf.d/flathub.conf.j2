@@ -8,7 +8,7 @@ upstream api {
 server {
     listen       80;
     listen       [::]:80;
-    server_name  {{ frontend_nginx_webroot_domain }} www.{{ frontend_nginx_webroot_domain }};
+    server_name {{ frontend_nginx_webroot_domain }} www.{{ frontend_nginx_webroot_domain }} sel.{{ frontend_nginx_webroot_domain }};
 
     location /.well-known/acme-challenge {
       proxy_pass http://{{ frontend_nginx_webroot_origin }}/.well-known/acme-challenge;
@@ -24,7 +24,7 @@ server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
 
-    server_name {{ frontend_nginx_webroot_domain }} www.{{ frontend_nginx_webroot_domain }};
+    server_name {{ frontend_nginx_webroot_domain }} www.{{ frontend_nginx_webroot_domain }} sel.{{ frontend_nginx_webroot_domain }};
 
     ssl_certificate /var/lib/certsync/certs/{{ frontend_nginx_webroot_domain }}/fullchain.pem;
     ssl_certificate_key /var/lib/certsync/certs/{{ frontend_nginx_webroot_domain }}/privkey.pem;
