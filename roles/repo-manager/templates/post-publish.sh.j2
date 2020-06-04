@@ -4,7 +4,7 @@ REPODIR="$2"
 
 set -e
 
-# Work around issue with flat-manager getting the permissions wrong (not group readable + dictories executable)
+# Work around issue with flat-manager getting the permissions wrong (not group readable + directories executable)
 find {{ repo_manager_repodir }}/$REPONAME/screenshots ! -perm -og+rX -exec chmod go+rX {} \;
 find {{ repo_manager_repodir }}/$REPONAME/deltas  ! -perm -og+rX -exec chmod go+rX {} \;
 
@@ -18,6 +18,7 @@ else
     exit
 fi
 
-for host in front-hex front-sov dl; do
-    curl -X PURGE -H "Fastly-Soft-Purge: 1" https://${host}.flathub.org/$REPO/summary{,.sig} || true
+for host in dl.flathub.org {{ groups.frontend | join(' ') }}; do
+    curl -X PURGE -H "Fastly-Soft-Purge: 1" https://${host}/$REPO/summary{,.sig} || true
+    curl -X PURGE "https://${host}/repo/appstream/x86_64/icons/*"
 done
