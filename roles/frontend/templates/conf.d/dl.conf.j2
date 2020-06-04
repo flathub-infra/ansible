@@ -28,6 +28,10 @@ server {
     include /etc/nginx/default.d/repo.conf;
     include /etc/nginx/default.d/ssl.conf;
 
+    location /.well-known/acme-challenge {
+      proxy_pass http://{{ frontend_nginx_webroot_origin }}/.well-known/acme-challenge;
+    }
+
     # Everything else to https://{{ frontend_nginx_webroot_domain }} for the time being
     location / {
       return 302 https://{{ frontend_nginx_webroot_domain }}$request_uri;
