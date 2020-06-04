@@ -25,7 +25,7 @@ server {
 
     location / {
       proxy_cache webapps;
-      proxy_cache_valid 200 302 3d;
+      proxy_cache_valid 200 302 1h;
       proxy_set_header Host $host;
       proxy_pass https://{{ frontend_nginx_flatpak_origin }};
     }
