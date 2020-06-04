@@ -2,6 +2,7 @@ location /api {
     proxy_cache webapps;
     proxy_cache_valid 200 302 15m;
     proxy_cache_valid 301      1h;
+    proxy_cache_key https://hub.flathub.org$uri;
     proxy_pass http://api;
     proxy_set_header Host $host;
 }
