@@ -18,5 +18,7 @@ location / {
 
     if ($prerender = 0) {
         proxy_pass https://{{ frontend_nginx_webroot_origin }};
+        expires 30d;
+        add_header Cache-Control "public, no-transform";
     }
 }
