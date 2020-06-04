@@ -8,6 +8,15 @@ location /repo {
     expires 30d;
 }
 
+location /repo/appstream {
+    proxy_cache webapps;
+    proxy_cache_key {{ frontend_nginx_repo_origin_server }}$uri;
+    proxy_cache_valid 200 1d;
+    proxy_cache_lock on;
+    proxy_pass {{ frontend_nginx_repo_origin }}/repo/appstream;
+    expires 30d;
+}
+
 location ~ ^/repo/objects/.+\.(sig|sizes2)$ {
     return 404;
 }
