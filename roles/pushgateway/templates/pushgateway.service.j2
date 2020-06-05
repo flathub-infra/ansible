@@ -1,0 +1,17 @@
+[Unit]
+Description=pushgateway for prometheus
+After=network-online.target
+
+[Service]
+User=pushgateway
+ExecStart=/usr/local/bin/pushgateway
+ExecReload=/bin/kill -HUP $MAINPID
+
+NoNewPrivileges=true
+ProtectHome=true
+ProtectSystem=full
+ProtectHostname=true
+LockPersonality=true
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,59 @@
+---
+- name: create system group
+  group:
+    name: pushgateway
+    system: true
+    state: present
+
+- name: create system user
+  user:
+    name: pushgateway
+    system: true
+    shell: "/sbin/nologin"
+    group: pushgateway
+    createhome: false
+
+- name: create download directory
+  file:
+    path: /root/.ansible/tmp/pushgateway
+    state: directory
+
+- name: download {{ pushgateway_version }}
+  get_url:
+    url: "https://github.com/prometheus/pushgateway/releases/download/v{{ pushgateway_version }}/pushgateway-{{ pushgateway_version }}.linux-amd64.tar.gz"
+    dest: "/root/.ansible/tmp/pushgateway/pushgateway-{{ pushgateway_version }}.linux-amd64.tar.gz"
+    checksum: "{{ pushgateway_checksum }}"
+
+- name: unpack binaries
+  unarchive:
+    src: "/root/.ansible/tmp/pushgateway/pushgateway-{{ pushgateway_version }}.linux-amd64.tar.gz"
+    dest: /root/.ansible/tmp/pushgateway/
+    creates: "/root/.ansible/tmp/pushgateway/pushgateway-{{ pushgateway_version }}.linux-amd64/pushgateway"
+    remote_src: true
+  check_mode: false
+
+- name: install binaries
+  copy:
+    src: "/root/.ansible/tmp/pushgateway/pushgateway-{{ pushgateway_version }}.linux-amd64/{{ item }}"
+    dest: "/usr/local/bin/{{ item }}"
+    mode: 0755
+    remote_src: true
+  with_items:
+    - pushgateway
+  notify: restart pushgateway
+
+- name: install systemd unit
+  template:
+    src: pushgateway.service.j2
+    dest: /etc/systemd/system/pushgateway.service
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart pushgateway
+
+- name: start and enable systemd unit
+  systemd:
+    name: pushgateway
+    daemon-reload: yes
+    state: started
+    enabled: yes
