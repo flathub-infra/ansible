@@ -18,8 +18,8 @@ else
     exit
 fi
 
-curl -X PURGE -H "Fastly-Soft-Purge: 1" https://dl.flathub.org/$REPO/summary{,.sig} || true
-
 for host in dl.flathub.org {{ groups.frontend | join(' ') }}; do
     curl -X PURGE https://${host}/$REPO/summary{,.sig} || true
 done
+
+curl -X PURGE -H "Fastly-Soft-Purge: 1" https://dl.flathub.org/$REPO/summary{,.sig} || true
