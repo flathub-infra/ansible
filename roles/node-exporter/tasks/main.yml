@@ -42,6 +42,15 @@
     - node_exporter
   notify: restart node-exporter
 
+- name: create textfile collector dir
+  file:
+    path: "{{ node_exporter_textfile_dir }}"
+    state: directory
+    owner: node_exporter
+    group: node_exporter
+    recurse: true
+    mode: u+rwX,g+rwX,o=rX
+
 - name: install systemd unit
   template:
     src: node-exporter.service.j2

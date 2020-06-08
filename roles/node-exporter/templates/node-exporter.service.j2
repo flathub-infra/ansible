@@ -7,7 +7,21 @@ After=network-online.target
 User=node_exporter
 Group=node_exporter
 Restart=on-failure
-ExecStart=/usr/local/bin/node_exporter
+ExecStart=/usr/local/bin/node_exporter \
+{% for collector in node_exporter_enabled_collectors -%}
+{%   if not collector is mapping %}
+    --collector.{{ collector }} \
+{%   else -%}
+{%     set name, options = (collector.items()|list)[0] %}
+    --collector.{{ name }} \
+{%     for k,v in options|dictsort %}
+    --collector.{{ name }}.{{ k }}={{ v | quote }} {{ "\\" if not loop.last }}
+{%     endfor -%}
+{%   endif -%}
+{% endfor -%}
+{% for collector in node_exporter_disabled_collectors -%}
+    --no-collector.{{ collector }} {{ "\\" if not loop.last }}
+{% endfor %}
 ExecReload=/bin/kill -HUP $MAINPID
 NoNewPrivileges=true
 ProtectHome=true
