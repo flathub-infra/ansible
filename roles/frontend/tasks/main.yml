@@ -14,3 +14,32 @@
   tags:
    - dehydrated
    - nginx
+
+- name: install summary checker script
+  copy:
+    src: node-exporter-flathub-summary.py
+    dest: /usr/local/bin/node-exporter-flathub-summary
+    owner: root
+    group: root
+    mode: 0755
+  tags: node-exporter
+
+- name: install systemd timer for summary checker script
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/systemd/system/{{ item }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - node-exporter-flathub-summary.service
+    - node-exporter-flathub-summary.timer
+  tags: node-exporter
+
+- name: start and enable summary checker systemd timer
+  systemd:
+    name: node-exporter-flathub-summary.timer
+    daemon-reload: yes
+    state: started
+    enabled: yes
+  tags: node-exporter

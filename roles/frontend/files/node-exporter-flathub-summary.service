@@ -1,0 +1,13 @@
+[Unit]
+Description=Check Flathub summary file sync status
+
+[Service]
+User=node_exporter
+Type=oneshot
+ExecStart=/usr/local/bin/node-exporter-flathub-summary
+
+ProtectHome=true
+ProtectSystem=full
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
