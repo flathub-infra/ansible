@@ -87,3 +87,17 @@ groups:
       severity: critical
     annotations:
       summary: "{% raw %}SSL certificate used for {{ $labels.instance }} expires in 7 days{% endraw %}"
+- name: flathub
+  rules:
+  - alert: Stale summary file or signature
+    expr: "flathub_summary_in_sync == 1"
+    labels:
+      severity: critical
+    annotations:
+      summary: "The summary file or its signature served by the node differs from the one on the master server"
+  - alert: Stale summary file or signature on CDN
+    expr: "flathub_cdn_summary_in_sync == 1"
+    labels:
+      severity: critical
+    annotations:
+      summary: "The summary file or its signature served by CDN differs from the one on the master server"
