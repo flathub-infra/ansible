@@ -50,6 +50,13 @@ groups:
       severity: critical
     annotations:
       summary: "{% raw %}Instance {{ $labels.instance }} has read-only filesystem on {{ $labels.mountpoint }}{% endraw %}"
+  - alert: System is not operational
+    expr: "node_systemd_system_running == 1"
+    for: 15m
+    labels:
+      severity: critical
+    annotations:
+      summary: "System is not operational for more than 15 minutes"
 - name: blackbox
   rules:
   - alert: Blackbox exporter is down
