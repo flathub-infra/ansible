@@ -18,8 +18,16 @@ else
     exit
 fi
 
-for host in dl.flathub.org {{ groups.frontend | join(' ') }}; do
-    curl -X PURGE https://${host}/$REPO/summary{,.sig} || true
+# Upstream for Fastly; purge summary here first
+for host in front-hex2 front-ams; do
+    curl -X PURGE https://${host}.flathub.org/$REPO/summary{,.sig} || true
 done
 
+# Fastly CDN
 curl -X PURGE -H "Fastly-Soft-Purge: 1" https://dl.flathub.org/$REPO/summary{,.sig} || true
+
+# Seoul servers use Fastly as upstream so should be purged last
+for host in front-sel front-sel2; do
+    curl -X PURGE https://${host}.flathub.org/$REPO/summary{,.sig} || true
+done
+
