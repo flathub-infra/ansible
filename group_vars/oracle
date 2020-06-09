@@ -1,0 +1,7 @@
+---
+frontend_nginx_repo_origin_server: https://dl.flathub.org
+frontend_nginx_repo_origin: "{{ frontend_nginx_repo_origin_server }}/repo"
+frontend_nginx_beta_repo_origin_server: https://dl.flathub.org
+frontend_nginx_beta_repo_origin: "{{ frontend_nginx_beta_repo_origin_server }}/beta-repo"
+frontend_nginx_build_repo_origin: "https://dl.flathub.org/build-repo"
+
