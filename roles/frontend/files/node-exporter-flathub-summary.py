@@ -26,11 +26,11 @@ def main():
 
     summary_synced = summary == master_summary
     sig_synced = sig == master_sig
-    state = int(not(summary_synced and sig_synced))
+    state = int(summary_synced and sig_synced)
 
     cdn_summary_synced = cdn_summary == master_summary
     cdn_sig_synced = cdn_sig == master_sig
-    cdn_state = int(not (cdn_summary_synced and cdn_sig_synced))
+    cdn_state = int(cdn_summary_synced and cdn_sig_synced)
 
     output = [
         f"flathub_summary_in_sync {state}",
