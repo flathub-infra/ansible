@@ -80,3 +80,11 @@
     regexp: '^#?(.*/usr/sbin/mythic-backup.*)$'
     line: '{{ base_mythic_backup_disabled | ternary("#", "") }}\1'
     backrefs: yes
+
+- name: set PATH for mythic-reporter cronjob
+  cron:
+    user: root
+    cron_file: mythic-reporter
+    env: yes
+    name: PATH
+    value: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
