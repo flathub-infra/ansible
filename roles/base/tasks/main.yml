@@ -1,3 +1,4 @@
+---
 - name: create admin users
   user:
     name: "{{ item.username }}"
@@ -16,6 +17,20 @@
   tags:
    - users
 
+- block:
+  - name: apt update
+    apt: update_cache=yes cache_valid_time=3600
+
+  - name: install base packages
+    package:
+      name: "{{ base_packages + base_packages_deb }}"
+  when: ansible_os_family == "Debian"
+
+- name: install base packages
+  package:
+    name: "{{ base_packages + base_packages_rpm }}"
+  when: ansible_os_family == "RedHat"
+
 - name: allow passwordless sudo
   lineinfile:
     name: /etc/sudoers
@@ -24,41 +39,20 @@
     line: '%{{ base_admin_group }} ALL=(ALL) NOPASSWD: ALL'
     validate: '/usr/sbin/visudo -cf %s'
 
-- name: include Debian-specific tasks
-  include: deb.yml
-  when: ansible_os_family == "Debian"
+- name: configure ufw
+  include: ufw.yml
+  when: base_firewall == 'ufw'
 
-- name: include Red Hat-specific tasks
-  include: rpm.yml
-  when: ansible_os_family == "RedHat"
+- name: configure firewalld
+  include: firewalld.yml
+  when: base_firewall == 'firewalld'
 
 - name: set timezone to UTC
   timezone:
     name: UTC
 
-- name: configure etckeeper
-  template:
-    src: etckeeper.conf.j2
-    dest: /etc/etckeeper/etckeeper.conf
-
-- name: enable time service
-  service:
-    name: "{{ base_time_service_unit }}"
-    state: started
-    enabled: yes
-
-- name: configure native flathub.org hosts
-  include: native.yml
-  when: base_native
-
 - name: configure Mythic Beasts hosts
   include: mythic.yml
   when: ('mythic' in group_names)
   tags:
-   - mythic
-
-- name: configure Packet.net hosts
-  include: packet.yml
-  when: ('packet' in group_names)
-  tags:
-   - packet
+  - mythic

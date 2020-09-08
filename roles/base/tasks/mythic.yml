@@ -1,49 +1,36 @@
 ---
-- block:
-  - name: add mythic repository
-    yum_repository:
-      name: mythic
-      description: Mythic Beasts
-      baseurl: http://mirror.mythic-beasts.com/rpm/mythic
-      gpgcheck: yes
-      gpgkey: http://mirror.mythic-beasts.com/mythic/support@mythic-beasts.com.gpg.key
+- name: allow Mythic monitoring hosts through firewall
+  template:
+    src: mythic-firewalld-zone.xml.j2
+    dest: /etc/firewalld/zones/mythic.xml
+    mode: 0644
+  notify:
+    - reload firewalld
+  when: base_firewall == 'firewalld'
 
-  - name: allow Mythic monitoring hosts through firewall
-    template:
-      src: mythic-firewalld-zone.xml.j2
-      dest: /etc/firewalld/zones/mythic.xml
-      mode: 0644
-    notify:
-      - reload firewalld
-  when: ansible_os_family == "RedHat"
+- name: add mythic repository gpg key
+  apt_key:
+    url: http://mirror.mythic-beasts.com/mythic/support@mythic-beasts.com.gpg.key
 
-- block:
-  - name: add mythic repository gpg key
-    apt_key:
-      url: http://mirror.mythic-beasts.com/mythic/support@mythic-beasts.com.gpg.key
+- name: add mythic repository
+  apt_repository:
+    repo: deb http://mirror.mythic-beasts.com/mythic mythic main
+    state: present
+    update_cache: yes
 
-  - name: add mythic repository
-    apt_repository:
-      repo: deb http://mirror.mythic-beasts.com/mythic mythic main
-      state: present
-
-  - name: apt update
-    apt: update_cache=yes cache_valid_time=3600
-
-  - name: allow Mythic monitoring hosts through firewall
-    ufw:
-      rule: allow
-      proto: tcp
-      src: "{{ item }}"
-      port: 4949
-    loop: "{{ base_mythic_firewall_sources }}"
-  when: ansible_os_family == "Debian"
+- name: allow Mythic monitoring hosts through firewall
+  ufw:
+    rule: allow
+    proto: tcp
+    src: "{{ item }}"
+    port: 4949
+  loop: "{{ base_mythic_firewall_sources }}"
+  when: base_firewall == 'ufw'
 
 - name: install Mythic management packages
   package:
     name:
-      - mythic-backup
-      - mythic-reporter
+    - mythic-reporter
     state: latest
 
 - name: add Mythic admin ssh key
@@ -51,32 +38,6 @@
     user: root
     key: "{{ lookup('file', 'ssh/mythic.pub') }}"
 
-- name: copy mythic-backup SSH public key
-  copy:
-    src: ssh/id_mythic_backup_rsa.pub
-    dest: /root/.ssh/id_mythic_backup_rsa.pub
-
-- name: copy mythic-backup SSH private key
-  copy:
-    src: ssh/id_mythic_backup_rsa
-    dest: /root/.ssh/id_mythic_backup_rsa
-
-- name: add mythic-backup host keys to /etc/ssh/ssh_known_hosts
-  known_hosts:
-    path: /etc/ssh/ssh_known_hosts
-    name: '{{ base_mythic_backup_host }}'
-    key: '{{ item }}'
-  with_items: "{{ lookup('file', 'ssh-host/' ~ base_mythic_backup_host ~ '.pub').split('\n') }}"
-
-- name: configure mythic-backup
-  template:
-    src: mythic-backup.conf.j2
-    dest: /etc/mythic/backup.conf
-    mode: 0644
-
-- name: update mythic-backup cronjob
-  lineinfile:
-    path: /etc/cron.d/mythic-backup
-    regexp: '^#?(.*/usr/sbin/mythic-backup.*)$'
-    line: '{{ base_mythic_backup_disabled | ternary("#", "") }}\1'
-    backrefs: yes
+- name: ensure hostname
+  hostname:
+    name: "{{ inventory_hostname }}"

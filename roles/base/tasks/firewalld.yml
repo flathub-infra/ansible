@@ -1,0 +1,39 @@
+---
+- name: install firewalld
+  package: name=firewalld
+
+- name: enable firewalld
+  systemd: name=firewalld state=started enabled=yes
+
+- name: allow ZeroTier through firewall
+  firewalld:
+    port: "{{ item }}"
+    state: enabled
+    immediate: true
+    permanent: true
+  with_items:
+   - 9993/udp
+   - 9993/tcp
+  tags:
+    - firewall
+
+- name: add VPN addresses to firewalld dmz zone
+  firewalld:
+    zone: dmz
+    source: "{{ item }}"
+    state: enabled
+    immediate: true
+    permanent: true
+  with_items: "{{ base_firewall_dmz_sources }}"
+  tags:
+    - firewall
+
+- name: add node-exporter port to firewalld dmz zone
+  firewalld:
+    zone: dmz
+    port: 9100/tcp
+    state: enabled
+    immediate: true
+    permanent: true
+  tags:
+    - firewall

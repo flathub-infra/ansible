@@ -1,9 +1,6 @@
 base_admin_group: "{{ (ansible_os_family == 'Debian') | ternary('sudo', 'wheel') }}"
-base_time_service: "{{ (ansible_os_family == 'Debian') | ternary('ntp', 'chrony') }}"
-base_time_service_unit: "{{ (ansible_os_family == 'Debian') | ternary('ntp', 'chronyd') }}"
-base_native: True
+base_firewall: firewalld
 base_packages:
- - etckeeper
  - htop
  - iftop
  - iotop
@@ -13,30 +10,15 @@ base_packages:
  - net-tools
  - psmisc
  - socat
- - postfix
  - tzdata
- - "{{ base_time_service }}"
 base_packages_deb:
  - aptitude
  - host
- - fail2ban
  - netcat
- - ufw
-base_packages_rpm:
- - bind-utils
- - fail2ban-firewalld
- - fail2ban-server
- - fail2ban-systemd
- - libsemanage-python
- - policycoreutils-python
 base_firewall_dmz_sources:
  - 172.28.0.0/16
  - fca2:895:f500::/40
 
-base_mythic_backup_disabled: False
-base_mythic_backup_exclude: []
-base_mythic_backup_host: backup-mer-b.mythic-beasts.com
-base_mythic_backup_postgres: ('postgres' in group_names)
 base_mythic_firewall_sources:
  - 93.93.128.162
  - 2a00:1098:0:80:1000::100
