@@ -63,6 +63,7 @@
   with_items:
   - http
   - https
+  when: base_firewall == 'firewalld'
 
 - name: permit http/https services in firewall (dmz zone)
   firewalld:
@@ -74,3 +75,4 @@
   with_items:
   - http
   - https
+  when: base_firewall == 'firewalld'
