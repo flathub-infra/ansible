@@ -2,7 +2,7 @@
 buildbot_worker_config:
     arches: '["x86_64", "i386"]'
     classes: '["big"]'
-    max-builds: 2
+    max-builds: 4
 
 buildbot_worker_password: !vault |
     $ANSIBLE_VAULT;1.1;AES256
