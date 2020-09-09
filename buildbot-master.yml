@@ -1,6 +1,6 @@
 ---
 - name: set up buildbot master
-  hosts: buildbot.flathub.org
+  hosts: buildbot_master
   roles:
-  - postgres
+  - base
   - buildbot-master

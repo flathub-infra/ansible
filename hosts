@@ -1,9 +1,9 @@
 [mythic]
-buildbot.flathub.org
-webapps.flathub.org
-master.flathub.org
+db.flathub.org
 front-ams.flathub.org
 front-hex2.flathub.org
+master.flathub.org
+webapps.flathub.org
 
 [packet]
 cncf-arm-1.flathub.org
@@ -24,7 +24,7 @@ front-sel.flathub.org
 front-sel2.flathub.org
 
 [buildbot_master]
-buildbot.flathub.org
+webapps.flathub.org
 
 [buildbot_worker]
 cncf-x86-1.flathub.org
@@ -46,19 +46,18 @@ front-hex2.flathub.org
 front-sel.flathub.org
 front-sel2.flathub.org
 
-[postgres:children]
-buildbot_master
-repo
-webapps
+[repo]
+master.flathub.org
+
+[postgres]
+db.flathub.org
+master.flathub.org
 
 [sources]
 sources.flathub.org
 
 [stats]
 stats.flathub.org
-
-[repo]
-master.flathub.org
 
 [webapps]
 webapps.flathub.org
