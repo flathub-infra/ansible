@@ -1,5 +1,6 @@
 ---
 base_mythic_backup_disabled: True
+base_firewall: ufw
 frontend_prerender_token: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           64303764353963353861363434616666663164366633616438353330313231356132626461633835
@@ -11,8 +12,8 @@ nginx_proxy_caches:
     webapps:
         keys_zone_size: "5m"
         max_size: "2g"
-        inactive: "30d"
+        inactive: "1d"
     repo:
         keys_zone_size: "100m"
-        max_size: "63g"
+        max_size: "70g"
         inactive: "40d"

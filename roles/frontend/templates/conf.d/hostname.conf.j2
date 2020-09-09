@@ -1,19 +1,4 @@
 server {
-    listen       80 default_server;
-    listen       [::]:80 default_server;
-    server_name  {{ frontend_nginx_ssl_name }};
-
-    # Only load dehydrated well-known path
-    include /etc/nginx/default.d/dehydrated.conf;
-    
-    # Redirect everything else to HTTPS
-    location / {
-      return 301 https://$host$request_uri;
-    }
-}
-
-{% if frontend_nginx_enable_ssl %}
-server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
 
@@ -22,11 +7,7 @@ server {
     # Load configuration files for the default server block.
     include /etc/nginx/default.d/*.conf;
 
-    # certs sent to the client in SERVER HELLO are concatenated in ssl_certificate
-    ssl_certificate {{ dehydrated_basedir }}/certs/{{ frontend_nginx_ssl_name }}/fullchain.pem;
-    ssl_certificate_key {{ dehydrated_basedir }}/certs/{{ frontend_nginx_ssl_name }}/privkey.pem;
-
-    ## verify chain of trust of OCSP response using Root CA and Intermediate certs
-    ssl_trusted_certificate {{ dehydrated_basedir }}/certs/{{ frontend_nginx_ssl_name }}/chain.pem;
+    ssl_certificate /etc/letsencrypt/live/{{ frontend_nginx_ssl_name }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ frontend_nginx_ssl_name }}/privkey.pem;
+    ssl_trusted_certificate /etc/letsencrypt/live/{{ frontend_nginx_ssl_name }}/chain.pem;
 }
-{% endif %}

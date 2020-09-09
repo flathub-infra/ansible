@@ -6,9 +6,9 @@ dependencies:
     tags:
       - frontend
       - frontend_nginx
-  - role: dehydrated
+  - role: certbot
     vars:
-      dehydrated_domains: '{{ frontend_dehydrated_domains }}'
+      certbot_domains: '{{ frontend_certbot_domains }}'
     tags:
       - frontend
       - frontend_dehydrated

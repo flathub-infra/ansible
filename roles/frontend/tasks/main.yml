@@ -9,12 +9,6 @@
   tags:
    - nginx
 
-- name: ensure nginx is running and run dehydrated
-  meta: flush_handlers
-  tags:
-   - dehydrated
-   - nginx
-
 - name: install summary checker script
   copy:
     src: node-exporter-flathub-summary.py

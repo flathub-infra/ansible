@@ -1,3 +1,4 @@
+---
 - name: install cache-purge nginx module
   package: name=libnginx-mod-http-cache-purge 
 
@@ -22,7 +23,7 @@
     src: "default.d/{{ item }}.j2"
     dest: "/etc/nginx/default.d/{{ item }}"
   loop:
-    - api.conf
+    # - api.conf
     - buildbot.conf
     - repo.conf
     - stats.conf
@@ -36,7 +37,7 @@
     dest: "/etc/nginx/conf.d/{{ item }}"
   loop:
     - prerender.conf
-    - default.conf
+    - hostname.conf
     - dl.conf
     - flathub.conf
     - flatpak.conf
