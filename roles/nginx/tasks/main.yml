@@ -1,14 +1,4 @@
 ---
-- name: include OS-specific variables
-  include_vars: "{{ ansible_os_family }}.yml"
-  when: ansible_os_family == 'Debian'
-
-- name: install nginx
-  package:
-    name: nginx
-    state: latest
-  when: ansible_distribution == "CentOS"
-
 - name: install nginx-light
   package:
     name: nginx-light
@@ -34,7 +24,7 @@
   notify:
    - reload nginx
 
-- name: install nginx mime.types
+- name: install mime.types
   copy:
     src: mime.types
     dest: /etc/nginx/mime.types
@@ -48,7 +38,7 @@
   notify:
    - reload nginx
 
-- name: install nginx conf.d/gzip.conf
+- name: install conf.d/gzip.conf
   copy:
     src: conf.d/gzip.conf
     dest: /etc/nginx/conf.d/gzip.conf
@@ -56,15 +46,7 @@
   notify:
    - reload nginx
 
-- name: install nginx default.d/dehydrated.conf
-  template:
-    src: default.d/dehydrated.conf.j2
-    dest: /etc/nginx/default.d/dehydrated.conf
-    validate: /usr/local/sbin/ansible-validate-nginx-config %s default.d/dehydrated.conf
-  notify:
-   - reload nginx
-
-- name: install nginx default.d/ssl.conf
+- name: install default.d/ssl.conf
   template:
     src: default.d/ssl.conf.j2
     dest: /etc/nginx/default.d/ssl.conf
@@ -72,44 +54,23 @@
   notify:
    - reload nginx
 
-- name: configure firewalld and SELinux
-  block:
-  - name: permit http/https services in firewall (default zone)
-    firewalld:
-      service: "{{ item }}"
-      state: enabled
-      permanent: true
-      immediate: true
-    with_items:
-    - http
-    - https
+- name: permit http/https services in firewall (default zone)
+  firewalld:
+    service: "{{ item }}"
+    state: enabled
+    permanent: true
+    immediate: true
+  with_items:
+  - http
+  - https
 
-  - name: permit http/https services in firewall (dmz zone)
-    firewalld:
-      service: "{{ item }}"
-      state: enabled
-      permanent: true
-      immediate: true
-      zone: dmz
-    with_items:
-    - http
-    - https
-
-  - name: allow httpd to make network connections
-    seboolean:
-      name: httpd_can_network_connect
-      state: '{{ nginx_network_connect | bool }}'
-      persistent: yes
-  when: ansible_os_family == "RedHat"
-
-- name: configure ufw
-  block:
-  - name: permit http/https services in firewall
-    ufw:
-      rule: allow
-      port: "{{ item }}"
-      proto: tcp
-    loop:
-      - http
-      - https
-  when: ansible_os_family == "Debian"
+- name: permit http/https services in firewall (dmz zone)
+  firewalld:
+    service: "{{ item }}"
+    state: enabled
+    permanent: true
+    immediate: true
+    zone: dmz
+  with_items:
+  - http
+  - https
