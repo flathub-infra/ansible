@@ -8,6 +8,8 @@ base_mythic_firewall_ports:
  - 8010
  - 9989
 
+certbot_certsync_enabled: true
+
 buildbot_master_uri: https://flathub.org/builds/
 buildbot_master_repo_manager_uri: https://hub.flathub.org
 buildbot_master_repo_manager_dl_uri: https://dl.flathub.org
