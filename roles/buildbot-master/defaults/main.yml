@@ -1,6 +1,6 @@
 ---
 # External domain name
-buildbot_master_domain: '{{ inventory_hostname }}'
+buildbot_master_domain: buildbot.flathub.org
 
 buildbot_master_user: "buildbot-master"
 buildbot_master_home: "/srv/buildbot-master"
