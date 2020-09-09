@@ -19,9 +19,9 @@ server {
     include /etc/nginx/default.d/ssl.conf;
     include /etc/nginx/default.d/dehydrated.conf;
 
-    ssl_certificate {{ dehydrated_basedir }}/certs/{{ buildbot_master_domain }}/fullchain.pem;
-    ssl_certificate_key {{ dehydrated_basedir }}/certs/{{ buildbot_master_domain }}/privkey.pem;
-    ssl_trusted_certificate {{ dehydrated_basedir }}/certs/{{ buildbot_master_domain }}/chain.pem;
+    ssl_certificate /etc/letsencrypt/live/{{ buildbot_master_domain }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ buildbot_master_domain }}/privkey.pem;
+    ssl_trusted_certificate /etc/letsencrypt/live/{{ buildbot_master_domain }}/chain.pem;
 
     location /change_hook/github {
         allow 192.30.252.0/22;
