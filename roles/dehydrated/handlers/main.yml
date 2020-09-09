@@ -1,3 +1,0 @@
----
-- name: run dehydrated
-  command: dehydrated --cron

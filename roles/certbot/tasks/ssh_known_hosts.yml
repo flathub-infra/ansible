@@ -1,0 +1,7 @@
+---
+- name: add {{ certbot_sync_host }} host keys to /etc/ssh/ssh_known_hosts
+  known_hosts:
+    path: /etc/ssh/ssh_known_hosts
+    name: '{{ certbot_sync_host }}'
+    key: '{{ item }}'
+  with_items: "{{ lookup('file', 'ssh-host/' ~ certbot_sync_host ~ '.pub').split('\n') }}"

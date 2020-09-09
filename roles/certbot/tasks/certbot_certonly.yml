@@ -1,0 +1,6 @@
+---
+- name: request ssl certificates
+  command: certbot certonly --email sysadmin@flathub.org --agree-tos --renew-by-default --webroot -w /var/lib/letsencrypt/ -d {{ cert_item.domains | join(',') }} creates=/etc/letsencrypt/live/{{ cert_item.domains[0] }} 
+  loop: "{{ certbot_domains }}"
+  notify:
+    - reload nginx
