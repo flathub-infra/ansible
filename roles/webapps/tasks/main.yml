@@ -1,13 +1,4 @@
 ---
-- name: install rrsync
-  copy:
-    src: /usr/share/doc/rsync-3.1.2/support/rrsync
-    dest: /usr/local/bin/rrsync
-    owner: root
-    group: root
-    mode: '0755'
-    remote_src: yes
-
 - name: create deploy user
   user:
     name: deploy
@@ -18,7 +9,6 @@
   file:
     path: '{{ webapps_root_dir }}'
     state: directory
-    setype: _default
 
 - name: configure flatpak.org
   include: flatpak.yml
@@ -29,9 +19,3 @@
   include: flathub.yml
   tags:
     - flathub
-
-- name: ensure nginx is running and run dehydrated
-  meta: flush_handlers
-  tags:
-    - dehydrated
-    - nginx

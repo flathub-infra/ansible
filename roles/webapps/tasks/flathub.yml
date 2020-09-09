@@ -4,26 +4,12 @@
     user: deploy
     state: present
     key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMJ6RY33/20jjRJtZcdFqkbFoHGAq6qsWgQhx8lfCwEQ deploy@webapps.flathub.org"
-    key_options: 'command="/usr/local/bin/rrsync ~/flathub.org",no-agent-forwarding,no-port-forwarding,no-pty,no-user-rc,no-X11-forwarding'
+    key_options: 'command="/usr/bin/rrsync ~/flathub.org",no-agent-forwarding,no-port-forwarding,no-pty,no-user-rc,no-X11-forwarding'
 
 - name: install nginx conf.d/flathub.conf
   template:
-    src: nginx/conf.d/flathub.conf
+    src: nginx/flathub.conf.j2
     dest: /etc/nginx/conf.d/flathub.conf
     validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/flathub.conf
   notify:
     - reload nginx
-  tags:
-    - nginx
-    - dehydrated
-
-- name: install nginx conf.d/flathub-ssl.conf
-  template:
-    src: nginx/conf.d/flathub-ssl.conf.j2
-    dest: /etc/nginx/conf.d/flathub-ssl.conf
-    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/flathub-ssl.conf
-  notify:
-    - reload nginx
-  tags:
-    - nginx
-    - dehydrated

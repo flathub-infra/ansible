@@ -4,26 +4,12 @@
     user: deploy
     state: present
     key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFYVAN2hHpr82NbfBdVc5AdOFOHIXKa3G2HklsCsvMXH deploy@webapps.flatpak.org"
-    key_options: 'command="/usr/local/bin/rrsync ~/flatpak.org",no-agent-forwarding,no-port-forwarding,no-pty,no-user-rc,no-X11-forwarding'
+    key_options: 'command="/usr/bin/rrsync ~/flatpak.org",no-agent-forwarding,no-port-forwarding,no-pty,no-user-rc,no-X11-forwarding'
 
 - name: install nginx conf.d/flatpak.conf
   template:
-    src: nginx/conf.d/flatpak.conf
+    src: nginx/flatpak.conf.j2
     dest: /etc/nginx/conf.d/flatpak.conf
     validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/flatpak.conf
   notify:
     - reload nginx
-  tags:
-    - nginx
-    - dehydrated
-
-- name: install nginx conf.d/flatpak-ssl.conf
-  template:
-    src: nginx/conf.d/flatpak-ssl.conf.j2
-    dest: /etc/nginx/conf.d/flatpak-ssl.conf
-    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/flatpak-ssl.conf
-  notify:
-    - reload nginx
-  tags:
-    - nginx
-    - dehydrated
