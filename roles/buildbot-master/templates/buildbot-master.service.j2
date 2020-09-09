@@ -3,9 +3,10 @@ Description=BuildBot master
 After=network.target
 
 [Service]
-User={{ buildbot_master_user }}
-Group={{ buildbot_master_user }}
+DynamicUser=yes
+StateDirectory=buildbot-master
 WorkingDirectory={{ buildbot_master_dir }}
+Environment=HOME={{ buildbot_master_dir }}
 ExecStart={{ buildbot_master_sandbox }}/bin/buildbot start --nodaemon
 ExecReload={{ buildbot_master_sandbox }}/bin/buildbot reconfig {{ buildbot_master_dir }}
 ExecStop={{ buildbot_master_sandbox }}/bin/buildbot stop {{ buildbot_master_dir }}

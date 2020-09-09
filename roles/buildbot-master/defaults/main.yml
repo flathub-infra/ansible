@@ -3,7 +3,7 @@
 buildbot_master_domain: buildbot.flathub.org
 
 buildbot_master_user: "buildbot-master"
-buildbot_master_home: "/srv/buildbot-master"
+buildbot_master_home: "/var/lib/private/buildbot-master"
 buildbot_master_db: "buildbot"
 buildbot_master_sources_url: "https://sources.flathub.org/sources/"
 buildbot_master_sources: "/srv/buildbot-master/sources"

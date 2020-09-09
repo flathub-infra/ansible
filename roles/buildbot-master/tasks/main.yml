@@ -2,16 +2,11 @@
 - name: install packages
   package:
     name:
-      - postgresql-devel
-      - python36-pip
-      - python36-virtualenv
-      - python-setuptools
+      - libpq-dev
+      - python3-pip
+      - python3-virtualenv
       - git
-      - gcc # Needed for installing twisted
-      # flat-manager-client needs these:
-      - ostree
-      - python36-requests
-      - python36-gobject
+      - gcc # needed for installing twisted
       # Source download needs these:
       - flatpak-builder
       - git
@@ -33,36 +28,22 @@
   tags:
     - packages
 
-- name: create buildbot-master user
-  user:
-    name: "{{ buildbot_master_user }}"
-    home: "{{ buildbot_master_home }}"
-    system: yes
-
-- name: Add postgres user
-  postgresql_user:
-    name: "{{ buildbot_master_user }}"
-  become_user: postgres
-
-- name: Create the database
-  postgresql_db:
-    name: "{{ buildbot_master_db }}"
-    owner: "{{ buildbot_master_user }}"
-  become_user: postgres
+- name: create buildbot state directory
+  file:
+    path: "{{ buildbot_master_sandbox }}"
+    state: directory
 
 - name: install pip and python dependencies in virtualenv
   pip:
     name:
       - pip
-      - mock
       - requests
-      - txrequests
       - psycopg2
+      - txrequests
+      - lz4
     state: latest
     virtualenv: "{{ buildbot_master_sandbox }}"
-    virtualenv_command: virtualenv-3
     virtualenv_python: python3
-  become_user: "{{ buildbot_master_user }}"
   tags: virtualenv
 
 - name: install buildbot in virtualenv
@@ -74,45 +55,36 @@
       - https://github.com/flathub/buildbot/releases/download/v{{ buildbot_master_version | replace('+', '.') }}/buildbot_www-{{ buildbot_master_version }}-py3-none-any.whl
     state: present
     virtualenv: "{{ buildbot_master_sandbox }}"
-    virtualenv_command: virtualenv-3
     virtualenv_python: python3
-  become_user: "{{ buildbot_master_user }}"
   notify:
    - restart buildbot-master
   tags: virtualenv
 
-- name: Check out buildbot-config
+- name: check out buildbot-config
   git:
     repo: https://github.com/flathub/buildbot-config.git
     version: master
     dest: "{{ buildbot_master_dir }}"
-  become_user: "{{ buildbot_master_user }}"
   notify:
    - reconfig buildbot-master
 
-- name: Install flathub.gpg
+- name: install flathub.gpg
   get_url:
     url: https://dl.flathub.org/repo/flathub.gpg
     checksum: sha256:8bdc20abc4e19c0796460beb5bfe0e7aa4138716999e19c6f2dbdd78cc41aeaa
     dest: "{{ buildbot_master_dir }}/flathub.gpg"
-    owner: "{{ buildbot_master_user }}"
-    group: "{{ buildbot_master_user }}"
 
-- name: Update buildbot config.json
+- name: update buildbot config.json
   template:
     src: config.json.j2
     dest: "{{ buildbot_master_dir }}/config.json"
-    owner: "{{ buildbot_master_user }}"
-    group: "{{ buildbot_master_user }}"
   notify:
    - reconfig buildbot-master
 
-- name: Update buildbot builders.json
+- name: update buildbot builders.json
   template:
     src: builders.json.j2
     dest: "{{ buildbot_master_dir }}/builders.json"
-    owner: "{{ buildbot_master_user }}"
-    group: "{{ buildbot_master_user }}"
   notify:
    - restart buildbot-master required
 
@@ -122,17 +94,6 @@
     --db=postgresql:///{{ buildbot_master_db }} {{ buildbot_master_dir }}
   args:
     creates: "{{ buildbot_master_dir }}/buildbot.tac"
-  become: yes
-  become_user: "{{ buildbot_master_user }}"
-
-#- name: Upgrade master
-#  shell: '{{ buildbot_master_sandbox }}/bin/buildbot upgrade-master {{ buildbot_master_dir }} && touch {{ buildbot_master_dir }}/inited-db'
-#  args:
-#    creates: "{{ buildbot_master_dir }}/inited-db"
-#  become: yes
-#  become_user: '{{ buildbot_master_user }}'
-#  notify:
-#    - restart buildbot master
 
 - name: add systemd unit
   template:
