@@ -51,7 +51,7 @@ groups:
     annotations:
       summary: "{% raw %}Instance {{ $labels.instance }} has read-only filesystem on {{ $labels.mountpoint }}{% endraw %}"
   - alert: System is not operational
-    expr: "node_systemd_system_running == 1"
+    expr: "node_systemd_system_running == 0"
     for: 15m
     labels:
       severity: critical
