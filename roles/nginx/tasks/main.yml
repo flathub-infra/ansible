@@ -3,7 +3,6 @@
   package:
     name: nginx-light
     state: latest
-  when: ansible_os_family == "Debian"
 
 - name: create default.d directory
   file:
@@ -46,11 +45,18 @@
   notify:
    - reload nginx
 
-- name: install default.d/ssl.conf
+- name: install default.d/dehydrated.conf
   template:
-    src: default.d/ssl.conf.j2
-    dest: /etc/nginx/default.d/ssl.conf
-    validate: /usr/local/sbin/ansible-validate-nginx-config %s default.d/ssl.conf
+    src: default.d/dehydrated.conf.j2
+    dest: /etc/nginx/default.d/dehydrated.conf
+    validate: /usr/local/sbin/ansible-validate-nginx-config %s default.d/dehydrated.conf
+  notify:
+   - reload nginx
+
+- name: install conf.d/dehydrated.conf
+  copy:
+    src: conf.d/dehydrated.conf
+    dest: /etc/nginx/conf.d/dehydrated.conf
   notify:
    - reload nginx
 

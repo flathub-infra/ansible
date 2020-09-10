@@ -37,11 +37,8 @@ server {
       return 302 https://{{ frontend_nginx_webroot_domain }}$request_uri;
     }
 
-    # certs sent to the client in SERVER HELLO are concatenated in ssl_certificate
     ssl_certificate /var/lib/certsync/certs/dl.{{ frontend_nginx_webroot_domain }}/fullchain.pem;
     ssl_certificate_key /var/lib/certsync/certs/dl.{{ frontend_nginx_webroot_domain }}/privkey.pem;
-
-    ## verify chain of trust of OCSP response using Root CA and Intermediate certs
     ssl_trusted_certificate /var/lib/certsync/certs/dl.{{ frontend_nginx_webroot_domain }}/chain.pem;
 }
 {% endif %}

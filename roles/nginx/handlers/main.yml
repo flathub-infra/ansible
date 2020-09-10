@@ -2,4 +2,4 @@
   service:
     name: nginx
     enabled: yes
-    state: reloaded
+    # state: reloaded

@@ -4,9 +4,9 @@ server {
     server_name {{ backend_domain }};
 
     include /etc/nginx/default.d/ssl.conf;
-    ssl_certificate /etc/letsencrypt/live/{{ backend_domain }}/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/{{ backend_domain }}/privkey.pem;
-    ssl_trusted_certificate /etc/letsencrypt/live/{{ backend_domain }}/chain.pem;
+    ssl_certificate /var/lib/dehydrated/certs/{{ backend_domain }}/fullchain.pem;
+    ssl_certificate_key /var/lib/dehydrated/certs/{{ backend_domain }}/privkey.pem;
+    ssl_trusted_certificate /var/lib/dehydrated/certs/{{ backend_domain }}/chain.pem;
 
     location / {
         proxy_pass http://localhost:8000;

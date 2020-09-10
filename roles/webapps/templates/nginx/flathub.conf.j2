@@ -4,9 +4,9 @@ server {
     server_name {{ webapps_flathub_domains | join(' ') }};
 
     include /etc/nginx/default.d/ssl.conf;
-    ssl_certificate /etc/letsencrypt/live/{{ webapps_flathub_domains[0] }}/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/{{ webapps_flathub_domains[0] }}/privkey.pem;
-    ssl_trusted_certificate /etc/letsencrypt/live/{{ webapps_flathub_domains[0] }}/chain.pem;
+    ssl_certificate /var/lib/dehydrated/certs/{{ webapps_flathub_domains[0] }}/fullchain.pem;
+    ssl_certificate_key /var/lib/dehydrated/certs/{{ webapps_flathub_domains[0] }}/privkey.pem;
+    ssl_trusted_certificate /var/lib/dehydrated/certs/{{ webapps_flathub_domains[0] }}/chain.pem;
 
     root {{ webapps_flathub_checkout }};
     try_files $uri$args $uri$args/ $uri $uri/ /index.html =404;

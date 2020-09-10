@@ -1,3 +1,4 @@
 location /.well-known/acme-challenge {
-    alias {{ dehydrated_acme_challenge_dir }};
+    alias /var/lib/dehydrated/acme-challenges;
+    default_type "text/plain";
 }

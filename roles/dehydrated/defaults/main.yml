@@ -1,0 +1,11 @@
+---
+dehydrated_registration_info_path: "/var/lib/dehydrated/accounts/*/registration_info.json"
+dehydrated_basedir: /var/lib/dehydrated
+
+# List of domains to acquire certificates before. Each entry will be a
+# line in /etc/dehydrated/domains.txt.
+dehydrated_domains: []
+
+# Lists of domains and hosts for syncing certificates to remote hosts.
+dehydrated_sync_domains: []
+dehydrated_sync_hosts: []

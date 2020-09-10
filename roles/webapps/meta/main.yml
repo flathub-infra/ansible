@@ -1,9 +1,9 @@
 dependencies:
   - base
   - role: nginx
-  - role: certbot
+  - role: dehydrated
     vars:
-      certbot_domains: '{{ webapps_certbot_domains }}'
-      certbot_sync_domains: '{{ webapps_certbot_sync_domains }}'
-      certbot_sync_hosts: '{{ webapps_certbot_sync_hosts }}'
-    tags: webapps_certbot
+      dehydrated_domains: '{{ webapps_dehydrated_domains }}'
+      dehydrated_sync_domains: '{{ webapps_dehydrated_sync_domains }}'
+      dehydrated_sync_hosts: '{{ webapps_dehydrated_sync_hosts }}'
+    tags: webapps_dehydrated

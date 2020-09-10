@@ -7,7 +7,7 @@ server {
     # Load configuration files for the default server block.
     include /etc/nginx/default.d/*.conf;
 
-    ssl_certificate /etc/letsencrypt/live/{{ frontend_nginx_ssl_name }}/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/{{ frontend_nginx_ssl_name }}/privkey.pem;
-    ssl_trusted_certificate /etc/letsencrypt/live/{{ frontend_nginx_ssl_name }}/chain.pem;
+    ssl_certificate /var/lib/dehydrated/certs/{{ frontend_nginx_ssl_name }}/fullchain.pem;
+    ssl_certificate_key /var/lib/dehydrated/certs/{{ frontend_nginx_ssl_name }}/privkey.pem;
+    ssl_trusted_certificate /var/lib/dehydrated/certs/{{ frontend_nginx_ssl_name }}/chain.pem;
 }

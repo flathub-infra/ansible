@@ -1,0 +1,7 @@
+---
+- name: add {{ dehydrated_sync_host }} host keys to /etc/ssh/ssh_known_hosts
+  known_hosts:
+    path: /etc/ssh/ssh_known_hosts
+    name: '{{ dehydrated_sync_host }}'
+    key: '{{ item }}'
+  with_items: "{{ lookup('file', 'ssh-host/' ~ dehydrated_sync_host ~ '.pub').split('\n') }}"

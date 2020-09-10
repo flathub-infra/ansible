@@ -1,14 +1,12 @@
 dependencies:
-  - base
+  # - base
   - role: nginx
-    vars:
-      nginx_network_connect: yes
     tags:
       - frontend
       - frontend_nginx
-  - role: certbot
+  - role: dehydrated
     vars:
-      certbot_domains: '{{ frontend_certbot_domains }}'
+      dehydrated_domains: '{{ frontend_dehydrated_domains }}'
     tags:
       - frontend
       - frontend_dehydrated

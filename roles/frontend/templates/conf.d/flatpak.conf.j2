@@ -20,8 +20,10 @@ server {
 
     server_name {{ frontend_nginx_flatpak_domain }} www.{{ frontend_nginx_flatpak_domain }};
 
-    # Load common SSL options
     include /etc/nginx/default.d/ssl.conf;
+    ssl_certificate /var/lib/certsync/certs/{{ frontend_nginx_flatpak_domain }}/fullchain.pem;
+    ssl_certificate_key /var/lib/certsync/certs/{{ frontend_nginx_flatpak_domain }}/privkey.pem;
+    ssl_trusted_certificate /var/lib/certsync/certs/{{ frontend_nginx_flatpak_domain }}/chain.pem;
 
     location / {
       proxy_cache webapps;
@@ -29,12 +31,5 @@ server {
       proxy_set_header Host $host;
       proxy_pass https://{{ frontend_nginx_flatpak_origin }};
     }
-
-    # certs sent to the client in SERVER HELLO are concatenated in ssl_certificate
-    ssl_certificate /var/lib/certsync/certs/{{ frontend_nginx_flatpak_domain }}/fullchain.pem;
-    ssl_certificate_key /var/lib/certsync/certs/{{ frontend_nginx_flatpak_domain }}/privkey.pem;
-
-    ## verify chain of trust of OCSP response using Root CA and Intermediate certs
-    ssl_trusted_certificate /var/lib/certsync/certs/{{ frontend_nginx_flatpak_domain }}/chain.pem;
 }
 {% endif %}

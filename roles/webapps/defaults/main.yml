@@ -3,17 +3,18 @@ webapps_root_dir: /srv/www
 
 # LE certificate domains and syncing to frontends. Only the primary
 # domain name is used for syncing.
-webapps_certbot_domains:
-  - domains: "{{ webapps_flatpak_domains }}"
-  - domains: "{{ webapps_flatpak_domains }}"
-  - domains:
-    - dl.flathub.org
+webapps_dehydrated_domains:
+  - '{{ webapps_flatpak_domains | join(" ") }}'
+  - '{{ webapps_flathub_domains | join(" ") }}'
+  - dl.flathub.org
+  - backend.webapps.flathub.org
+  - buildbot.flathub.org
 
-webapps_certbot_sync_domains:
+webapps_dehydrated_sync_domains:
   - '{{ webapps_flatpak_domains[0] }}'
   - '{{ webapps_flathub_domains[0] }}'
   - dl.flathub.org
-webapps_certbot_sync_hosts: '{{ groups.frontend }}'
+webapps_dehydrated_sync_hosts: '{{ groups.frontend }}'
 
 # flatpak.org
 webapps_flatpak_checkout: '{{ webapps_root_dir }}/flatpak.org'
