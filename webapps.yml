@@ -1,7 +1,13 @@
 ---
-- name: set up web application backends
+- name: set up db
+  hosts: db.flathub.org
+  roles:
+  - redisearch
+  - postgres
+
+- name: set up webapps
   hosts: webapps
   roles:
   - webapps
-  - postgres
-  - linux-store-backend
+  - backend
+  - buildbot_master
