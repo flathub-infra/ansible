@@ -2,5 +2,4 @@
 - name: set up buildbot master
   hosts: buildbot_master
   roles:
-  - base
   - buildbot-master
