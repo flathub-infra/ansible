@@ -1,13 +1,13 @@
-dependencies:
-  - base
-  - role: nginx
-    tags:
-      - stats
-      - stats_nginx
-  - role: dehydrated
-    vars:
-      dehydrated_domains:
-        - '{{ stats_domain }}'
-    tags:
-      - stats
-      - stats_dehydrated
+# dependencies:
+#   - base
+#   - role: nginx
+#     tags:
+#       - stats
+#       - stats_nginx
+#   - role: dehydrated
+#     vars:
+#       dehydrated_domains:
+#         - '{{ stats_domain }}'
+#     tags:
+#       - stats
+#       - stats_dehydrated
