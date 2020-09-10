@@ -1,5 +1,0 @@
----
-- name: ping stuff
-  hosts: all
-  tasks:
-  - ping:
