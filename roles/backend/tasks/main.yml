@@ -1,0 +1,27 @@
+---
+- name: install backend configuration
+  template:
+    src: flathub-backend.conf.j2
+    dest: /etc/flathub-backend.conf
+  notify: restart backend
+
+- name: install systemd unit
+  template:
+    src: backend.service.j2
+    dest: /etc/systemd/system/backend.service
+  notify: restart backend
+
+- name: start and enable backend
+  systemd:
+    name: backend
+    state: started
+    enabled: yes
+    daemon-reload: yes
+
+- name: configure nginx
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/conf.d/backend.conf
+    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/backend.conf
+  notify:
+    - reload nginx

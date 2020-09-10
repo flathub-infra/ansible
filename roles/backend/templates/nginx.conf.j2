@@ -1,0 +1,21 @@
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name {{ backend_domain }};
+
+    include /etc/nginx/default.d/ssl.conf;
+    ssl_certificate /etc/letsencrypt/live/{{ backend_domain }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ backend_domain }}/privkey.pem;
+    ssl_trusted_certificate /etc/letsencrypt/live/{{ backend_domain }}/chain.pem;
+
+    location / {
+        proxy_pass http://localhost:8000;
+    }
+
+    location = /v1/apps/update {
+	allow 46.235.224.97;
+        deny all;
+
+        proxy_pass http://localhost:8000;
+    }
+}
