@@ -1,0 +1,24 @@
+---
+- name: create data directory
+  file:
+    path: /var/lib/redisearch
+    state: directory
+
+- name: install redisearch configuration
+  template:
+    src: redisearch.conf.j2
+    dest: /etc/redisearch.conf
+  notify: restart redisearch
+
+- name: install systemd unit
+  template:
+    src: redisearch.service.j2
+    dest: /etc/systemd/system/redisearch.service
+  notify: restart redisearch
+
+- name: start and enable redisearch
+  systemd:
+    name: redisearch
+    state: started
+    enabled: yes
+    daemon-reload: yes
