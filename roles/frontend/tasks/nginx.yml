@@ -23,7 +23,7 @@
     src: "default.d/{{ item }}.j2"
     dest: "/etc/nginx/default.d/{{ item }}"
   loop:
-    # - api.conf
+    - api.conf
     - buildbot.conf
     - repo.conf
     - stats.conf

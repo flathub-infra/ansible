@@ -1,13 +1,14 @@
-location /api {
+location /api/ {
     proxy_cache webapps;
-    proxy_cache_valid 200 302 15m;
+    proxy_cache_valid 200 302 10m;
     proxy_cache_valid 301      1h;
-    proxy_cache_key https://hub.flathub.org$uri;
-    proxy_pass http://api;
-    proxy_set_header Host $host;
+    proxy_pass {{ frontend_flathub_backend }}/;
 }
 
-location /api/health {
-    proxy_pass http://api/health;
-    proxy_set_header Host $host;
+location /api/v1/apps/collection/new/feed {
+    proxy_pass {{ frontend_flathub_backend }}/v1/feed/new;
+}
+
+location /api/v1/apps/collection/recently-updated/feed {
+    proxy_pass {{ frontend_flathub_backend }}/v1/feed/recently-updated;
 }

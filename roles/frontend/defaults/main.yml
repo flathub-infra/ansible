@@ -2,8 +2,7 @@ frontend_dehydrated_domains:
   - "{{ frontend_nginx_ssl_name }}"
 frontend_certsync_ssh_users:
   - root@webapps.flathub.org
-frontend_nginx_api_servers:
-  - flathub.openshift.gnome.org:443
+frontend_flathub_backend: https://backend.webapps.flathub.org
 frontend_nginx_buildbot_origin: http://buildbot.zt.flathub.org:8010
 frontend_nginx_cache_dir: /var/cache/httpd
 frontend_nginx_cache_purge_from: 46.235.224.97 2a00:1098:86:39::2
