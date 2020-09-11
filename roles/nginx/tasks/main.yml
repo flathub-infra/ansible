@@ -45,6 +45,14 @@
   notify:
    - reload nginx
 
+- name: install default.d/ssl.conf
+  template:
+    src: default.d/ssl.conf.j2
+    dest: /etc/nginx/default.d/ssl.conf
+    validate: /usr/local/sbin/ansible-validate-nginx-config %s default.d/ssl.conf
+  notify:
+   - reload nginx
+
 - name: install default.d/dehydrated.conf
   template:
     src: default.d/dehydrated.conf.j2
