@@ -1,5 +1,0 @@
----
-- name: restart linux-store-backend
-  service:
-    name: linux-store-backend
-    state: restarted

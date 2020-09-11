@@ -1,8 +1,0 @@
-[Unit]
-Description=Update flathub appstream data
-
-[Service]
-Type=oneshot
-User={{ linux_store_backend_user }}
-Group={{ linux_store_backend_user }}
-ExecStart={{ linux_store_backend_checkout }}/scripts/appstream-extractor.sh

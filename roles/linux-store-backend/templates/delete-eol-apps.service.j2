@@ -1,8 +1,0 @@
-[Unit]
-Description=Delete EOL applications from database
-
-[Service]
-Type=oneshot
-User={{ linux_store_backend_user }}
-Group={{ linux_store_backend_user }}
-ExecStart=/usr/bin/python3.6 {{ linux_store_backend_checkout }}/scripts/delete-eol-apps.py
