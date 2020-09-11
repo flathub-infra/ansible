@@ -12,16 +12,6 @@
     state: directory
     mode: 0775
 
-- name: install nginx conf.d/sources.conf
-  template:
-    src: nginx-conf.d-sources.conf.j2
-    dest: /etc/nginx/conf.d/sources.conf
-    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/sources.conf
-    mode: 0644
-  notify: reload nginx
-  tags:
-    - nginx
-
 - name: ensure nginx is running and dehydrated run to obtain certs
   meta: flush_handlers
   tags:
