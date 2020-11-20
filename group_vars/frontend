@@ -15,5 +15,5 @@ nginx_proxy_caches:
         inactive: "1d"
     repo:
         keys_zone_size: "100m"
-        max_size: "70g"
+        max_size: "90g"
         inactive: "40d"
