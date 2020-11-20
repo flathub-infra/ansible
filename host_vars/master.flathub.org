@@ -1,4 +1,5 @@
 ---
+base_firewall: ufw
 base_mythic_backup_excludes:
  - /tank/repo
 base_mythic_munin_hostname: ma83
