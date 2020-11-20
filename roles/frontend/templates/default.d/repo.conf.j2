@@ -51,5 +51,4 @@ location /build-repo {
     proxy_cache_valid 200 5d;
     proxy_cache_lock on;
     proxy_pass {{ frontend_nginx_build_repo_origin }};
-    expires 5d;
 }
