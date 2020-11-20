@@ -7,6 +7,10 @@ location /repo {
         add_header Surrogate-Control "stale-if-error=86400";
     }
 
+    location ~ ^/repo/summary.idx(\.sig)?$ {
+        add_header Surrogate-Control "stale-if-error=86400";
+    }
+
     location /repo/refs {
         add_header Surrogate-Control "stale-if-error=86400";
         expires 1m;
@@ -59,6 +63,10 @@ location /beta-repo {
     expires 1h;
 
     location ~ ^/beta-repo/summary(\.sig)?$ {
+        add_header Surrogate-Control "stale-if-error=86400";
+    }
+
+    location ~ ^/beta-repo/summary.idx(\.sig)?$ {
         add_header Surrogate-Control "stale-if-error=86400";
     }
 

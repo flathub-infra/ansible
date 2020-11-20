@@ -11,7 +11,7 @@ location ~ ^/repo/objects/.+\.(sig|sizes2)$ {
     return 404;
 }
 
-{% for file in ['summary', 'summary.sig'] %}
+{% for file in ['summary', 'summary.sig', 'summary.idx', 'summary.idx.sig'] %}
 location /repo/{{ file }} {
     gzip on;
     gzip_types application/octet-stream;
@@ -28,14 +28,13 @@ location /beta-repo {
     proxy_cache_valid 200 30d;
     proxy_cache_lock on;
     proxy_pass {{ frontend_nginx_beta_repo_origin }};
-    expires 30d;
 }
 
 location ~ ^/beta-repo/objects/.+\.(sig|sizes2)$ {
     return 404;
 }
 
-{% for file in ['summary', 'summary.sig'] %}
+{% for file in ['summary', 'summary.sig', 'summary.idx', 'summary.idx.sig'] %}
 location /beta-repo/{{ file }} {
     gzip on;
     gzip_types application/octet-stream;
