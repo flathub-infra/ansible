@@ -34,3 +34,5 @@ for host in front-sel front-sel2; do
     curl -X PURGE https://${host}.flathub.org/$REPO/summary.idx{,.sig} || true
 done
 
+# Trigger update on website
+curl -X POST https://backend.webapps.flathub.org/v1/apps/update
