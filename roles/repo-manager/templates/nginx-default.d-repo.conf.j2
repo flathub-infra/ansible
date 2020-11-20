@@ -140,13 +140,13 @@ location /build-repo {
     location ~ ^/build-repo/(\d+)/objects/((.+)\.(commit|dirtree|filez)$) {
         alias {{ repo_manager_repodir }};
         try_files /builds/$1/objects/$2 /beta/objects/$2 /stable/objects/$2 =404;
-        expires 1y;
+        expires 7d;
         access_log off;
     }
 
     location ~ ^/build-repo/(\d+)/deltas/(.*)$ {
         try_files /build-repo/deltas/$1 /build-repo/tmp/deltas/$1 =404;
-        expires 1y;
+        expires 7d;
     }
 }
 
