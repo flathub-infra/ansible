@@ -45,18 +45,3 @@
     creates: "{{ repo_manager_gpghome }}/trustdb.gpg"
   become: true
   become_user: "{{ repo_manager_user }}"
-
-- name: add systemd unit
-  template:
-    src: gpg-agent.service.j2
-    dest: /etc/systemd/system/gpg-agent.service
-  notify:
-   - restart gpg-agent
-
-- name: enable and start gpg-agent
-  systemd:
-    name: gpg-agent
-    daemon_reload: yes
-    enabled: yes
-  notify:
-   - restart gpg-agent
