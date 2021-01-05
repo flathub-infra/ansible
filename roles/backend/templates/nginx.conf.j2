@@ -8,14 +8,14 @@ server {
     ssl_certificate_key /var/lib/dehydrated/certs/{{ backend_domain }}/privkey.pem;
     ssl_trusted_certificate /var/lib/dehydrated/certs/{{ backend_domain }}/chain.pem;
 
-    location / {
-        proxy_pass http://localhost:8000;
+    location /v1/ {
+        proxy_pass http://localhost:8000/;
     }
 
     location = /v1/apps/update {
 	allow 46.235.224.97;
         deny all;
 
-        proxy_pass http://localhost:8000;
+        proxy_pass http://localhost:8000/apps/update;
     }
 }
