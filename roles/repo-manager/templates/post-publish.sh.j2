@@ -28,11 +28,5 @@ done
 curl -X PURGE -H "Fastly-Soft-Purge: 1" https://dl.flathub.org/$REPO/summary{,.sig} || true
 curl -X PURGE -H "Fastly-Soft-Purge: 1" https://dl.flathub.org/$REPO/summary.idx{,.sig} || true
 
-# Seoul servers use Fastly as upstream so should be purged last
-for host in front-sel front-sel2; do
-    curl -X PURGE https://${host}.flathub.org/$REPO/summary{,.sig} || true
-    curl -X PURGE https://${host}.flathub.org/$REPO/summary.idx{,.sig} || true
-done
-
 # Trigger update on website
 curl -X POST https://backend.webapps.flathub.org/v1/apps/update

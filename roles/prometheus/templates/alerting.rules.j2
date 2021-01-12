@@ -90,15 +90,8 @@ groups:
 - name: flathub
   rules:
   - alert: Stale summary file or signature
-    expr: flathub_summary_in_sync{instance!~"^front-sel.*"} == 0
+    expr: flathub_summary_in_sync == 0
     for: 10m
-    labels:
-      severity: critical
-    annotations:
-      summary: "The summary file or its signature served by the node differs from the one on the master server"
-  - alert: Stale summary file or signature (front-sel)
-    expr: flathub_summary_in_sync{instance=~"^front-sel.*"} == 0
-    for: 1h
     labels:
       severity: critical
     annotations:
