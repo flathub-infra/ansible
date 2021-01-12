@@ -43,3 +43,21 @@
     mode: 0750
   notify:
     - run dehydrated
+
+- name: install systemd timer and service
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/systemd/system/{{ item }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - dehydrated.service
+    - dehydrated.timer
+
+- name: enable and start systemd timer
+  systemd:
+    name: dehydrated.timer
+    daemon_reload: yes
+    enabled: yes
+    state: started
