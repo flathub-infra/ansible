@@ -20,6 +20,7 @@
       - flatpak-builder
       - python-setuptools
       - git-lfs
+      - p7zip-full
     state: latest
 
 - name: create buildbot user
