@@ -1,9 +1,4 @@
 ---
-- name: add flatpak ppa
-  apt_repository:
-    repo: ppa:alexlarsson/flatpak
-    update_cache: yes
-
 - name: install buildbot packages (deb)
   package:
     name:
@@ -17,7 +12,6 @@
       - python3-pip
       - subversion
       - virtualenv
-      - flatpak-builder
       - python-setuptools
       - git-lfs
     state: latest
