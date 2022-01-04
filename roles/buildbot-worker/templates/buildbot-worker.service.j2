@@ -1,14 +1,11 @@
 [Unit]
 Description=BuildBot worker
 After=network.target
-Requires=user@995.service
 
 [Service]
 User={{ buildbot_worker_user }}
 Group={{ buildbot_worker_user }}
 WorkingDirectory={{ buildbot_worker_dir }}
-Environment=DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/995/bus
-Environment=XDG_RUNTIME_DIR=/run/user/995
 ExecStart={{ buildbot_worker_sandbox }}/bin/buildbot-worker start --nodaemon
 LimitNOFILE=16384
 
