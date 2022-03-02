@@ -1,10 +1,6 @@
 location /api/ {
-    add_header Access-Control-Allow-Origin '*';
-    add_header Access-Control-Allow-Methods 'GET';
-
     proxy_cache webapps;
-    proxy_cache_valid 200 302 10m;
-    proxy_cache_valid 301      1h;
+    proxy_cache_valid 200 10s;
     proxy_pass {{ frontend_flathub_backend }}/;
 }
 
