@@ -49,7 +49,7 @@
 
 - name: set timezone to UTC
   timezone:
-    name: UTC
+    name: Etc/UTC
 
 - name: configure Mythic Beasts hosts
   include: mythic.yml
