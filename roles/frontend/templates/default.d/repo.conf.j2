@@ -7,6 +7,16 @@ location /repo {
     proxy_pass {{ frontend_nginx_repo_origin }};
 }
 
+location /repo/assets {
+    add_header Access-Control-Allow-Origin *;
+
+    proxy_cache repo;
+    proxy_cache_key https://hub.flathub.org$uri;
+    proxy_cache_valid 200 304 30d;
+    proxy_cache_lock on;
+    proxy_pass https://hub.flathub.org/repo/assets;
+ }
+
 location ~ ^/repo/objects/.+\.(sig|sizes2)$ {
     return 404;
 }
