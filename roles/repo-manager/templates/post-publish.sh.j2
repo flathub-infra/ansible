@@ -30,3 +30,4 @@ curl -X PURGE -H "Fastly-Soft-Purge: 1" https://dl.flathub.org/$REPO/summary.idx
 
 # Trigger update on website
 curl -X POST https://backend.webapps.flathub.org/v1/apps/update
+curl -X POST https://backend.webapps.flathub.org/v2/update
