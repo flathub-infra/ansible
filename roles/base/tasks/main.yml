@@ -28,7 +28,7 @@
 
 - name: install base packages
   package:
-    name: "{{ base_packages + base_packages_rpm }}"
+    name: "{{ base_packages }}"
   when: ansible_os_family == "RedHat"
 
 - name: allow passwordless sudo
