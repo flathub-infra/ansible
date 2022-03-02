@@ -10,3 +10,4 @@ prometheus_node_hostgroups:
   - repo
   - webapps
   - postgres
+  - codethink
