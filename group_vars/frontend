@@ -12,7 +12,7 @@ nginx_proxy_caches:
     webapps:
         keys_zone_size: "5m"
         max_size: "2g"
-        inactive: "1d"
+        inactive: "10m"
     repo:
         keys_zone_size: "100m"
         max_size: "90g"
