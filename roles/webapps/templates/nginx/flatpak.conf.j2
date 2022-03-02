@@ -12,6 +12,8 @@ server {
     try_files $uri $uri/ $uri.html =404;
     error_page 404 /404.html;
 
+    rewrite ^/setup/(.*)/ https://flatpak.org/setup/$1;
+
     location /.git {
         return 404;
     }
