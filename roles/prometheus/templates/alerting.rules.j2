@@ -39,7 +39,13 @@ groups:
     annotations:
       summary: "{% raw %}Buildbot worker{{ $labels.instance }} is under high CPU usage for 2h{% endraw %}"
   - alert: High disk usage
-    expr: (node_filesystem_size_bytes{mountpoint=~"/|/srv|/boot|/tank"} - node_filesystem_avail_bytes{mountpoint=~"/|/srv|/boot|/tank"}) /  node_filesystem_size_bytes{mountpoint=~"/|/srv|/boot|/tank"} > 0.9
+    expr: (node_filesystem_size_bytes{mountpoint=~"/|/srv|/boot|/tank", role!="frontend"} - node_filesystem_avail_bytes) /  node_filesystem_size_bytes > 0.9
+    labels:
+      severity: warning
+    annotations:
+      summary: "{% raw %}Instance {{ $labels.instance }} has high disk usage on {{ $labels.mountpoint }}{% endraw %}"
+  - alert: High disk usage on front servers
+    expr: (node_filesystem_size_bytes{mountpoint="/", role="frontend"} - node_filesystem_avail_bytes) / node_filesystem_size_bytes > 0.975
     labels:
       severity: warning
     annotations:
