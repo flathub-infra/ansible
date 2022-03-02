@@ -1,8 +1,14 @@
 ---
-- name: install buildbot packages (deb)
+- name: add flatpak ppa
+  apt_repository:
+    repo: ppa:flatpak/stable
+
+- name: install flatpak
+  apt: name=flatpak update_cache=yes cache_valid_time=3600
+
+- name: install buildbot packages
   package:
     name:
-      - appstream-util
       - build-essential
       - bzr
       - elfutils
@@ -10,10 +16,8 @@
       - git
       - python3-dev
       - python3-pip
-      - subversion
       - virtualenv
       - python-setuptools
-      - git-lfs
     state: latest
 
 - name: create buildbot user
