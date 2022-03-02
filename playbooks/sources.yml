@@ -1,5 +1,0 @@
----
-- name: set up sources machine
-  hosts: sources
-  roles:
-  - sources

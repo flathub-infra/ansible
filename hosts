@@ -10,7 +10,6 @@ cncf-arm-1.flathub.org
 cncf-arm-2.flathub.org
 cncf-x86-1.flathub.org
 cncf-x86-2.flathub.org
-sources.flathub.org
 stats.flathub.org
 
 [codethink]
@@ -27,7 +26,6 @@ cncf-x86-1.flathub.org
 cncf-x86-2.flathub.org
 cncf-arm-1.flathub.org
 cncf-arm-2.flathub.org
-sources.flathub.org
 
 [buildbot_worker:children]
 codethink
@@ -45,9 +43,6 @@ master.flathub.org
 
 [postgres]
 db.flathub.org
-
-[sources]
-sources.flathub.org
 
 [stats]
 stats.flathub.org
