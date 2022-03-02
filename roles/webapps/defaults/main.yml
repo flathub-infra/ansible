@@ -5,10 +5,12 @@ webapps_root_dir: /srv/www
 # domain name is used for syncing.
 webapps_dehydrated_domains:
   - '{{ webapps_flatpak_domains | join(" ") }}'
-  - '{{ webapps_flathub_domains | join(" ") }}'
+  - '{{ webapps_flathub_domains | join(" ") }} beta.flathub.org'
   - dl.flathub.org
   - backend.webapps.flathub.org
   - buildbot.flathub.org
+  - webhook.webapps.flathub.org
+  - beta.webapps.flathub.org
 
 webapps_dehydrated_sync_domains:
   - '{{ webapps_flatpak_domains[0] }}'
