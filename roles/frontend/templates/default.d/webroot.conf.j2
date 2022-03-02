@@ -1,13 +1,4 @@
 location / {
-    proxy_cache webapps;
-    proxy_cache_background_update on;
-    proxy_cache_lock on;
-
-    proxy_cache_valid 200 302 10m;
-    proxy_cache_valid 301      1h;
-
-    proxy_intercept_errors on;
-
     proxy_set_header Host $host;
     proxy_set_header X-Prerender-Token {{ frontend_prerender_token }};
 
