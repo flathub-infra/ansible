@@ -2,7 +2,7 @@ location /repo {
     gzip off;
     proxy_cache repo;
     proxy_cache_key {{ frontend_nginx_repo_origin_server }}$uri;
-    proxy_cache_valid 200 30d;
+    proxy_cache_valid 200 304 30d;
     proxy_cache_lock on;
     proxy_pass {{ frontend_nginx_repo_origin }};
 }
@@ -25,7 +25,7 @@ location /beta-repo {
     gzip off;
     proxy_cache repo;
     proxy_cache_key {{ frontend_nginx_beta_repo_origin_server }}$uri;
-    proxy_cache_valid 200 30d;
+    proxy_cache_valid 200 304 30d;
     proxy_cache_lock on;
     proxy_pass {{ frontend_nginx_beta_repo_origin }};
 }
@@ -48,7 +48,7 @@ location /build-repo {
     gzip off;
     proxy_cache repo;
     proxy_cache_key {{ frontend_nginx_build_repo_origin }}$uri;
-    proxy_cache_valid 200 5d;
+    proxy_cache_valid 200 304 5d;
     proxy_cache_lock on;
     proxy_pass {{ frontend_nginx_build_repo_origin }};
 }
