@@ -5,7 +5,7 @@ REPODIR="$2"
 set -e
 
 # Work around issue with flat-manager getting the permissions wrong (not group readable + directories executable)
-find {{ repo_manager_repodir }}/$REPONAME/screenshots ! -perm -og+rX -exec chmod go+rX {} \;
+find -L {{ repo_manager_repodir }}/$REPONAME/screenshots ! -perm -og+rX -exec chmod go+rX {} \;
 find {{ repo_manager_repodir }}/$REPONAME/deltas  ! -perm -og+rX -exec chmod go+rX {} \;
 
 # purge intermediate front-* caches and then CDN
