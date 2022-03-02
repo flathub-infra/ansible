@@ -1,7 +1,7 @@
 ---
 - name: add flatpak ppa
   apt_repository:
-    repo: ppa:alexlarsson/flatpak
+    repo: ppa:flatpak/stable
 
 - name: install flatpak
   apt: name=flatpak update_cache=yes cache_valid_time=3600
