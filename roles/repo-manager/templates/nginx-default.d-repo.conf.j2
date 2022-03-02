@@ -38,22 +38,23 @@ location /repo {
         access_log off;
     }
 
-    location /repo/sources {
-        autoindex on;
+    location /repo/config {
+        access_log off;
     }
 
-    location /repo/sources/downloads {
-        expires 1y;
+    location /repo/screenshots {
+        expires max;
         access_log off;
-        autoindex on;
     }
 
     location /repo/appstream {
-        autoindex on;
+        expires 7d;
+        access_log off;
     }
 
-    location /repo/config {
-        access_log off;
+    location /repo/delta-indexes {
+         expires max;
+         access_log off;
     }
 }
 
@@ -97,18 +98,19 @@ location /beta-repo {
         access_log off;
     }
 
-    location /beta-repo/sources {
-        autoindex on;
-    }
-
-    location /beta-repo/sources/downloads {
-        expires 1y;
+    location /beta-repo/screenshots {
+        expires max;
         access_log off;
-        autoindex on;
     }
 
     location /beta-repo/appstream {
-        autoindex on;
+        expires 7d;
+        access_log off;
+    }
+
+    location /beta-repo/delta-indexes {
+         expires max;
+         access_log off;
     }
 }
 
