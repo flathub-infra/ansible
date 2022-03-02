@@ -11,9 +11,14 @@ server {
     root {{ webapps_flathub_checkout }};
     try_files $uri$args $uri$args/ $uri $uri/ /index.html =404;
 
-    # Redirect to canonical stats location
+    location /stats/beta {
+        alias /srv/www/stats/beta;
+        autoindex on;
+    }
+
     location /stats {
-        return 301 https://flathub.org$request_uri;
+        alias /srv/www/stats/stable;
+        autoindex on;
     }
 
     location /.git {
