@@ -76,7 +76,7 @@ deploy_cert() {
         [ "${DOMAIN}" = "${sync_domain}" ] || continue
         for sync_host in ${SYNC_HOSTS}; do
             echo "Syncing ${DOMAIN} to ${sync_host}..."
-            rsync -a "/var/lib/dehydrated/certs/${DOMAIN}" "certsync@${sync_host}:/var/lib/certsync/certs"
+            rsync -a "/var/lib/dehydrated/certs/${sync_domain}" "certsync@${sync_host}:/var/lib/certsync/certs"
             ssh "certsync@${sync_host}" sudo systemctl reload nginx
         done
     done
