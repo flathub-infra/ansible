@@ -26,7 +26,6 @@
     - api.conf
     - buildbot.conf
     - repo.conf
-    - stats.conf
     - webroot.conf
   notify:
    - reload nginx
