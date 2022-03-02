@@ -23,18 +23,18 @@ location /repo {
 
     location ~ ^/repo/objects/.+\.(sig|sizes2)$ {
         return 404;
-        expires 1y;
+        expires max;
         access_log off;
     }
 
     location ~ ^/repo/objects/.+\.(commit|dirtree|filez)$ {
-        expires 1y;
+        expires max;
         access_log off;
     }
 
     location ~ ^/repo/deltas/(.*)$ {
         try_files /repo/deltas/$1 /repo/tmp/deltas/$1 =404;
-        expires 1y;
+        expires max;
         access_log off;
     }
 
@@ -82,18 +82,18 @@ location /beta-repo {
 
     location ~ ^/beta-repo/objects/.+\.(sig|sizes2)$ {
         return 404;
-        expires 1y;
+        expires max;
         access_log off;
     }
 
     location ~ ^/beta-repo/objects/.+\.(commit|dirtree|filez)$ {
-        expires 1y;
+        expires max;
         access_log off;
     }
 
     location ~ ^/beta-repo/deltas/(.*)$ {
         try_files /beta-repo/deltas/$1 /beta-repo/tmp/deltas/$1 =404;
-        expires 1y;
+        expires max;
         access_log off;
     }
 
@@ -133,7 +133,7 @@ location /build-repo {
 
     location ~ ^/build-repo/(\d+)/objects/.+\.(sig|sizes2)$ {
         return 404;
-        expires 1y;
+        expires max;
         access_log off;
     }
 
