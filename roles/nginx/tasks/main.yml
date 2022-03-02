@@ -1,7 +1,7 @@
 ---
-- name: install nginx-light
+- name: install nginx
   package:
-    name: nginx-light
+    name: nginx
     state: latest
 
 - name: create default.d directory
