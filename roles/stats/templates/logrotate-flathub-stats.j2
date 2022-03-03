@@ -1,8 +1,7 @@
-{{ stats_cache_logs_dir }}/access.log
-{{ stats_cache_logs_dir }}/debug.log {
+{{ stats_cache_logs_dir }}/access.log {
     daily
     nodateext
-    rotate 7
+    rotate 4
     compress
     missingok
     sharedscripts
@@ -13,6 +12,40 @@
             --ref-cache {{ stats_cache_dir }}/ref-cache.json \
             {{ stats_cache_logs_dir }}/access.log.1 \
             >> /var/log/flathub-stats.log 2>&1
+        rsync -rzz --delete /srv/flathub-stats/stats/ deploy@webapps.flathub.org:stable/
+        zstd -T0 -13 --stdout /var/cache/flathub-stats/logs/access.log.1 | /usr/local/bin/mc pipe s3/flathub-cdn-logs/stable/$(date --date="yesterday" +"%Y-%m-%d").log.zst
+    endscript
+}
+
+{{ stats_cache_logs_dir }}/beta.log {
+    daily
+    nodateext
+    rotate 4
+    compress
+    missingok
+    sharedscripts
+    postrotate
+        killall -HUP rsyslogd
+        sed -i 's/^ beta//g' /var/cache/flathub-stats/logs/beta.log.1
+        /opt/flathub-stats/update-stats.py \
+            --dest /srv/flathub-stats/beta \
+            --ref-cache /var/cache/flathub-stats/ref-cache-beta.json \
+            /var/cache/flathub-stats/logs/beta.log.1 \
+            >> /var/log/flathub-stats-beta.log 2>&1
+        rsync -rzz --delete /srv/flathub-stats/beta/ deploy@webapps.flathub.org:beta/
+        zstd -T0 -13 --stdout /var/cache/flathub-stats/logs/beta.log.1 | /usr/local/bin/mc pipe s3/flathub-cdn-logs/beta/$(date --date="yesterday" +"%Y-%m-%d").log.zst
+    endscript
+}
+
+{{ stats_cache_logs_dir }}/debug.log {
+    daily
+    nodateext
+    rotate 4
+    compress
+    missingok
+    sharedscripts
+    postrotate
+        killall -HUP rsyslogd
     endscript
 }
 
