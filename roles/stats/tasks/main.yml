@@ -1,14 +1,4 @@
 ---
-# External persistent volume for stats
-- name: mount stats persistent volume
-  mount:
-    path: '{{ stats_volume_mount }}'
-    src: 'LABEL={{ stats_volume_label }}'
-    fstype: auto
-    state: mounted
-  tags:
-    - volume
-
 - name: install packages
   package:
     name:
