@@ -1,12 +1,12 @@
 server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
-    server_name {{ backend_domain }};
+    server_name {{ website_backend_domain }};
 
     include /etc/nginx/default.d/ssl.conf;
-    ssl_certificate /var/lib/dehydrated/certs/{{ backend_domain }}/fullchain.pem;
-    ssl_certificate_key /var/lib/dehydrated/certs/{{ backend_domain }}/privkey.pem;
-    ssl_trusted_certificate /var/lib/dehydrated/certs/{{ backend_domain }}/chain.pem;
+    ssl_certificate /var/lib/dehydrated/certs/{{ website_backend_domain }}/fullchain.pem;
+    ssl_certificate_key /var/lib/dehydrated/certs/{{ website_backend_domain }}/privkey.pem;
+    ssl_trusted_certificate /var/lib/dehydrated/certs/{{ website_backend_domain }}/chain.pem;
 
     location /v1/ {
         proxy_pass http://localhost:8000/;

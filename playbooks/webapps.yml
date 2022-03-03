@@ -9,5 +9,5 @@
   hosts: webapps
   roles:
   - webapps
-  - backend
+  - website
   - buildbot-master
