@@ -12,10 +12,21 @@ server {
         proxy_pass http://localhost:8000/;
     }
 
+    location /v2/ {
+        proxy_pass http://localhost:8001/;
+    }
+
     location = /v1/apps/update {
-	allow 46.235.224.97;
+        allow 46.235.224.97;
         deny all;
 
         proxy_pass http://localhost:8000/apps/update;
+    }
+
+    location = /v2/update {
+        allow 46.235.224.97;
+        deny all;
+
+        proxy_pass http://localhost:8001/update;
     }
 }
