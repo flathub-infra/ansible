@@ -37,10 +37,18 @@
     enabled: yes
     daemon-reload: yes
 
-- name: configure nginx
+- name: configure nginx for backend
   template:
-    src: nginx.conf.j2
+    src: nginx-backend.conf.j2
     dest: /etc/nginx/conf.d/backend.conf
     validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/backend.conf
+  notify:
+    - reload nginx
+
+- name: configure nginx for frontend
+  template:
+    src: nginx-frontend.conf.j2
+    dest: /etc/nginx/conf.d/frontend.conf
+    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/frontend.conf
   notify:
     - reload nginx
