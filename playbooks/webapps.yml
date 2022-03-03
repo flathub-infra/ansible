@@ -10,4 +10,4 @@
   roles:
   - webapps
   - backend
-  - buildbot_master
+  - buildbot-master
