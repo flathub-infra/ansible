@@ -10,6 +10,7 @@ cncf-arm-1.flathub.org
 cncf-arm-2.flathub.org
 cncf-x86-1.flathub.org
 cncf-x86-2.flathub.org
+cncf-x86-3.flathub.org
 stats.flathub.org
 
 [codethink]
@@ -24,6 +25,7 @@ webapps.flathub.org
 [buildbot_worker]
 cncf-x86-1.flathub.org
 cncf-x86-2.flathub.org
+cncf-x86-3.flathub.org
 cncf-arm-1.flathub.org
 cncf-arm-2.flathub.org
 
