@@ -26,6 +26,11 @@
     home: "{{ buildbot_worker_home }}"
     uid: 996
     system: yes
+  register: create_buildbot_user
+
+- name: enable linger for buildbot user
+  command: "loginctl enable-linger {{ buildbot_worker_user }}"
+  when: create_buildbot_user.changed
 
 - name: install pip and buildbot-worker in virtualenv
   pip:
