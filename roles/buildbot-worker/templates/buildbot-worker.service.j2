@@ -7,6 +7,10 @@ User={{ buildbot_worker_user }}
 Group={{ buildbot_worker_user }}
 WorkingDirectory={{ buildbot_worker_dir }}
 ExecStart={{ buildbot_worker_sandbox }}/bin/buildbot-worker start --nodaemon
+Environment=XDG_RUNTIME_DIR=/run/user/996
+Environment=DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/996/bus
+Environment=XDG_DATA_DIRS={{ buildbot_worker_dir }}/.local/share/flatpak/exports/share
+
 LimitNOFILE=16384
 
 [Install]
