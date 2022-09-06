@@ -3,7 +3,7 @@ db.flathub.org
 front-ams.flathub.org
 front-hex2.flathub.org
 master.flathub.org
-webapps.flathub.org
+buildbot.flathub.org
 
 [packet]
 cncf-arm-1.flathub.org
@@ -20,7 +20,7 @@ codethink-arm-3.zt.flathub.org
 codethink-arm-4.zt.flathub.org
 
 [buildbot_master]
-webapps.flathub.org
+buildbot.flathub.org
 
 [buildbot_worker]
 cncf-x86-1.flathub.org
@@ -45,9 +45,6 @@ db.flathub.org
 
 [stats]
 stats.flathub.org
-
-[webapps]
-webapps.flathub.org
 
 [monitoring]
 stats.flathub.org
