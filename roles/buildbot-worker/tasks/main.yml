@@ -4,7 +4,7 @@
     repo: ppa:flatpak/stable
 
 - name: install flatpak
-  apt: name=flatpak update_cache=yes cache_valid_time=3600
+  apt: name=flatpak,ostree update_cache=yes cache_valid_time=3600
 
 - name: install buildbot packages
   package:
