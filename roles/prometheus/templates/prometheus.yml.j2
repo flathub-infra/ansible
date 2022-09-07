@@ -65,6 +65,10 @@ scrape_configs:
         - https://hub.flathub.org/status
         - https://flathub.org/repo/flathub.flatpakrepo
         - https://dl.flathub.org/repo/flathub.flatpakrepo
+        - https://beta.flathub.org
+        - https://flathub.org/api/v2/status
+        - https://front-hex2.flathub.org/repo/config
+        - https://front-ams.flathub.org/repo/config
 {% for host in groups.frontend %}
         - https://{{ host }}/repo/flathub.flatpakrepo
 {% endfor %}
