@@ -32,6 +32,14 @@
   command: "loginctl enable-linger {{ buildbot_worker_user }}"
   when: create_buildbot_user.changed
 
+- name: ensure buildbot worker home directory is owned by buildbot
+  file:
+    path: "{{ buildbot_worker_home }}"
+    state: directory
+    owner: "{{ buildbot_worker_user }}"
+    group: "{{ buildbot_worker_user }}"
+    mode: '0700'
+
 - name: install pip and buildbot-worker in virtualenv
   pip:
     name:
