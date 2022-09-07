@@ -6,10 +6,10 @@ master.flathub.org
 buildbot.flathub.org
 
 [packet]
-cncf-arm-1.flathub.org
-cncf-arm-2.flathub.org
-cncf-x86-2.flathub.org
+cncf-arm-3.flathub.org
+cncf-arm-4.flathub.org
 cncf-x86-3.flathub.org
+cncf-x86-4.flathub.org
 stats.flathub.org
 
 [codethink]
@@ -22,14 +22,14 @@ codethink-arm-4.zt.flathub.org
 buildbot.flathub.org
 
 [buildbot_worker]
-cncf-x86-2.flathub.org
 cncf-x86-3.flathub.org
-cncf-arm-1.flathub.org
-cncf-arm-2.flathub.org
+cncf-x86-4.flathub.org
+cncf-arm-3.flathub.org
+cncf-arm-4.flathub.org
 
 [delta_generator]
-cncf-x86-2.flathub.org
 cncf-x86-3.flathub.org
+cncf-x86-4.flathub.org
 
 [frontend]
 front-ams.flathub.org
