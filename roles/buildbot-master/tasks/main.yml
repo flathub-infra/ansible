@@ -1,4 +1,11 @@
 ---
+- name: add flatpak ppa
+  apt_repository:
+    repo: ppa:flatpak/stable
+
+- name: install flatpak
+  apt: name=flatpak,flatpak-builder,ostree update_cache=yes cache_valid_time=3600
+
 - name: install packages
   package:
     name:
@@ -8,25 +15,18 @@
       - git
       - gcc # needed for installing twisted
       # Source download needs these:
-      - flatpak-builder
       - git
     state: latest
   tags:
     - packages
 
-- name: add flathub remote
-  flatpak_remote:
-    name: flathub
-    flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
-  tags:
-    - packages
-
-- name: add flathub-beta remote
-  flatpak_remote:
-    name: flathub-beta
-    flatpakrepo_url: https://flathub.org/beta-repo/flathub-beta.flatpakrepo
-  tags:
-    - packages
+- name: create buildbot user
+  user:
+    name: "{{ buildbot_master_user }}"
+    home: "{{ buildbot_master_home }}"
+    uid: 996
+    system: yes
+  register: create_buildbot_user
 
 - name: create buildbot state directory
   file:

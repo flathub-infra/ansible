@@ -1,2 +1,4 @@
 dependencies:
+  - role: base
+  - role: dehydrated
   - { role: nginx, tags: [nginx] }

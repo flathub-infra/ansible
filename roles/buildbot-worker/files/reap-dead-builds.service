@@ -1,0 +1,6 @@
+[Unit]
+Description=Reap dead builds
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/reap-dead-builds.py

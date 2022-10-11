@@ -3,8 +3,7 @@ Description=BuildBot master
 After=network.target
 
 [Service]
-DynamicUser=yes
-StateDirectory=buildbot-master
+User=buildbot-master
 WorkingDirectory={{ buildbot_master_dir }}
 Environment=HOME={{ buildbot_master_home }}
 ExecStart={{ buildbot_master_sandbox }}/bin/buildbot start --nodaemon
