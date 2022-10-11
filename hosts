@@ -1,16 +1,14 @@
 [mythic]
-db.flathub.org
 front-ams.flathub.org
 front-hex2.flathub.org
 master.flathub.org
-buildbot.flathub.org
 
 [packet]
 cncf-arm-3.flathub.org
 cncf-arm-4.flathub.org
 cncf-x86-3.flathub.org
 cncf-x86-4.flathub.org
-stats.flathub.org
+buildbot.flathub.org
 
 [codethink]
 codethink-arm-1.zt.flathub.org
@@ -38,14 +36,8 @@ front-hex2.flathub.org
 [repo]
 master.flathub.org
 
-[postgres]
-db.flathub.org
-
 [stats]
-stats.flathub.org
+buildbot.flathub.org
 
 [monitoring]
-stats.flathub.org
-
-[webapps]
 buildbot.flathub.org
