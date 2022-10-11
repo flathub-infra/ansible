@@ -22,7 +22,6 @@
   get_url:
     url: "https://github.com/prometheus/blackbox_exporter/releases/download/v{{ blackbox_exporter_version }}/blackbox_exporter-{{ blackbox_exporter_version }}.linux-amd64.tar.gz"
     dest: "/root/.ansible/tmp/blackbox_exporter/blackbox_exporter-{{ blackbox_exporter_version }}.linux-amd64.tar.gz"
-    checksum: "{{ blackbox_exporter_checksum }}"
 
 - name: unpack binaries
   unarchive:

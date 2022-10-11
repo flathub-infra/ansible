@@ -43,7 +43,6 @@
   get_url:
     url: "https://github.com/prometheus/prometheus/releases/download/v{{ prometheus_version }}/prometheus-{{ prometheus_version }}.linux-amd64.tar.gz"
     dest: "/root/.ansible/tmp/prometheus/prometheus-{{ prometheus_version }}.linux-amd64.tar.gz"
-    checksum: "{{ prometheus_checksum }}"
 
 - name: unpack prometheus binaries
   unarchive:

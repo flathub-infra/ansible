@@ -22,7 +22,6 @@
   get_url:
     url: "https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/node_exporter-{{ node_exporter_version }}.linux-{{ node_exporter_arch }}.tar.gz"
     dest: "/root/.ansible/tmp/node-exporter/node_exporter-{{ node_exporter_version }}.linux-{{ node_exporter_arch }}.tar.gz"
-    checksum: "{{ node_exporter_checksums[ansible_architecture] }}"
 
 - name: unpack binaries
   unarchive:
