@@ -1,20 +1,13 @@
 ---
-# External domain name
-stats_domain: '{{ inventory_hostname }}'
-
 # flathub-stats checkout directory
-stats_checkout_dir: /opt/flathub-stats
+stats_checkout_dir: /var/lib/stats/app
 
 # flathub-stats cache directories
-stats_cache_dir: /var/cache/flathub-stats
-stats_cache_logs_dir: '{{ stats_cache_dir }}/logs'
-
-# Stats external volume filesystem lab
-stats_volume_label: flathub-stats
-stats_volume_mount: /srv/flathub-stats
+stats_cache_dir: /var/lib/stats/cache
+stats_cache_logs_dir: /var/lib/stats/logs
 
 # Stats output directory
-stats_output_dir: '{{ stats_volume_mount }}/stats'
+stats_output_dir: /var/lib/stats/output
 
 # Fastly CDN IP addresses for rsyslog firewall whitelisting
 # Current list is at https://api.fastly.com/public-ip-list

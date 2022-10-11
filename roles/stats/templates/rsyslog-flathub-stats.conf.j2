@@ -17,7 +17,7 @@ ruleset(name="Flathub") {
            asyncWriting="on")
   } else if ($msg startswith " beta") then {
     action(type="omfile" template="FlathubMessage"
-           file="/var/cache/flathub-stats/logs/beta.log"
+           file="{{ stats_cache_logs_dir }}/beta.log"
            asyncWriting="on")
   } else {
     action(type="omfile" template="FlathubMessage"

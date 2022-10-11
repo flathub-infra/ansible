@@ -7,13 +7,14 @@
     sharedscripts
     postrotate
         killall -HUP rsyslogd
-        {{ stats_checkout_dir }}/update-stats.py \
+        /var/lib/stats/venv/bin/python {{ stats_checkout_dir }}/update-stats.py \
             --dest {{ stats_output_dir }} \
             --ref-cache {{ stats_cache_dir }}/ref-cache.json \
             {{ stats_cache_logs_dir }}/access.log.1 \
             >> /var/log/flathub-stats.log 2>&1
-        rsync -rzz --delete /srv/flathub-stats/stats/ deploy@webapps.flathub.org:stable/
-        zstd -T0 -13 --stdout /var/cache/flathub-stats/logs/access.log.1 | /usr/local/bin/mc pipe s3/flathub-cdn-logs/stable/$(date --date="yesterday" +"%Y-%m-%d").log.zst
+        rsync -rzz --delete {{ stats_output_dir }}/stats/ stats@master.flathub.org:stable/
+        zstd -T0 -13 --stdout {{ stats_cache_logs_dir }}/access.log.1 | /usr/local/bin/mc pipe s3/flathub-cdn-logs/stable/$(date --date="yesterday" +"%Y-%m-%d").log.zst
+        curl -X POST https://flathub.org/api/v2/update/stats || true
     endscript
 }
 
@@ -26,14 +27,14 @@
     sharedscripts
     postrotate
         killall -HUP rsyslogd
-        sed -i 's/^ beta//g' /var/cache/flathub-stats/logs/beta.log.1
-        /opt/flathub-stats/update-stats.py \
-            --dest /srv/flathub-stats/beta \
-            --ref-cache /var/cache/flathub-stats/ref-cache-beta.json \
-            /var/cache/flathub-stats/logs/beta.log.1 \
+        sed -i 's/^ beta//g' {{ stats_cache_logs_dir }}/beta.log.1
+        /var/lib/stats/venv/bin/python {{ stats_checkout_dir }}/update-stats.py \
+            --dest {{ stats_output_dir }}/beta \
+            --ref-cache {{ stats_cache_dir }}/ref-cache-beta.json \
+            {{ stats_cache_logs_dir }}/beta.log.1 \
             >> /var/log/flathub-stats-beta.log 2>&1
-        rsync -rzz --delete /srv/flathub-stats/beta/ deploy@webapps.flathub.org:beta/
-        zstd -T0 -13 --stdout /var/cache/flathub-stats/logs/beta.log.1 | /usr/local/bin/mc pipe s3/flathub-cdn-logs/beta/$(date --date="yesterday" +"%Y-%m-%d").log.zst
+        rsync -rzz --delete {{ stats_output_dir }}/beta/ stats@master.flathub.org:beta/
+        zstd -T0 -13 --stdout {{ stats_cache_logs_dir }}/beta.log.1 | /usr/local/bin/mc pipe s3/flathub-cdn-logs/beta/$(date --date="yesterday" +"%Y-%m-%d").log.zst
     endscript
 }
 

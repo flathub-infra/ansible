@@ -6,48 +6,10 @@
       - git
       - logrotate
       - rsyslog
-      - selinux-policy-devel
+      - libcairo2-dev
     state: latest
   tags:
     - packages
-
-- name: copy flathubstats.te file
-  copy:
-    src: flathubstats.te
-    dest: /etc/selinux/targeted/modules/flathubstats.te
-    mode: 0644
-  register: flathubstats_te
-  tags:
-    - selinux
-
-- name: copy flathubstats.fc file
-  template:
-    src: flathubstats.fc.j2
-    dest: /etc/selinux/targeted/modules/flathubstats.fc
-    mode: 0644
-  register: flathubstats_fc
-  tags:
-    - selinux
-
-- name: check for flathubstats.pp file
-  stat:
-    path: /etc/selinux/targeted/modules/flathubstats.pp
-  register: flathubstats_pp_check
-  tags:
-    - selinux
-
-- name: compile flathubstats selinux module
-  command: make -f /usr/share/selinux/devel/Makefile -C /etc/selinux/targeted/modules flathubstats.pp
-  register: flathubstats_pp
-  when: (flathubstats_te is changed) or (flathubstats_fc is changed) or (not flathubstats_pp_check.stat.exists)
-  tags:
-    - selinux
-
-- name: install flathubstats selinux module
-  command: semodule -i /etc/selinux/targeted/modules/flathubstats.pp
-  when: flathubstats_pp is changed
-  tags:
-    - selinux
 
 - name: checkout flathub-stats git repo
   git:
@@ -58,25 +20,16 @@
   file:
     path: '{{ stats_cache_dir }}'
     state: directory
-    seuser: _default
-    serole: _default
-    setype: _default
 
 - name: create stats cache logs directory
   file:
     path: '{{ stats_cache_logs_dir }}'
     state: directory
-    seuser: _default
-    serole: _default
-    setype: _default
 
 - name: create stats output directory
   file:
     path: '{{ stats_output_dir }}'
     state: directory
-    seuser: _default
-    serole: _default
-    setype: _default
 
 - name: install flathub-stats rsyslog configuration
   template:
@@ -105,31 +58,3 @@
     - reload firewalld
   tags:
     - firewalld
-
-- name: install nginx conf.d/flathub-stats.conf
-  template:
-    src: nginx-conf.d-flathub-stats.conf.j2
-    dest: /etc/nginx/conf.d/flathub-stats.conf
-    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/flathub-stats.conf
-    mode: 0644
-  notify:
-   - reload nginx
-  tags:
-    - nginx
-
-- name: ensure nginx is running and dehydrated run to obtain certs
-  meta: flush_handlers
-  tags:
-    - dehydrated
-    - nginx
-
-- name: install nginx conf.d/flathub-stats-ssl.conf
-  template:
-    src: nginx-conf.d-flathub-stats-ssl.conf.j2
-    dest: /etc/nginx/conf.d/flathub-stats-ssl.conf
-    validate: /usr/local/sbin/ansible-validate-nginx-config %s conf.d/flathub-stats-ssl.conf
-    mode: 0644
-  notify:
-   - reload nginx
-  tags:
-    - nginx
